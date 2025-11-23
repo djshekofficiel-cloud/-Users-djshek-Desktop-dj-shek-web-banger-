@@ -39,3 +39,4 @@ yarn-error.log*
 # Images de test (optionnel)
 # images/test/
 
+.vercel
