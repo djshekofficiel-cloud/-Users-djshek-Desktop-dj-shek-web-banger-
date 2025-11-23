@@ -1,0 +1,33 @@
+📱 LIEN POUR ACCÉDER AU SITE (MOBILE & PC)
+========================================
+
+🌐 ADRESSE IP LOCALE : 192.168.1.118
+🔗 PORT : 8000
+
+🔗 LIEN COMPLET :
+http://192.168.1.118:8000
+
+📋 INSTRUCTIONS POUR VOTRE AMI :
+1. Assurez-vous que votre ami est connecté au MÊME réseau WiFi que votre Mac
+2. Ouvrez le navigateur (Chrome, Safari, Firefox, etc.)
+3. Tapez dans la barre d'adresse : http://192.168.1.118:8000
+4. Le site devrait s'afficher avec toutes les améliorations !
+
+✅ AMÉLIORATIONS RÉCENTES :
+- ✅ Gestion d'erreurs audio complète
+- ✅ Indicateur de chargement (spinner)
+- ✅ Navigation clavier complète
+- ✅ Accessibilité améliorée (ARIA labels)
+- ✅ SEO optimisé (Schema.org, sitemap)
+- ✅ Focus visible sur tous les éléments
+
+⚠️ IMPORTANT :
+- Votre Mac doit rester allumé et connecté au WiFi
+- Les deux appareils doivent être sur le même réseau
+- Le serveur doit être actif (port 8000)
+
+🔄 Pour actualiser le lien, vérifiez votre IP avec :
+ifconfig | grep "inet " | grep -v 127.0.0.1
+
+📧 Pour partager avec votre ami, envoyez-lui ce lien :
+http://192.168.1.118:8000

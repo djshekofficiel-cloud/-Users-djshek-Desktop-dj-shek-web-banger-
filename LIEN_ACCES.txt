@@ -1,0 +1,23 @@
+🔗 LIENS D'ACCÈS AU SITE
+========================
+
+📂 DOSSIER DU PROJET :
+/Users/djshek/Desktop/dj shek web banger
+
+💻 LIEN LOCAL (PC) :
+http://localhost:8000
+http://127.0.0.1:8000
+
+📱 LIEN MOBILE (même réseau WiFi) :
+http://192.168.1.118:8000
+
+🌐 DOMAINE PRODUCTION :
+https://djshekofficiel.com
+
+📋 POUR DÉMARRER LE SERVEUR :
+cd "/Users/djshek/Desktop/dj shek web banger"
+python3 -m http.server 8000
+
+✅ TOUS LES FICHIERS SONT MAINTENANT DANS :
+"dj shek web banger"
+

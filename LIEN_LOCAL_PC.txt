@@ -1,0 +1,28 @@
+💻 LIEN LOCAL POUR PC
+====================
+
+🔗 LIEN LOCALHOST :
+http://localhost:8000
+
+🔗 LIEN IP LOCALE :
+http://127.0.0.1:8000
+
+📋 UTILISATION :
+1. Ouvrez votre navigateur (Chrome, Safari, Firefox, Edge, etc.)
+2. Tapez dans la barre d'adresse : http://localhost:8000
+3. Le site s'affichera immédiatement !
+
+✅ AVANTAGES :
+- Accès instantané depuis votre Mac
+- Pas besoin d'être sur le même réseau WiFi
+- Fonctionne même sans connexion Internet (pour les fichiers locaux)
+
+⚠️ IMPORTANT :
+- Le serveur doit être actif (port 8000)
+- Ce lien fonctionne UNIQUEMENT sur votre Mac
+- Pour partager avec d'autres, utilisez : http://192.168.1.118:8000
+
+🔄 Pour démarrer le serveur si nécessaire :
+cd "/Users/djshek/Desktop/dj shek web banger" && python3 -m http.server 8000
+
+

@@ -1,0 +1,46 @@
+📂 CHEMIN RACINE DU PROJET
+===========================
+
+📍 EMPLACEMENT COMPLET :
+/Users/djshek/Desktop/dj shek web banger
+
+📍 CHEMIN COURT :
+~/Desktop/dj shek web banger
+
+📍 NOM DU DOSSIER :
+dj shek web banger
+
+---
+
+🚀 COMMANDES UTILES
+
+# Aller dans le dossier racine
+cd "/Users/djshek/Desktop/dj shek web banger"
+
+# Ou avec le chemin court
+cd ~/Desktop/"dj shek web banger"
+
+# Démarrer le serveur local
+cd "/Users/djshek/Desktop/dj shek web banger"
+python3 -m http.server 8000
+
+# Ouvrir le dossier dans le Finder
+open "/Users/djshek/Desktop/dj shek web banger"
+
+---
+
+📁 STRUCTURE DU PROJET
+
+dj shek web banger/
+├── index.html              # Page principale
+├── audio/                  # Morceaux MP3
+├── images/                 # Images du site
+│   └── partenaire/        # Images partenaires
+├── robots.txt              # SEO
+├── sitemap.xml             # SEO
+└── *.md                    # Documentation
+
+---
+
+✅ Tous les chemins dans les fichiers ont été mis à jour vers ce nouveau chemin racine.
+
