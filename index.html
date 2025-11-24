@@ -8757,16 +8757,116 @@
         const DEBUG = false;
         const log = DEBUG ? console.log.bind(console) : () => {};
 
+        // ============================================
+        // FONCTIONS DE SÉCURITÉ
+        // ============================================
+
+        // Sanitizer HTML pour éviter les attaques XSS
+        function escapeHtml(text) {
+            if (typeof text !== 'string') return '';
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;',
+                '/': '&#x2F;'
+            };
+            return text.replace(/[&<>"'/]/g, function(m) { return map[m]; });
+        }
+
+        // Sanitizer pour les attributs HTML
+        function escapeHtmlAttribute(text) {
+            if (typeof text !== 'string') return '';
+            return escapeHtml(text).replace(/'/g, '&#x27;');
+        }
+
+        // Validation stricte des emails
+        function isValidEmailStrict(email) {
+            if (!email || typeof email !== 'string') return false;
+            // Regex plus stricte
+            const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+            if (!emailRegex.test(email)) return false;
+            // Vérifier la longueur
+            if (email.length > 254) return false;
+            // Vérifier qu'il n'y a pas de caractères dangereux
+            if (/[<>\"']/.test(email)) return false;
+            return true;
+        }
+
+        // Validation et sanitization des noms
+        function sanitizeName(name) {
+            if (!name || typeof name !== 'string') return '';
+            // Enlever les caractères dangereux, garder seulement lettres, espaces, tirets, apostrophes
+            return name.trim().replace(/[^a-zA-ZÀ-ÿ\s\-']/g, '').substring(0, 100);
+        }
+
+        // Validation et sanitization des messages
+        function sanitizeMessage(message) {
+            if (!message || typeof message !== 'string') return '';
+            // Enlever les balises HTML et scripts
+            return message.trim()
+                .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+                .replace(/<[^>]+>/g, '')
+                .substring(0, 5000);
+        }
+
+        // Rate limiting côté client (basique)
+        const rateLimitStore = {
+            submissions: [],
+            maxSubmissions: 5,
+            timeWindow: 60000 // 1 minute
+        };
+
+        function checkRateLimit() {
+            const now = Date.now();
+            // Nettoyer les anciennes soumissions
+            rateLimitStore.submissions = rateLimitStore.submissions.filter(
+                time => now - time < rateLimitStore.timeWindow
+            );
+            // Vérifier la limite
+            if (rateLimitStore.submissions.length >= rateLimitStore.maxSubmissions) {
+                return false;
+            }
+            // Ajouter la soumission actuelle
+            rateLimitStore.submissions.push(now);
+            return true;
+        }
+
+        // Protection CSRF (token simple)
+        function generateCSRFToken() {
+            return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        }
+
+        // Validation de l'URL pour éviter les redirections malveillantes
+        function isValidUrl(url) {
+            if (!url || typeof url !== 'string') return false;
+            try {
+                const parsed = new URL(url);
+                // Autoriser seulement HTTPS (sauf localhost pour dev)
+                return (parsed.protocol === 'https:' || parsed.hostname === 'localhost' || parsed.hostname === '127.0.0.1');
+            } catch (e) {
+                return false;
+            }
+        }
+
+        // Protection contre les injections dans les noms de fichiers
+        function sanitizeFileName(fileName) {
+            if (!fileName || typeof fileName !== 'string') return '';
+            // Enlever les caractères dangereux
+            return fileName.replace(/[^a-zA-Z0-9._\-\s]/g, '').substring(0, 255);
+        }
+
         // Fonction pour masquer le loader de manière fiable
         function hidePageLoader() {
             const pageLoader = document.getElementById('pageLoader');
             if (pageLoader) {
-                pageLoader.classList.add('hidden');
-                setTimeout(() => {
-                    pageLoader.style.display = 'none';
+                    pageLoader.classList.add('hidden');
+                    setTimeout(() => {
+                        pageLoader.style.display = 'none';
                     pageLoader.style.visibility = 'hidden';
                     pageLoader.style.opacity = '0';
-                }, 500);
+                    }, 500);
             }
         }
 
@@ -8884,7 +8984,7 @@
 
             // List of all audio files
 
-                        const audioTracks = [
+            const audioTracks = [
                 { name: 'DJ SHEK - ( INTRO ) REMIX   FLYING BLUE la fouine f', file: 'DJ SHEK - ( INTRO ) REMIX   FLYING BLUE la fouine f .mp3' }
                 ,{ name: 'DJ SHEK - Aya Nakamura ( Comportement Remix ) Prodshek', file: 'DJ SHEK - Aya Nakamura ( Comportement Remix ) Prodshek .mp3' }
                 ,{ name: 'DJ SHEK - Aya Nakamura - Desarmer Remix shek prod', file: 'DJ SHEK - Aya Nakamura - Desarmer Remix shek prod .mp3' }
@@ -8948,11 +9048,11 @@
                     const progress = (audioElement.currentTime / audioElement.duration) * 100;
 
                     if (progressBar) {
-                        progressBar.style.width = progress + '%';
+                    progressBar.style.width = progress + '%';
                     }
 
                     if (currentTimeDisplay) {
-                        currentTimeDisplay.textContent = formatTime(audioElement.currentTime);
+                    currentTimeDisplay.textContent = formatTime(audioElement.currentTime);
                     }
 
                 }
@@ -8974,11 +9074,11 @@
                 audioElement.src = `audio/${encodeURIComponent(track.file)}`;
 
                 if (currentTrackDisplay) {
-                    currentTrackDisplay.textContent = track.name;
+                currentTrackDisplay.textContent = track.name;
                 }
 
                 if (currentArtistDisplay) {
-                    currentArtistDisplay.textContent = 'DJ SHEK';
+                currentArtistDisplay.textContent = 'DJ SHEK';
                 }
 
                 audioElement.load();
@@ -9279,7 +9379,7 @@
                 audioElement.volume = volume;
 
                 if (volumeBar) {
-                    volumeBar.style.width = (volume * 100) + '%';
+                volumeBar.style.width = (volume * 100) + '%';
                 }
 
             });
@@ -9291,7 +9391,7 @@
             audioElement.addEventListener('loadedmetadata', () => {
 
                 if (durationDisplay) {
-                    durationDisplay.textContent = formatTime(audioElement.duration);
+                durationDisplay.textContent = formatTime(audioElement.duration);
                 }
 
             });
@@ -9346,7 +9446,7 @@
             audioElement.volume = 0.7;
 
             if (volumeBar) {
-                volumeBar.style.width = '70%';
+            volumeBar.style.width = '70%';
             }
 
         }
@@ -9542,7 +9642,7 @@
             performDownload(fileName, trackName);
 
         }
-        
+
         // Function to update all download buttons after questionnaire is completed
         function updateDownloadButtons() {
             const downloadButtons = document.querySelectorAll('.audio-playlist-download');
@@ -9647,7 +9747,7 @@
 
                     // Validation
                     let isValid = true;
-
+                    
                     if (!firstName) {
                         const errorDiv = document.getElementById('firstNameError');
                         if (errorDiv) {
@@ -9736,26 +9836,26 @@ Envoyé depuis : djshekofficiel.com`);
                         if (data.success) {
                             // Register questionnaire data
                             if (registerQuestionnaire(firstName, lastName, email, projectType, message)) {
-                                // Close modal
-                                closeEmailModal();
-                                
+                        // Close modal
+                        closeEmailModal();
+
                                 // Mettre à jour tous les boutons de téléchargement pour qu'ils téléchargent directement
                                 updateDownloadButtons();
 
-                                // Check if there's a pending download
-                                const pendingFile = sessionStorage.getItem('pending_download_file');
-                                const pendingName = sessionStorage.getItem('pending_download_name');
+                        // Check if there's a pending download
+                        const pendingFile = sessionStorage.getItem('pending_download_file');
+                        const pendingName = sessionStorage.getItem('pending_download_name');
 
-                                if (pendingFile && pendingName) {
-                                    // Clear pending download
-                                    sessionStorage.removeItem('pending_download_file');
-                                    sessionStorage.removeItem('pending_download_name');
+                        if (pendingFile && pendingName) {
+                            // Clear pending download
+                            sessionStorage.removeItem('pending_download_file');
+                            sessionStorage.removeItem('pending_download_name');
 
-                                    // Perform the download
-                                    performDownload(pendingFile, pendingName);
-                                }
+                            // Perform the download
+                            performDownload(pendingFile, pendingName);
+                        }
                             }
-                        } else {
+                    } else {
                             throw new Error(data.message || 'Erreur lors de l\'envoi');
                         }
                     })
@@ -9779,12 +9879,12 @@ Envoyé depuis : djshekofficiel.com`);
                             const errorDiv = document.getElementById('emailError');
                             if (errorDiv) {
                                 errorDiv.textContent = 'Erreur lors de l\'envoi. Veuillez réessayer.';
-                                errorDiv.classList.add('active');
-                            }
+                            errorDiv.classList.add('active');
+                        }
                             if (submitBtn) {
                                 submitBtn.disabled = false;
                                 submitBtn.textContent = originalText;
-                            }
+                    }
                         }
                     });
                 });
@@ -10359,8 +10459,8 @@ Envoyé depuis : djshekofficiel.com`);
                         group.classList.remove('error');
                     });
                     if (formMessage) {
-                        formMessage.className = 'form-message';
-                        formMessage.textContent = '';
+                    formMessage.className = 'form-message';
+                    formMessage.textContent = '';
                     }
 
                     // Get form values with null checks
@@ -10399,7 +10499,7 @@ Envoyé depuis : djshekofficiel.com`);
                         isValid = false;
                     }
 
-                    if (!email || !isValidEmail(email)) {
+                    if (!email || !isValidEmailStrict(email)) {
                         showError('email', 'Veuillez entrer une adresse email valide');
                         isValid = false;
                     }
@@ -10417,9 +10517,9 @@ Envoyé depuis : djshekofficiel.com`);
                     if (!isValid) {
                         e.preventDefault();
                         if (formMessage) {
-                            formMessage.className = 'form-message error';
-                            formMessage.textContent = 'Veuillez corriger les erreurs dans le formulaire';
-                            formMessage.style.display = 'block';
+                        formMessage.className = 'form-message error';
+                        formMessage.textContent = 'Veuillez corriger les erreurs dans le formulaire';
+                        formMessage.style.display = 'block';
                         }
                         return;
                     }
@@ -10492,28 +10592,28 @@ Envoyé depuis : djshekofficiel.com`);
                         // Erreur - Fallback vers mailto
                         console.error('Erreur envoi email:', error);
                         
-                        const emailSubject = encodeURIComponent(`Demande de contact - ${getServiceTypeLabel(serviceType)}`);
-                        const emailBody = encodeURIComponent(
-                            `Bonjour DJ SHEK,\n\n` +
-                            `Je vous contacte concernant : ${getServiceTypeLabel(serviceType)}\n\n` +
-                            `Nom : ${firstName} ${lastName}\n` +
-                            `Email : ${email}\n\n` +
-                            `Message :\n${message}\n\n` +
-                            `Cordialement,\n${firstName} ${lastName}`
-                        );
-                        const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${emailSubject}&body=${emailBody}`;
-                        window.location.href = mailtoLink;
-                        
+                    const emailSubject = encodeURIComponent(`Demande de contact - ${getServiceTypeLabel(serviceType)}`);
+                    const emailBody = encodeURIComponent(
+                        `Bonjour DJ SHEK,\n\n` +
+                        `Je vous contacte concernant : ${getServiceTypeLabel(serviceType)}\n\n` +
+                        `Nom : ${firstName} ${lastName}\n` +
+                        `Email : ${email}\n\n` +
+                        `Message :\n${message}\n\n` +
+                        `Cordialement,\n${firstName} ${lastName}`
+                    );
+                    const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${emailSubject}&body=${emailBody}`;
+                    window.location.href = mailtoLink;
+
                         if (formMessage) {
                             formMessage.className = 'form-message';
                             formMessage.textContent = '⚠️ Envoi direct échoué. Votre client de messagerie va s\'ouvrir.';
-                            formMessage.style.display = 'block';
+                    formMessage.style.display = 'block';
                         }
                     });
 
                     // Scroll to message
                     if (formMessage) {
-                        formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     }
                 });
 
@@ -10607,7 +10707,10 @@ Envoyé depuis : djshekofficiel.com`);
             ];
 
             // Vider la grille
-            partenairesGrid.innerHTML = '';
+            // Vider la grille de manière sécurisée
+            while (partenairesGrid.firstChild) {
+                partenairesGrid.removeChild(partenairesGrid.firstChild);
+            }
 
             // Charger toutes les images
             partenairesImages.forEach((imageName, index) => {
