@@ -10673,8 +10673,8 @@ Envoyé depuis : djshekofficiel.com`);
             }
 
             function isValidEmail(email) {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return emailRegex.test(email);
+                // Utiliser la validation stricte
+                return isValidEmailStrict(email);
             }
 
             function getServiceTypeLabel(value) {
