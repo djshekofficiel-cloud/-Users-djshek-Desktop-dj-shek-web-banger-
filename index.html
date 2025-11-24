@@ -6385,8 +6385,10 @@
         }
 
         .page-loader.hidden {
-            opacity: 0;
-            pointer-events: none;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            visibility: hidden !important;
+            display: none !important;
         }
 
         .loader-spinner {
@@ -8498,18 +8500,34 @@
         const DEBUG = false;
         const log = DEBUG ? console.log.bind(console) : () => {};
 
-        // Masquer le loader une fois la page chargée
-        window.addEventListener('load', function() {
+        // Fonction pour masquer le loader de manière fiable
+        function hidePageLoader() {
             const pageLoader = document.getElementById('pageLoader');
             if (pageLoader) {
+                pageLoader.classList.add('hidden');
                 setTimeout(() => {
-                    pageLoader.classList.add('hidden');
-                    setTimeout(() => {
-                        pageLoader.style.display = 'none';
-                    }, 500);
-                }, 300);
+                    pageLoader.style.display = 'none';
+                    pageLoader.style.visibility = 'hidden';
+                    pageLoader.style.opacity = '0';
+                }, 500);
             }
+        }
+
+        // Masquer le loader une fois la page chargée - Multiple fallbacks
+        // 1. DOMContentLoaded (rapide)
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(hidePageLoader, 500);
         });
+
+        // 2. Window load (complet)
+        window.addEventListener('load', function() {
+            setTimeout(hidePageLoader, 300);
+        });
+
+        // 3. Fallback après 3 secondes maximum
+        setTimeout(function() {
+            hidePageLoader();
+        }, 3000);
 
         window.addEventListener('DOMContentLoaded', function() {
 
