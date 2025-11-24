@@ -1286,7 +1286,102 @@
 
         }
 
+        /* Effets d'éclairs qui traversent l'écran */
+        .lightning {
+            position: absolute;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(211, 47, 47, 0.8) 20%,
+                rgba(255, 87, 34, 1) 40%,
+                rgba(255, 0, 0, 1) 50%,
+                rgba(255, 87, 34, 1) 60%,
+                rgba(211, 47, 47, 0.8) 80%,
+                transparent 100%
+            );
+            box-shadow: 
+                0 0 20px rgba(211, 47, 47, 0.9),
+                0 0 40px rgba(255, 87, 34, 0.7),
+                0 0 60px rgba(255, 0, 0, 0.5),
+                0 0 80px rgba(255, 87, 34, 0.3);
+            z-index: 5;
+            pointer-events: none;
+            opacity: 0;
+        }
 
+        .lightning-1 {
+            left: 15%;
+            animation: lightningStrike1 4s ease-in-out infinite;
+            animation-delay: 0s;
+        }
+
+        .lightning-2 {
+            left: 50%;
+            animation: lightningStrike2 5s ease-in-out infinite;
+            animation-delay: 1.5s;
+        }
+
+        .lightning-3 {
+            left: 85%;
+            animation: lightningStrike3 6s ease-in-out infinite;
+            animation-delay: 3s;
+        }
+
+        @keyframes lightningStrike1 {
+            0%, 100% {
+                opacity: 0;
+                transform: translateY(-100%);
+            }
+            5% {
+                opacity: 1;
+                transform: translateY(0%);
+            }
+            10% {
+                opacity: 0.8;
+            }
+            15% {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+        }
+
+        @keyframes lightningStrike2 {
+            0%, 100% {
+                opacity: 0;
+                transform: translateY(-100%);
+            }
+            4% {
+                opacity: 1;
+                transform: translateY(0%);
+            }
+            8% {
+                opacity: 0.9;
+            }
+            12% {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+        }
+
+        @keyframes lightningStrike3 {
+            0%, 100% {
+                opacity: 0;
+                transform: translateY(-100%);
+            }
+            3% {
+                opacity: 1;
+                transform: translateY(0%);
+            }
+            7% {
+                opacity: 0.7;
+            }
+            11% {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+        }
 
         /* Partenaires Section */
 
