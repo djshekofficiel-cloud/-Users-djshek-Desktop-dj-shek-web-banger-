@@ -220,13 +220,6 @@
             font-family: 'Montserrat', sans-serif;
 
             background: #000;
-            background-image: url('images/fond-ecran/building.jpeg');
-            background-size: cover;
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-color: #000;
-            background-blend-mode: normal;
 
             color: #fff;
 
@@ -243,19 +236,6 @@
             position: relative;
             min-height: 100vh;
 
-        }
-
-        /* Overlay discret style Apple pour rendre l'image plus subtile */
-        html::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: -1;
-            pointer-events: none;
         }
 
 
@@ -5522,8 +5502,26 @@
 
             position: relative;
 
-            background: linear-gradient(180deg, rgba(0, 0, 0, 0.95), rgba(20, 0, 0, 0.98));
+            background: #000;
+            background-image: url('images/fond-ecran/building.jpeg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
 
+        }
+
+        /* Overlay discret pour la section audio uniquement */
+        .audio-multimedia-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 0;
+            pointer-events: none;
         }
         
         /* S'assurer que le contenu est au-dessus de l'overlay */
