@@ -9064,7 +9064,7 @@
                 });
                 
                 // Re-enable submit button
-                const submitBtn = emailForm.querySelector('button[type="submit"]');
+                const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
                 if (submitBtn) {
                     submitBtn.disabled = false;
                     submitBtn.textContent = 'Valider et accéder aux téléchargements';
