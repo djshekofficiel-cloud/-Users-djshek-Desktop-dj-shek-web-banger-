@@ -5466,7 +5466,33 @@
             position: relative;
 
             background: linear-gradient(180deg, rgba(0, 0, 0, 0.95), rgba(20, 0, 0, 0.98));
+            
+            /* Image de fond */
+            background-image: url('images/Gemini_Generated_Image_gw48elgw48elgw48 (1).png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
 
+        }
+        
+        /* Overlay sombre pour la lisibilité */
+        .audio-multimedia-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        /* S'assurer que le contenu est au-dessus de l'overlay */
+        .audio-multimedia-container {
+            position: relative;
+            z-index: 1;
         }
 
 
@@ -5538,61 +5564,7 @@
             max-width: 100%;
 
             box-sizing: border-box;
-            
-            position: relative;
-            
-            display: flex;
-            
-            align-items: center;
-            
-            gap: clamp(10px, 2vw, 30px);
 
-        }
-        
-        /* Images latérales du lecteur audio */
-        .audio-player-side-image {
-            width: clamp(100px, 15vw, 200px);
-            height: 100%;
-            min-height: clamp(300px, 40vw, 500px);
-            border-radius: 15px;
-            overflow: hidden;
-            position: relative;
-            flex-shrink: 0;
-        }
-        
-        .audio-player-side-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to right, rgba(0, 0, 0, 0.3), transparent);
-            pointer-events: none;
-        }
-        
-        .audio-player-side-right::after {
-            background: linear-gradient(to left, rgba(0, 0, 0, 0.3), transparent);
-        }
-        
-        .audio-player-side-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: brightness(0.4) contrast(1.1) saturate(1.2);
-        }
-        
-        @media (max-width: 768px) {
-            .audio-player-wrapper {
-                flex-direction: column;
-                gap: clamp(15px, 3vw, 25px);
-            }
-            
-            .audio-player-side-image {
-                width: 100%;
-                height: clamp(150px, 30vw, 250px);
-                min-height: auto;
-            }
         }
 
 
@@ -7647,15 +7619,7 @@
 
 
 
-            <div class="audio-player-wrapper" style="position: relative; display: flex; align-items: center; gap: clamp(10px, 2vw, 30px);">
-
-                <!-- Image gauche -->
-                <div class="audio-player-side-image audio-player-side-left">
-                    <img src="images/Gemini_Generated_Image_gw48elgw48elgw48 (1).png" alt="DJ SHEK" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) contrast(1.1);">
-                </div>
-
-                <!-- Contenu principal du lecteur -->
-                <div style="flex: 1; min-width: 0;">
+            <div class="audio-player-wrapper">
 
                 <!-- Audio Player Controls -->
 
@@ -7727,13 +7691,6 @@
 
                     </div>
 
-                </div>
-
-                </div>
-
-                <!-- Image droite -->
-                <div class="audio-player-side-image audio-player-side-right">
-                    <img src="images/Gemini_Generated_Image_gw48elgw48elgw48 (1).png" alt="DJ SHEK" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) contrast(1.1);">
                 </div>
 
             </div>
