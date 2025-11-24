@@ -9771,26 +9771,50 @@
                         }
                     })
                     .catch(error => {
-                        // Erreur - Fallback vers mailto
+                        // Erreur - Vérifier si c'est une erreur de configuration
                         console.error('Erreur envoi email:', error);
                         
-                        // Fallback automatique vers mailto
-                        const emailSubject = encodeURIComponent(`Demande de contact - ${getServiceTypeLabel(serviceType)}`);
-                        const emailBody = encodeURIComponent(
-                            `Bonjour DJ SHEK,\n\n` +
-                            `Je vous contacte concernant : ${getServiceTypeLabel(serviceType)}\n\n` +
-                            `Nom : ${firstName} ${lastName}\n` +
-                            `Email : ${email}\n\n` +
-                            `Message :\n${message}\n\n` +
-                            `Cordialement,\n${firstName} ${lastName}`
-                        );
-                        const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${emailSubject}&body=${emailBody}`;
-                        window.location.href = mailtoLink;
-                        
-                        if (formMessage) {
-                            formMessage.className = 'form-message';
-                            formMessage.textContent = '⚠️ Envoi direct échoué. Votre client de messagerie va s\'ouvrir.';
-                            formMessage.style.display = 'block';
+                        // Si c'est une erreur de configuration, afficher un message clair
+                        if (error.message && error.message.includes('Configuration manquante')) {
+                            if (formMessage) {
+                                formMessage.className = 'form-message error';
+                                formMessage.innerHTML = '⚠️ Configuration manquante : La clé Web3Forms n\'est pas configurée dans Vercel.<br><br>📋 <a href="https://web3forms.com" target="_blank" style="color: #ff5722; text-decoration: underline;">Obtenez votre clé ici</a> puis configurez-la dans <a href="https://vercel.com/djshekofficiel-9102s-projects/dj-shek-web-banger/settings/environment-variables" target="_blank" style="color: #ff5722; text-decoration: underline;">Vercel</a>.';
+                                formMessage.style.display = 'block';
+                            }
+                            
+                            // Fallback vers mailto après 5 secondes
+                            setTimeout(() => {
+                                const emailSubject = encodeURIComponent(`Demande de contact - ${getServiceTypeLabel(serviceType)}`);
+                                const emailBody = encodeURIComponent(
+                                    `Bonjour DJ SHEK,\n\n` +
+                                    `Je vous contacte concernant : ${getServiceTypeLabel(serviceType)}\n\n` +
+                                    `Nom : ${firstName} ${lastName}\n` +
+                                    `Email : ${email}\n\n` +
+                                    `Message :\n${message}\n\n` +
+                                    `Cordialement,\n${firstName} ${lastName}`
+                                );
+                                const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${emailSubject}&body=${emailBody}`;
+                                window.location.href = mailtoLink;
+                            }, 5000);
+                        } else {
+                            // Autre erreur - Fallback immédiat vers mailto
+                            const emailSubject = encodeURIComponent(`Demande de contact - ${getServiceTypeLabel(serviceType)}`);
+                            const emailBody = encodeURIComponent(
+                                `Bonjour DJ SHEK,\n\n` +
+                                `Je vous contacte concernant : ${getServiceTypeLabel(serviceType)}\n\n` +
+                                `Nom : ${firstName} ${lastName}\n` +
+                                `Email : ${email}\n\n` +
+                                `Message :\n${message}\n\n` +
+                                `Cordialement,\n${firstName} ${lastName}`
+                            );
+                            const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${emailSubject}&body=${emailBody}`;
+                            window.location.href = mailtoLink;
+                            
+                            if (formMessage) {
+                                formMessage.className = 'form-message';
+                                formMessage.textContent = '⚠️ Envoi direct échoué. Votre client de messagerie va s\'ouvrir.';
+                                formMessage.style.display = 'block';
+                            }
                         }
                     });
 

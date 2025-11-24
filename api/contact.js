@@ -24,8 +24,18 @@ export default async function handler(req, res) {
     }
 
     // Utiliser Web3Forms (gratuit, simple, pas besoin de configuration complexe)
-    // Remplacez YOUR_ACCESS_KEY par votre clé Web3Forms (gratuite)
-    const WEB3FORMS_ACCESS_KEY = process.env.WEB3FORMS_ACCESS_KEY || 'YOUR_ACCESS_KEY';
+    // La clé doit être configurée dans Vercel > Settings > Environment Variables
+    const WEB3FORMS_ACCESS_KEY = process.env.WEB3FORMS_ACCESS_KEY;
+    
+    // Vérifier que la clé est configurée
+    if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === 'YOUR_ACCESS_KEY') {
+      return res.status(500).json({ 
+        success: false,
+        error: 'Configuration manquante',
+        message: 'WEB3FORMS_ACCESS_KEY non configurée dans Vercel',
+        instructions: 'Configurez WEB3FORMS_ACCESS_KEY dans Vercel > Settings > Environment Variables. Guide : https://web3forms.com'
+      });
+    }
 
     const formData = {
       access_key: WEB3FORMS_ACCESS_KEY,
