@@ -9726,19 +9726,75 @@
                         formMessage.style.display = 'block';
                     }
 
-                    // Envoyer l'email via l'API Vercel (Web3Forms)
-                    fetch('/api/contact', {
+                    // Envoi automatique via Web3Forms (directement depuis le frontend)
+                    // Clé d'accès Web3Forms - À obtenir sur https://web3forms.com
+                    // Remplacez 'YOUR_WEB3FORMS_KEY' par votre clé après inscription
+                    const WEB3FORMS_KEY = 'YOUR_WEB3FORMS_KEY';
+                    
+                    // Si la clé n'est pas configurée, utiliser mailto en fallback
+                    if (WEB3FORMS_KEY === 'YOUR_WEB3FORMS_KEY') {
+                        // Fallback automatique vers mailto
+                        const emailSubject = encodeURIComponent(`Demande de contact - ${getServiceTypeLabel(serviceType)}`);
+                        const emailBody = encodeURIComponent(
+                            `Bonjour DJ SHEK,\n\n` +
+                            `Je vous contacte concernant : ${getServiceTypeLabel(serviceType)}\n\n` +
+                            `Nom : ${firstName} ${lastName}\n` +
+                            `Email : ${email}\n\n` +
+                            `Message :\n${message}\n\n` +
+                            `Cordialement,\n${firstName} ${lastName}`
+                        );
+                        const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${emailSubject}&body=${emailBody}`;
+                        window.location.href = mailtoLink;
+                        
+                        if (formMessage) {
+                            formMessage.className = 'form-message';
+                            formMessage.textContent = '✅ Votre client de messagerie va s\'ouvrir.';
+                            formMessage.style.display = 'block';
+                        }
+                        
+                        setTimeout(() => {
+                            contactForm.reset();
+                            if (formMessage) {
+                                formMessage.style.display = 'none';
+                            }
+                        }, 3000);
+                        return;
+                    }
+
+                    // Envoyer via Web3Forms
+                    const formData = {
+                        access_key: WEB3FORMS_KEY,
+                        subject: `Nouveau message depuis djshekofficiel.com - ${getServiceTypeLabel(serviceType)}`,
+                        from_name: `${firstName} ${lastName}`,
+                        email: email,
+                        to_email: 'djshekofficiel@gmail.com',
+                        message: `Bonjour DJ SHEK,
+
+Vous avez reçu un nouveau message depuis votre site web djshekofficiel.com.
+
+---
+INFORMATIONS DU CLIENT
+---
+Nom : ${firstName} ${lastName}
+Email : ${email}
+Type de service : ${getServiceTypeLabel(serviceType)}
+
+---
+MESSAGE
+---
+${message}
+
+---
+Ce message a été envoyé depuis le formulaire de contact de djshekofficiel.com`
+                    };
+
+                    fetch('https://api.web3forms.com/submit', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            'Accept': 'application/json'
                         },
-                        body: JSON.stringify({
-                            firstName: firstName,
-                            lastName: lastName,
-                            email: email,
-                            serviceType: serviceType,
-                            message: message
-                        })
+                        body: JSON.stringify(formData)
                     })
                     .then(response => response.json())
                     .then(data => {
@@ -9760,14 +9816,14 @@
                                 }
                             }, 5000);
                         } else {
-                            throw new Error(data.error || 'Erreur lors de l\'envoi');
+                            throw new Error(data.message || 'Erreur lors de l\'envoi');
                         }
                     })
                     .catch(error => {
                         // Erreur - Fallback vers mailto
                         console.error('Erreur envoi email:', error);
                         
-                        // Fallback : utiliser mailto
+                        // Fallback automatique vers mailto
                         const emailSubject = encodeURIComponent(`Demande de contact - ${getServiceTypeLabel(serviceType)}`);
                         const emailBody = encodeURIComponent(
                             `Bonjour DJ SHEK,\n\n` +
