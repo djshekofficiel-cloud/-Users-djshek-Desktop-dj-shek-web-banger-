@@ -207,8 +207,6 @@
 
             overflow-x: hidden;
 
-            cursor: none;
-
             -webkit-user-select: text;
 
             -moz-user-select: text;
@@ -379,29 +377,11 @@
 
 
 
-        /* Custom Cursor */
+        /* Custom Cursor - Désactivé */
 
         .cursor {
 
-            width: 20px;
-
-            height: 20px;
-
-            border: 2px solid #d32f2f;
-
-            border-radius: 50%;
-
-            position: fixed;
-
-            pointer-events: none;
-
-            z-index: 99999;
-
-            transition: all 0.1s ease;
-
-            box-shadow: 0 0 20px #d32f2f;
-
-            mix-blend-mode: difference;
+            display: none;
 
         }
 
@@ -409,23 +389,7 @@
 
         .cursor-follower {
 
-            width: 40px;
-
-            height: 40px;
-
-            border: 1px solid rgba(211, 47, 47, 0.5);
-
-            border-radius: 50%;
-
-            position: fixed;
-
-            pointer-events: none;
-
-            z-index: 99998;
-
-            transition: all 0.3s ease;
-
-            mix-blend-mode: difference;
+            display: none;
 
         }
 
@@ -8021,38 +7985,8 @@
 
     <script>
 
-        // Custom Cursor
-
-        // Custom Cursor avec vérifications
-        const cursor = document.querySelector('.cursor');
-        const cursorFollower = document.querySelector('.cursor-follower');
-        let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0, followerX = 0, followerY = 0;
-
-        // Vérifier que les éléments existent avant d'animer
-        if (cursor && cursorFollower) {
-            document.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-            });
-
-            function animateCursor() {
-                if (!cursor || !cursorFollower) return;
-                
-                cursorX += (mouseX - cursorX) * 0.3;
-                cursorY += (mouseY - cursorY) * 0.3;
-                followerX += (mouseX - followerX) * 0.1;
-                followerY += (mouseY - followerY) * 0.1;
-
-                cursor.style.left = cursorX + 'px';
-                cursor.style.top = cursorY + 'px';
-                cursorFollower.style.left = followerX + 'px';
-                cursorFollower.style.top = followerY + 'px';
-
-                requestAnimationFrame(animateCursor);
-            }
-
-            animateCursor();
-        }
+        // Custom Cursor - Désactivé (curseur normal restauré)
+        // Le curseur personnalisé a été désactivé pour utiliser le curseur système par défaut
 
 
 
@@ -8152,29 +8086,7 @@
 
 
 
-        // Hover effects
-
-        const interactiveElements = document.querySelectorAll('a, .tag, .track-showcase, .visual-card, .track-play-btn, .contact-link');
-
-        interactiveElements.forEach(el => {
-
-            el.addEventListener('mouseenter', () => {
-
-                cursor.style.transform = 'scale(2)';
-
-                cursor.style.borderColor = '#ff5722';
-
-            });
-
-            el.addEventListener('mouseleave', () => {
-
-                cursor.style.transform = 'scale(1)';
-
-                cursor.style.borderColor = '#d32f2f';
-
-            });
-
-        });
+        // Hover effects - Désactivés (curseur personnalisé désactivé)
 
 
 
