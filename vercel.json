@@ -10,6 +10,19 @@
       "main": true
     }
   },
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.djshekofficiel.com"
+        }
+      ],
+      "destination": "https://djshekofficiel.com/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/((?!google[a-z0-9]+\\.html$|robots\\.txt$|sitemap\\.xml$).*)",
