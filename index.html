@@ -2445,6 +2445,88 @@
 
             color: #666;
 
+        }
+
+        /* Compteur discret */
+
+        .stats-counter {
+
+            position: fixed;
+
+            bottom: 20px;
+
+            right: 20px;
+
+            background: rgba(0, 0, 0, 0.7);
+
+            border: 1px solid rgba(211, 47, 47, 0.3);
+
+            border-radius: 8px;
+
+            padding: 8px 12px;
+
+            font-size: 0.7rem;
+
+            color: rgba(255, 255, 255, 0.6);
+
+            z-index: 9998;
+
+            backdrop-filter: blur(10px);
+
+            -webkit-backdrop-filter: blur(10px);
+
+            opacity: 0.6;
+
+            transition: opacity 0.3s ease;
+
+            pointer-events: none;
+
+            font-family: 'Montserrat', sans-serif;
+
+        }
+
+        .stats-counter:hover {
+
+            opacity: 1;
+
+        }
+
+        .stats-counter-item {
+
+            display: inline-block;
+
+            margin: 0 8px;
+
+        }
+
+        .stats-counter-number {
+
+            color: #ff5722;
+
+            font-weight: 600;
+
+        }
+
+        @media (max-width: 768px) {
+
+            .stats-counter {
+
+                bottom: 10px;
+
+                right: 10px;
+
+                padding: 6px 10px;
+
+                font-size: 0.65rem;
+
+            }
+
+            .stats-counter-item {
+
+                margin: 0 5px;
+
+            }
+
             letter-spacing: 0.2em;
 
         }
@@ -8156,6 +8238,26 @@
 
     </footer>
 
+    <!-- Compteur discret -->
+
+    <div class="stats-counter" id="statsCounter">
+
+        <span class="stats-counter-item">
+
+            <span class="stats-counter-number" id="visitsCount">0</span> visites
+
+        </span>
+
+        <span class="stats-counter-item">•</span>
+
+        <span class="stats-counter-item">
+
+            <span class="stats-counter-number" id="downloadsCount">0</span> téléchargements
+
+        </span>
+
+    </div>
+
 
 
     <script>
@@ -9223,6 +9325,9 @@
 
             log('Téléchargement de:', trackName, 'par:', getRegisteredEmail());
 
+            
+            // Tracker le téléchargement
+            trackDownload();
         }
 
 
@@ -10263,6 +10368,112 @@ Envoyé depuis : djshekofficiel.com`);
         // Charger les partenaires au chargement de la page
         window.addEventListener('DOMContentLoaded', function() {
             loadPartenaires();
+        });
+
+        // ============================================
+        // SYSTÈME DE COMPTEUR DISCRET
+        // ============================================
+
+        // Fonction pour obtenir ou initialiser les statistiques
+        function getStats() {
+            const stats = localStorage.getItem('dj_shek_stats');
+            if (stats) {
+                return JSON.parse(stats);
+            }
+            return {
+                visits: 0,
+                downloads: 0,
+                lastVisit: null
+            };
+        }
+
+        // Fonction pour sauvegarder les statistiques
+        function saveStats(stats) {
+            localStorage.setItem('dj_shek_stats', JSON.stringify(stats));
+            updateStatsDisplay(stats);
+        }
+
+        // Fonction pour mettre à jour l'affichage des statistiques
+        function updateStatsDisplay(stats) {
+            const visitsCount = document.getElementById('visitsCount');
+            const downloadsCount = document.getElementById('downloadsCount');
+            
+            if (visitsCount) {
+                visitsCount.textContent = formatNumber(stats.visits);
+            }
+            if (downloadsCount) {
+                downloadsCount.textContent = formatNumber(stats.downloads);
+            }
+        }
+
+        // Fonction pour formater les nombres (ajouter des séparateurs)
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+        }
+
+        // Fonction pour tracker une visite
+        function trackVisit() {
+            const stats = getStats();
+            const today = new Date().toDateString();
+            
+            // Compter une visite seulement si c'est une nouvelle session (pas de visite aujourd'hui)
+            if (stats.lastVisit !== today) {
+                stats.visits += 1;
+                stats.lastVisit = today;
+                saveStats(stats);
+                
+                // Envoyer les stats au serveur (optionnel)
+                sendStatsToServer('visit', stats);
+            }
+        }
+
+        // Fonction pour tracker un téléchargement
+        function trackDownload() {
+            const stats = getStats();
+            stats.downloads += 1;
+            saveStats(stats);
+            
+            // Envoyer les stats au serveur (optionnel)
+            sendStatsToServer('download', stats);
+        }
+
+        // Fonction pour envoyer les stats au serveur (optionnel - peut être désactivé)
+        function sendStatsToServer(type, stats) {
+            // Option 1: Utiliser Web3Forms pour envoyer les stats par email (désactivé par défaut)
+            // Option 2: Utiliser une API personnalisée
+            // Option 3: Ne rien faire (stats uniquement en local)
+            
+            // Pour activer l'envoi, décommentez le code ci-dessous et configurez votre endpoint
+            /*
+            try {
+                fetch('https://votre-api.com/stats', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        type: type,
+                        visits: stats.visits,
+                        downloads: stats.downloads,
+                        timestamp: new Date().toISOString()
+                    })
+                }).catch(err => {
+                    // Ignorer les erreurs silencieusement
+                });
+            } catch (e) {
+                // Ignorer les erreurs silencieusement
+            }
+            */
+        }
+
+        // Initialiser le tracking au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Charger et afficher les stats existantes
+            const stats = getStats();
+            updateStatsDisplay(stats);
+            
+            // Tracker la visite
+            trackVisit();
         });
     </script>
 
