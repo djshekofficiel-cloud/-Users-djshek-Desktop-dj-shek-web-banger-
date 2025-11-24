@@ -59,7 +59,7 @@
         "url": "https://djshekofficiel.com",
         "sameAs": [
             "https://soundcloud.com/djshekofficiel2025",
-            "https://www.instagram.com/djshekofficiel/"
+            "https://instagram.com/djshek"
         ],
         "email": "djshekofficiel@gmail.com",
         "jobTitle": "DJ - Open-Format & Remix Master",
@@ -234,10 +234,8 @@
             user-select: text;
 
             position: relative;
-            min-height: 100vh;
 
         }
-
 
 
 
@@ -1286,234 +1284,7 @@
 
         }
 
-        /* Effets d'éclairs de tonnerre réalistes */
-        .lightning {
-            position: absolute;
-            width: 4px;
-            height: 100%;
-            z-index: 5;
-            pointer-events: none;
-            opacity: 0;
-            filter: blur(1px);
-        }
 
-        /* Éclair principal avec zigzag */
-        .lightning::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                to bottom,
-                transparent 0%,
-                rgba(255, 255, 255, 0.9) 5%,
-                rgba(255, 255, 255, 1) 10%,
-                rgba(255, 200, 100, 1) 20%,
-                rgba(255, 255, 255, 1) 30%,
-                rgba(255, 200, 100, 1) 40%,
-                rgba(255, 255, 255, 1) 50%,
-                rgba(255, 200, 100, 1) 60%,
-                rgba(255, 255, 255, 1) 70%,
-                rgba(255, 200, 100, 1) 80%,
-                rgba(255, 255, 255, 1) 90%,
-                transparent 100%
-            );
-            clip-path: polygon(
-                0% 0%,
-                20% 10%,
-                0% 20%,
-                30% 30%,
-                10% 40%,
-                40% 50%,
-                0% 60%,
-                30% 70%,
-                10% 80%,
-                20% 90%,
-                0% 100%
-            );
-            box-shadow: 
-                0 0 30px rgba(255, 255, 255, 1),
-                0 0 60px rgba(255, 200, 100, 0.8),
-                0 0 90px rgba(255, 255, 255, 0.6),
-                0 0 120px rgba(255, 200, 100, 0.4);
-        }
-
-        /* Branches secondaires */
-        .lightning::after {
-            content: '';
-            position: absolute;
-            top: 20%;
-            left: -15px;
-            width: 2px;
-            height: 30%;
-            background: linear-gradient(
-                to bottom,
-                transparent 0%,
-                rgba(255, 255, 255, 0.8) 30%,
-                rgba(255, 200, 100, 0.9) 50%,
-                transparent 100%
-            );
-            clip-path: polygon(
-                0% 0%,
-                50% 20%,
-                0% 40%,
-                100% 60%,
-                0% 80%,
-                50% 100%
-            );
-            box-shadow: 
-                0 0 20px rgba(255, 255, 255, 0.8),
-                0 0 40px rgba(255, 200, 100, 0.6);
-            opacity: 0;
-        }
-
-        .lightning-1 {
-            left: 20%;
-            animation: thunderStrike1 5s ease-in-out infinite;
-            animation-delay: 0s;
-        }
-
-        .lightning-2 {
-            left: 50%;
-            animation: thunderStrike2 6s ease-in-out infinite;
-            animation-delay: 2s;
-        }
-
-        .lightning-3 {
-            left: 80%;
-            animation: thunderStrike3 7s ease-in-out infinite;
-            animation-delay: 4s;
-        }
-
-        /* Flash d'éclair global */
-        .hero-section::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0);
-            z-index: 4;
-            pointer-events: none;
-            animation: lightningFlash 5s ease-in-out infinite;
-        }
-
-        @keyframes thunderStrike1 {
-            0%, 100% {
-                opacity: 0;
-                transform: translateY(-100%) translateX(0);
-            }
-            1% {
-                opacity: 1;
-                transform: translateY(0%) translateX(-5px);
-            }
-            1.5% {
-                opacity: 0.9;
-                transform: translateY(5%) translateX(5px);
-            }
-            2% {
-                opacity: 1;
-                transform: translateY(10%) translateX(-3px);
-            }
-            2.5% {
-                opacity: 0.8;
-                transform: translateY(15%) translateX(3px);
-            }
-            3% {
-                opacity: 1;
-                transform: translateY(20%) translateX(-2px);
-            }
-            3.5% {
-                opacity: 0;
-                transform: translateY(25%) translateX(0);
-            }
-        }
-
-        @keyframes thunderStrike2 {
-            0%, 100% {
-                opacity: 0;
-                transform: translateY(-100%) translateX(0);
-            }
-            0.8% {
-                opacity: 1;
-                transform: translateY(0%) translateX(4px);
-            }
-            1.3% {
-                opacity: 0.9;
-                transform: translateY(5%) translateX(-4px);
-            }
-            1.8% {
-                opacity: 1;
-                transform: translateY(10%) translateX(3px);
-            }
-            2.3% {
-                opacity: 0.8;
-                transform: translateY(15%) translateX(-3px);
-            }
-            2.8% {
-                opacity: 1;
-                transform: translateY(20%) translateX(2px);
-            }
-            3.3% {
-                opacity: 0;
-                transform: translateY(25%) translateX(0);
-            }
-        }
-
-        @keyframes thunderStrike3 {
-            0%, 100% {
-                opacity: 0;
-                transform: translateY(-100%) translateX(0);
-            }
-            0.7% {
-                opacity: 1;
-                transform: translateY(0%) translateX(-6px);
-            }
-            1.2% {
-                opacity: 0.9;
-                transform: translateY(5%) translateX(6px);
-            }
-            1.7% {
-                opacity: 1;
-                transform: translateY(10%) translateX(-4px);
-            }
-            2.2% {
-                opacity: 0.8;
-                transform: translateY(15%) translateX(4px);
-            }
-            2.7% {
-                opacity: 1;
-                transform: translateY(20%) translateX(-2px);
-            }
-            3.2% {
-                opacity: 0;
-                transform: translateY(25%) translateX(0);
-            }
-        }
-
-        @keyframes lightningFlash {
-            0%, 100% {
-                background: rgba(255, 255, 255, 0);
-            }
-            1% {
-                background: rgba(255, 255, 255, 0.3);
-            }
-            1.5% {
-                background: rgba(255, 255, 255, 0.1);
-            }
-            2% {
-                background: rgba(255, 255, 255, 0);
-            }
-            2.5% {
-                background: rgba(255, 255, 255, 0.2);
-            }
-            3% {
-                background: rgba(255, 255, 255, 0);
-            }
-        }
 
         /* Partenaires Section */
 
@@ -1543,6 +1314,7 @@
 
             box-sizing: border-box;
 
+        }
 
 
 
@@ -1705,31 +1477,6 @@
 
             transform: scale(1.05);
 
-        }
-
-        /* Styles pour les liens dans les partenaires */
-        .partenaire-item a {
-            display: block;
-            width: 100%;
-            height: 100%;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .partenaire-item a img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            object-position: center;
-            max-width: 100%;
-            max-height: 100%;
-            filter: brightness(0.9) contrast(1.1);
-            transition: all 0.3s ease;
-        }
-
-        .partenaire-item:hover a img {
-            filter: brightness(1.1) contrast(1.2);
-            transform: scale(1.05);
         }
 
 
@@ -3558,14 +3305,6 @@
 
             overflow: hidden;
 
-            cursor: pointer;
-
-            display: inline-block;
-
-            pointer-events: auto;
-
-            z-index: 1;
-
         }
 
 
@@ -3593,8 +3332,6 @@
             transition: all 0.6s;
 
             z-index: -1;
-
-            pointer-events: none;
 
         }
 
@@ -3783,18 +3520,6 @@
                 opacity: 0.4;
             }
 
-            /* Éclairs optimisés pour tablette */
-            .lightning {
-                width: 3px;
-            }
-            
-            .lightning::before {
-                box-shadow: 
-                    0 0 20px rgba(255, 255, 255, 0.9),
-                    0 0 40px rgba(255, 200, 100, 0.7),
-                    0 0 60px rgba(255, 255, 255, 0.5);
-            }
-
             .orb-3d-1 {
                 top: 5%;
                 left: 5%;
@@ -3809,18 +3534,6 @@
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-            }
-
-            /* Éclairs optimisés pour tablette */
-            .lightning {
-                width: 3px;
-            }
-            
-            .lightning::before {
-                box-shadow: 
-                    0 0 20px rgba(255, 255, 255, 0.9),
-                    0 0 40px rgba(255, 200, 100, 0.7),
-                    0 0 60px rgba(255, 255, 255, 0.5);
             }
 
             .hero-image {
@@ -4470,17 +4183,6 @@
 
             }
 
-            /* Fond d'écran optimisé pour tablette */
-            .audio-multimedia-section {
-                background-attachment: scroll;
-                background-size: cover;
-                background-position: center center;
-            }
-
-            .audio-multimedia-section::before {
-                background: rgba(0, 0, 0, 0.35);
-            }
-
 
 
             /* About Section */
@@ -4949,33 +4651,9 @@
                 opacity: 0.5;
             }
 
-            /* Fond d'écran sur section audio - mobile optimisé */
-            /* Fond d'écran optimisé pour mobile */
-            .audio-multimedia-section {
-                background-attachment: scroll;
-                background-size: cover;
-                background-position: center center;
-                min-height: auto;
-            }
-
             .hero-image {
                 opacity: 0.65;
                 filter: brightness(1.3) contrast(1.4) saturate(1.3) drop-shadow(0 0 12px rgba(211, 47, 47, 0.5));
-            }
-
-            /* Éclairs optimisés pour mobile */
-            .lightning {
-                width: 2px;
-            }
-            
-            .lightning::before {
-                box-shadow: 
-                    0 0 15px rgba(255, 255, 255, 0.8),
-                    0 0 30px rgba(255, 200, 100, 0.6);
-            }
-            
-            .lightning::after {
-                display: none;
             }
 
             html {
@@ -5787,9 +5465,28 @@
 
             position: relative;
 
-            background: #000;
-            min-height: 100vh;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.95), rgba(20, 0, 0, 0.98));
+            
+            /* Image de fond */
+            background-image: url('images/Gemini_Generated_Image_gw48elgw48elgw48 (1).png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
 
+        }
+        
+        /* Overlay sombre pour la lisibilité */
+        .audio-multimedia-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 0;
+            pointer-events: none;
         }
         
         /* S'assurer que le contenu est au-dessus de l'overlay */
@@ -5866,9 +5563,6 @@
             box-sizing: border-box;
 
         }
-
-        }
-        
 
 
 
@@ -6010,12 +5704,6 @@
 
             margin-bottom: clamp(15px, 2vw, 25px);
 
-            width: 100%;
-
-            box-sizing: border-box;
-
-            overflow: hidden;
-
         }
 
 
@@ -6060,19 +5748,7 @@
 
             font-size: clamp(0.75rem, 1.5vw, 0.9rem);
 
-            min-width: clamp(40px, 5vw, 50px);
-
-            max-width: clamp(40px, 5vw, 50px);
-
-            text-align: center;
-
-            white-space: nowrap;
-
-            overflow: hidden;
-
-            text-overflow: ellipsis;
-
-            flex-shrink: 0;
+            min-width: clamp(35px, 4vw, 45px);
 
         }
 
@@ -6627,10 +6303,8 @@
         }
 
         .page-loader.hidden {
-            opacity: 0 !important;
-            pointer-events: none !important;
-            visibility: hidden !important;
-            display: none !important;
+            opacity: 0;
+            pointer-events: none;
         }
 
         .loader-spinner {
@@ -7886,10 +7560,7 @@
 
         <div class="orb-3d orb-3d-3"></div>
 
-        <!-- Effets d'éclairs -->
-        <div class="lightning lightning-1"></div>
-        <div class="lightning lightning-2"></div>
-        <div class="lightning lightning-3"></div>
+        
 
         <div class="hero-content">
 
@@ -8016,8 +7687,6 @@
                         <!-- Les pistes seront ajoutées dynamiquement -->
 
                     </div>
-
-                </div>
 
                 </div>
 
@@ -8429,7 +8098,7 @@
 
                 </a>
 
-                <a href="https://www.instagram.com/djshekofficiel/" target="_blank" rel="noopener" class="contact-link">
+                <a href="https://instagram.com/djshek" target="_blank" rel="noopener" class="contact-link">
 
                     📱 Instagram
 
@@ -8727,31 +8396,17 @@
         const DEBUG = false;
         const log = DEBUG ? console.log.bind(console) : () => {};
 
-        // Fonction pour masquer le loader
-        function hidePageLoader() {
-            const pageLoader = document.getElementById('pageLoader');
-            if (pageLoader) {
-                pageLoader.classList.add('hidden');
-                setTimeout(() => {
-                    pageLoader.style.display = 'none';
-                }, 500);
-            }
-        }
-
         // Masquer le loader une fois la page chargée
         window.addEventListener('load', function() {
-            setTimeout(hidePageLoader, 300);
-        });
-
-        // Fallback : Masquer le loader après 3 secondes maximum (même si load ne se déclenche pas)
-        setTimeout(function() {
-            hidePageLoader();
-        }, 3000);
-
-        // Masquer le loader dès que le DOM est prêt (plus rapide)
-        document.addEventListener('DOMContentLoaded', function() {
-            // Attendre un peu pour que les styles se chargent
-            setTimeout(hidePageLoader, 500);
+            const pageLoader = document.getElementById('pageLoader');
+            if (pageLoader) {
+                setTimeout(() => {
+                    pageLoader.classList.add('hidden');
+                    setTimeout(() => {
+                        pageLoader.style.display = 'none';
+                    }, 500);
+                }, 300);
+            }
         });
 
         window.addEventListener('DOMContentLoaded', function() {
@@ -8852,8 +8507,9 @@
 
             // List of all audio files
 
-                                    const audioTracks = [
-                { name: 'DJ SHEK - Aya Nakamura ( Comportement Remix ) Prodshek', file: 'DJ SHEK - Aya Nakamura ( Comportement Remix ) Prodshek .mp3' }
+                        const audioTracks = [
+                { name: 'DJ SHEK - ( INTRO ) REMIX   FLYING BLUE la fouine f', file: 'DJ SHEK - ( INTRO ) REMIX   FLYING BLUE la fouine f .mp3' }
+                ,{ name: 'DJ SHEK - Aya Nakamura ( Comportement Remix ) Prodshek', file: 'DJ SHEK - Aya Nakamura ( Comportement Remix ) Prodshek .mp3' }
                 ,{ name: 'DJ SHEK - Aya Nakamura - Desarmer Remix shek prod', file: 'DJ SHEK - Aya Nakamura - Desarmer Remix shek prod .mp3' }
                 ,{ name: 'DJ SHEK - Intro  90s KYBBA', file: 'DJ SHEK - Intro  90s KYBBA .mp3' }
                 ,{ name: 'DJ SHEK - Intro  Jaden Bojsen', file: 'DJ SHEK - Intro  Jaden Bojsen .mp3' }
@@ -9924,8 +9580,9 @@ Envoyé depuis : djshekofficiel.com`);
 
             // List of all audio files in the audio folder
 
-                                    const audioTracks = [
-                { name: 'DJ SHEK - Aya Nakamura ( Comportement Remix ) Prodshek', file: 'DJ SHEK - Aya Nakamura ( Comportement Remix ) Prodshek .mp3' }
+                        const audioTracks = [
+                { name: 'DJ SHEK - ( INTRO ) REMIX   FLYING BLUE la fouine f', file: 'DJ SHEK - ( INTRO ) REMIX   FLYING BLUE la fouine f .mp3' }
+                ,{ name: 'DJ SHEK - Aya Nakamura ( Comportement Remix ) Prodshek', file: 'DJ SHEK - Aya Nakamura ( Comportement Remix ) Prodshek .mp3' }
                 ,{ name: 'DJ SHEK - Aya Nakamura - Desarmer Remix shek prod', file: 'DJ SHEK - Aya Nakamura - Desarmer Remix shek prod .mp3' }
                 ,{ name: 'DJ SHEK - Intro  90s KYBBA', file: 'DJ SHEK - Intro  90s KYBBA .mp3' }
                 ,{ name: 'DJ SHEK - Intro  Jaden Bojsen', file: 'DJ SHEK - Intro  Jaden Bojsen .mp3' }
@@ -10560,24 +10217,14 @@ Envoyé depuis : djshekofficiel.com`);
             if (!partenairesGrid) return;
 
             // Liste des images de partenaires trouvées dans le dossier
-            // Mise à jour automatique basée sur les fichiers présents
             const partenairesImages = [
-                'ggggh.png',
-                'hjhjhj.png',
                 'images.png',
                 'IMG_1073.JPG',
+                'hjhjhj.png',
+                'ggggh.png',
                 'téléchargement.jpeg',
                 'téléchargement.png'
             ];
-
-            // Mapping des images vers leurs liens (Instagram, site web, etc.)
-            const partenairesLinks = {
-                'hjhjhj.png': 'https://www.instagram.com/nab.store.official/',
-                'images.png': 'https://www.instagram.com/pef_mma/?hl=fr',
-                'IMG_1073.JPG': 'https://www.instagram.com/mezzalille/?hl=fr',
-                'téléchargement.jpeg': 'https://www.instagram.com/zooclubofficiel/?hl=fr',
-                // Ajoutez d'autres mappings ici si nécessaire
-            };
 
             // Vider la grille
             partenairesGrid.innerHTML = '';
@@ -10587,60 +10234,23 @@ Envoyé depuis : djshekofficiel.com`);
                 const partenaireItem = document.createElement('div');
                 partenaireItem.className = 'partenaire-item';
                 
-                // Vérifier si cette image a un lien associé
-                const imageLink = partenairesLinks[imageName];
+                const img = document.createElement('img');
+                img.src = `images/partenaire/${encodeURIComponent(imageName)}`;
+                img.alt = `Partenaire ${index + 1}`;
+                img.loading = 'lazy';
                 
-                if (imageLink) {
-                    // Créer un lien cliquable
-                    const link = document.createElement('a');
-                    link.href = imageLink;
-                    link.target = '_blank';
-                    link.rel = 'noopener noreferrer';
-                    link.style.textDecoration = 'none';
-                    link.style.display = 'block';
-                    link.style.width = '100%';
-                    link.style.height = '100%';
-                    
-                    const img = document.createElement('img');
-                    img.src = `images/partenaire/${encodeURIComponent(imageName)}`;
-                    img.alt = `Partenaire ${index + 1}`;
-                    img.loading = 'lazy';
-                    img.style.cursor = 'pointer';
-                    
-                    // Gestion des erreurs de chargement
-                    img.onerror = function() {
-                        console.warn(`Image non trouvée: ${imageName}`);
-                        this.style.display = 'none';
-                    };
-                    
-                    img.onload = function() {
-                        // S'assurer que l'image est bien chargée
-                        this.style.opacity = '1';
-                    };
-                    
-                    link.appendChild(img);
-                    partenaireItem.appendChild(link);
-                } else {
-                    // Image sans lien
-                    const img = document.createElement('img');
-                    img.src = `images/partenaire/${encodeURIComponent(imageName)}`;
-                    img.alt = `Partenaire ${index + 1}`;
-                    img.loading = 'lazy';
-                    
-                    // Gestion des erreurs de chargement
-                    img.onerror = function() {
-                        console.warn(`Image non trouvée: ${imageName}`);
-                        this.style.display = 'none';
-                    };
-                    
-                    img.onload = function() {
-                        // S'assurer que l'image est bien chargée
-                        this.style.opacity = '1';
-                    };
-                    
-                    partenaireItem.appendChild(img);
-                }
+                // Gestion des erreurs de chargement
+                img.onerror = function() {
+                    console.warn(`Image non trouvée: ${imageName}`);
+                    this.style.display = 'none';
+                };
                 
+                img.onload = function() {
+                    // S'assurer que l'image est bien chargée
+                    this.style.opacity = '1';
+                };
+                
+                partenaireItem.appendChild(img);
                 partenairesGrid.appendChild(partenaireItem);
             });
 
