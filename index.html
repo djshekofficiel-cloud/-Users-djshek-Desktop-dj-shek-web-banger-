@@ -8489,17 +8489,31 @@
         const DEBUG = false;
         const log = DEBUG ? console.log.bind(console) : () => {};
 
-        // Masquer le loader une fois la page chargée
-        window.addEventListener('load', function() {
+        // Fonction pour masquer le loader
+        function hidePageLoader() {
             const pageLoader = document.getElementById('pageLoader');
             if (pageLoader) {
+                pageLoader.classList.add('hidden');
                 setTimeout(() => {
-                    pageLoader.classList.add('hidden');
-                    setTimeout(() => {
-                        pageLoader.style.display = 'none';
-                    }, 500);
-                }, 300);
+                    pageLoader.style.display = 'none';
+                }, 500);
             }
+        }
+
+        // Masquer le loader une fois la page chargée
+        window.addEventListener('load', function() {
+            setTimeout(hidePageLoader, 300);
+        });
+
+        // Fallback : Masquer le loader après 3 secondes maximum (même si load ne se déclenche pas)
+        setTimeout(function() {
+            hidePageLoader();
+        }, 3000);
+
+        // Masquer le loader dès que le DOM est prêt (plus rapide)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Attendre un peu pour que les styles se chargent
+            setTimeout(hidePageLoader, 500);
         });
 
         window.addEventListener('DOMContentLoaded', function() {
