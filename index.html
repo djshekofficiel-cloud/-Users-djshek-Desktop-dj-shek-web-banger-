@@ -4220,6 +4220,17 @@
 
             }
 
+            /* Fond d'écran optimisé pour tablette */
+            .audio-multimedia-section {
+                background-attachment: scroll;
+                background-size: cover;
+                background-position: center center;
+            }
+
+            .audio-multimedia-section::before {
+                background: rgba(0, 0, 0, 0.35);
+            }
+
 
 
             /* About Section */
@@ -4689,8 +4700,12 @@
             }
 
             /* Fond d'écran sur section audio - mobile optimisé */
+            /* Fond d'écran optimisé pour mobile */
             .audio-multimedia-section {
                 background-attachment: scroll;
+                background-size: cover;
+                background-position: center center;
+                min-height: auto;
             }
 
             .audio-multimedia-section::before {
@@ -5517,10 +5532,11 @@
             background-position: center center;
             background-repeat: no-repeat;
             background-attachment: fixed;
+            min-height: 100vh;
 
         }
 
-        /* Overlay discret pour la section audio uniquement */
+        /* Overlay discret pour la section audio uniquement - Desktop */
         .audio-multimedia-section::before {
             content: '';
             position: absolute;
