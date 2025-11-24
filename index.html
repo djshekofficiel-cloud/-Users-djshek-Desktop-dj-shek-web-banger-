@@ -5566,25 +5566,7 @@
             z-index: 1;
         }
         
-        /* Debug : Vérifier que les conteneurs sont visibles */
-        .audio-player-side-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(
-                135deg,
-                rgba(211, 47, 47, 0.4) 0%,
-                rgba(255, 87, 34, 0.3) 50%,
-                rgba(211, 47, 47, 0.4) 100%
-            );
-            z-index: 2;
-            pointer-events: none;
-            mix-blend-mode: multiply;
-        }
-        
+        /* Overlay gradient couleur site */
         .audio-player-side-image::before {
             content: '';
             position: absolute;
@@ -5637,7 +5619,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            z-index: 1;
+            z-index: 1 !important;
             visibility: visible !important;
             opacity: 1 !important;
         }
