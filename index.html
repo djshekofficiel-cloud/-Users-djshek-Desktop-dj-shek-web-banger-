@@ -7826,7 +7826,13 @@
 
             <!-- Contact Form -->
 
-            <form class="contact-form" id="contactForm">
+            <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+
+                <!-- Web3Forms Configuration -->
+                <input type="hidden" name="access_key" value="4650301f-d665-4ddc-b4d3-9bbefff2e801">
+                <input type="hidden" name="subject" value="Nouveau message depuis djshekofficiel.com">
+                <input type="hidden" name="to_email" value="djshekofficiel@gmail.com">
+                <input type="hidden" name="from_name" id="from_name" value="">
 
                 <div class="form-row">
 
@@ -9648,8 +9654,6 @@
 
             if (contactForm) {
                 contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-
                     // Reset form state
                     const formGroups = contactForm.querySelectorAll('.form-group');
                     formGroups.forEach(group => {
@@ -9668,6 +9672,7 @@
                     const messageInput = document.getElementById('message');
 
                     if (!firstNameInput || !lastNameInput || !emailInput || !serviceTypeInput || !messageInput) {
+                        e.preventDefault();
                         if (formMessage) {
                             formMessage.className = 'form-message error';
                             formMessage.textContent = 'Erreur : Formulaire incomplet. Veuillez rafraîchir la page.';
@@ -9711,12 +9716,32 @@
                     }
 
                     if (!isValid) {
+                        e.preventDefault();
                         if (formMessage) {
                             formMessage.className = 'form-message error';
                             formMessage.textContent = 'Veuillez corriger les erreurs dans le formulaire';
                             formMessage.style.display = 'block';
                         }
                         return;
+                    }
+
+                    // Préparer les champs cachés pour Web3Forms
+                    const fromNameField = document.getElementById('from_name');
+                    if (fromNameField) {
+                        fromNameField.value = `${firstName} ${lastName}`;
+                    }
+
+                    // Mettre à jour le sujet avec le type de service
+                    const subjectField = contactForm.querySelector('input[name="subject"]');
+                    if (subjectField) {
+                        subjectField.value = `Nouveau message depuis djshekofficiel.com - ${getServiceTypeLabel(serviceType)}`;
+                    }
+
+                    // Ajouter le type de service et les infos dans le message
+                    const messageField = document.getElementById('message');
+                    if (messageField) {
+                        const fullMessage = `Type de demande : ${getServiceTypeLabel(serviceType)}\n\n${message}`;
+                        messageField.value = fullMessage;
                     }
 
                     // Afficher message de chargement
@@ -9726,74 +9751,20 @@
                         formMessage.style.display = 'block';
                     }
 
-                    // Envoi automatique direct via Web3Forms (depuis le frontend)
-                    // Clé Web3Forms configurée automatiquement
-                    const WEB3FORMS_KEY = '4650301f-d665-4ddc-b4d3-9bbefff2e801';
+                    // Laisser le formulaire se soumettre normalement (HTML direct vers Web3Forms)
+                    // Le formulaire va rediriger vers Web3Forms qui affichera une page de confirmation
+                    // On intercepte la réponse pour afficher notre propre message
                     
-                    // Si la clé n'est pas configurée, utiliser mailto
-                    if (!WEB3FORMS_KEY || WEB3FORMS_KEY === 'YOUR_WEB3FORMS_KEY') {
-                        // Fallback automatique vers mailto
-                        const emailSubject = encodeURIComponent(`Demande de contact - ${getServiceTypeLabel(serviceType)}`);
-                        const emailBody = encodeURIComponent(
-                            `Bonjour DJ SHEK,\n\n` +
-                            `Je vous contacte concernant : ${getServiceTypeLabel(serviceType)}\n\n` +
-                            `Nom : ${firstName} ${lastName}\n` +
-                            `Email : ${email}\n\n` +
-                            `Message :\n${message}\n\n` +
-                            `Cordialement,\n${firstName} ${lastName}`
-                        );
-                        const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${emailSubject}&body=${emailBody}`;
-                        window.location.href = mailtoLink;
-                        
-                        if (formMessage) {
-                            formMessage.className = 'form-message';
-                            formMessage.textContent = '✅ Votre client de messagerie va s\'ouvrir avec le message pré-rempli.';
-                            formMessage.style.display = 'block';
-                        }
-                        
-                        setTimeout(() => {
-                            contactForm.reset();
-                            if (formMessage) {
-                                formMessage.style.display = 'none';
-                            }
-                        }, 3000);
-                        return;
-                    }
-
-                    // Envoyer directement via Web3Forms API
-                    const formData = {
-                        access_key: WEB3FORMS_KEY,
-                        subject: `Nouveau message depuis djshekofficiel.com - ${getServiceTypeLabel(serviceType)}`,
-                        from_name: `${firstName} ${lastName}`,
-                        email: email,
-                        to_email: 'djshekofficiel@gmail.com',
-                        message: `Bonjour DJ SHEK,
-
-Vous avez reçu un nouveau message depuis votre site web djshekofficiel.com.
-
----
-INFORMATIONS DU CLIENT
----
-Nom : ${firstName} ${lastName}
-Email : ${email}
-Type de service : ${getServiceTypeLabel(serviceType)}
-
----
-MESSAGE
----
-${message}
-
----
-Ce message a été envoyé depuis le formulaire de contact de djshekofficiel.com`
-                    };
-
+                    // Intercepter la soumission pour gérer la réponse
+                    e.preventDefault();
+                    
+                    // Créer un FormData pour l'envoi
+                    const formData = new FormData(contactForm);
+                    formData.append('name', `${firstName} ${lastName}`);
+                    
                     fetch('https://api.web3forms.com/submit', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify(formData)
+                        body: formData
                     })
                     .then(response => response.json())
                     .then(data => {
@@ -9840,14 +9811,6 @@ Ce message a été envoyé depuis le formulaire de contact de djshekofficiel.com
                             formMessage.style.display = 'block';
                         }
                     });
-
-                    // Reset form after 3 seconds
-                    setTimeout(() => {
-                        contactForm.reset();
-                        if (formMessage) {
-                            formMessage.style.display = 'none';
-                        }
-                    }, 5000);
 
                     // Scroll to message
                     if (formMessage) {
