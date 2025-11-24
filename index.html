@@ -5566,6 +5566,25 @@
             z-index: 1;
         }
         
+        /* Debug : Vérifier que les conteneurs sont visibles */
+        .audio-player-side-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(211, 47, 47, 0.4) 0%,
+                rgba(255, 87, 34, 0.3) 50%,
+                rgba(211, 47, 47, 0.4) 100%
+            );
+            z-index: 2;
+            pointer-events: none;
+            mix-blend-mode: multiply;
+        }
+        
         .audio-player-side-image::before {
             content: '';
             position: absolute;
@@ -7697,7 +7716,7 @@
 
                 <!-- Image gauche avec filtre couleur site -->
                 <div class="audio-player-side-image audio-player-side-left">
-                    <img src="images/Gemini_Generated_Image_gw48elgw48elgw48 (1).png" alt="DJ SHEK">
+                    <img src="images/Gemini_Generated_Image_gw48elgw48elgw48%20(1).png" alt="DJ SHEK" onerror="this.src='images/Gemini_Generated_Image_gw48elgw48elgw48 (1).png'; console.log('Image error, trying alternative path');">
                 </div>
 
                 <!-- Contenu principal du lecteur -->
@@ -7779,7 +7798,7 @@
 
                 <!-- Image droite avec filtre couleur site -->
                 <div class="audio-player-side-image audio-player-side-right">
-                    <img src="images/Gemini_Generated_Image_gw48elgw48elgw48 (1).png" alt="DJ SHEK">
+                    <img src="images/Gemini_Generated_Image_gw48elgw48elgw48%20(1).png" alt="DJ SHEK" onerror="this.src='images/Gemini_Generated_Image_gw48elgw48elgw48 (1).png'; console.log('Image error, trying alternative path');">
                 </div>
 
             </div>
