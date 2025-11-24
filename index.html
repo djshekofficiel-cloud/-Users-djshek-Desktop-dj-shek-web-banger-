@@ -57,6 +57,9 @@
     <title>DJ SHEK - djshekofficiel.com | the fucking building</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- EmailJS pour l'envoi d'emails -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <style>
 
@@ -8253,6 +8256,12 @@
 
             }
 
+            // Initialiser EmailJS si disponible
+            if (typeof emailjs !== 'undefined') {
+                // EmailJS sera initialisé automatiquement avec la Public Key
+                log('EmailJS chargé et prêt');
+            }
+
         });
 
 
@@ -9716,26 +9725,90 @@
                         return;
                     }
 
-                    // Prepare email content
-                    const emailSubject = encodeURIComponent(`Demande de contact - ${getServiceTypeLabel(serviceType)}`);
-                    const emailBody = encodeURIComponent(
-                        `Bonjour DJ SHEK,\n\n` +
-                        `Je vous contacte concernant : ${getServiceTypeLabel(serviceType)}\n\n` +
-                        `Nom : ${firstName} ${lastName}\n` +
-                        `Email : ${email}\n\n` +
-                        `Message :\n${message}\n\n` +
-                        `Cordialement,\n${firstName} ${lastName}`
-                    );
-
-                    // Open email client
-                    const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${emailSubject}&body=${emailBody}`;
-                    window.location.href = mailtoLink;
-
-                    // Show success message
+                    // Afficher message de chargement
                     if (formMessage) {
-                        formMessage.className = 'form-message success';
-                        formMessage.textContent = '✅ Votre demande a été préparée ! Votre client de messagerie va s\'ouvrir.';
+                        formMessage.className = 'form-message';
+                        formMessage.textContent = '⏳ Envoi en cours...';
                         formMessage.style.display = 'block';
+                    }
+
+                    // Préparer les données de l'email
+                    const emailData = {
+                        service_id: 'YOUR_SERVICE_ID', // À remplacer avec votre Service ID EmailJS
+                        template_id: 'YOUR_TEMPLATE_ID', // À remplacer avec votre Template ID EmailJS
+                        user_id: 'YOUR_USER_ID', // À remplacer avec votre Public Key EmailJS
+                        template_params: {
+                            from_name: `${firstName} ${lastName}`,
+                            from_email: email,
+                            to_email: 'djshekofficiel@gmail.com',
+                            service_type: getServiceTypeLabel(serviceType),
+                            message: message,
+                            subject: `Demande de contact - ${getServiceTypeLabel(serviceType)}`
+                        }
+                    };
+
+                    // Envoyer l'email via EmailJS
+                    if (typeof emailjs !== 'undefined') {
+                        emailjs.send(emailData.service_id, emailData.template_id, emailData.template_params, emailData.user_id)
+                            .then(function(response) {
+                                // Succès
+                                if (formMessage) {
+                                    formMessage.className = 'form-message success';
+                                    formMessage.textContent = '✅ Votre message a été envoyé avec succès ! Je vous répondrai dans les plus brefs délais.';
+                                    formMessage.style.display = 'block';
+                                }
+                                
+                                // Réinitialiser le formulaire
+                                contactForm.reset();
+                                
+                                // Masquer le message après 5 secondes
+                                setTimeout(() => {
+                                    if (formMessage) {
+                                        formMessage.style.display = 'none';
+                                    }
+                                }, 5000);
+                            }, function(error) {
+                                // Erreur - Fallback vers mailto
+                                console.error('Erreur EmailJS:', error);
+                                
+                                // Fallback : utiliser mailto
+                                const emailSubject = encodeURIComponent(`Demande de contact - ${getServiceTypeLabel(serviceType)}`);
+                                const emailBody = encodeURIComponent(
+                                    `Bonjour DJ SHEK,\n\n` +
+                                    `Je vous contacte concernant : ${getServiceTypeLabel(serviceType)}\n\n` +
+                                    `Nom : ${firstName} ${lastName}\n` +
+                                    `Email : ${email}\n\n` +
+                                    `Message :\n${message}\n\n` +
+                                    `Cordialement,\n${firstName} ${lastName}`
+                                );
+                                const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${emailSubject}&body=${emailBody}`;
+                                window.location.href = mailtoLink;
+                                
+                                if (formMessage) {
+                                    formMessage.className = 'form-message';
+                                    formMessage.textContent = '⚠️ Envoi direct échoué. Votre client de messagerie va s\'ouvrir.';
+                                    formMessage.style.display = 'block';
+                                }
+                            });
+                    } else {
+                        // EmailJS non chargé - Fallback vers mailto
+                        const emailSubject = encodeURIComponent(`Demande de contact - ${getServiceTypeLabel(serviceType)}`);
+                        const emailBody = encodeURIComponent(
+                            `Bonjour DJ SHEK,\n\n` +
+                            `Je vous contacte concernant : ${getServiceTypeLabel(serviceType)}\n\n` +
+                            `Nom : ${firstName} ${lastName}\n` +
+                            `Email : ${email}\n\n` +
+                            `Message :\n${message}\n\n` +
+                            `Cordialement,\n${firstName} ${lastName}`
+                        );
+                        const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${emailSubject}&body=${emailBody}`;
+                        window.location.href = mailtoLink;
+                        
+                        if (formMessage) {
+                            formMessage.className = 'form-message';
+                            formMessage.textContent = '⚠️ Votre client de messagerie va s\'ouvrir.';
+                            formMessage.style.display = 'block';
+                        }
                     }
 
                     // Reset form after 3 seconds
