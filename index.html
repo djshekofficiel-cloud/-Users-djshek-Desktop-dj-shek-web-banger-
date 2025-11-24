@@ -9117,7 +9117,7 @@
 
         function downloadAudioTrack(fileName, trackName) {
 
-            // Check if email is registered
+            // Check if questionnaire is registered
 
             if (!isEmailRegistered()) {
 
@@ -9137,11 +9137,34 @@
 
 
 
-            // Proceed with download
+            // Proceed with download directly
 
             performDownload(fileName, trackName);
 
         }
+        
+        // Function to update all download buttons after questionnaire is completed
+        function updateDownloadButtons() {
+            const downloadButtons = document.querySelectorAll('.audio-playlist-download');
+            downloadButtons.forEach(button => {
+                const fileName = button.getAttribute('data-file');
+                const trackName = button.getAttribute('data-name');
+                if (fileName && trackName) {
+                    // Remplacer l'action pour télécharger directement
+                    button.setAttribute('onclick', `event.stopPropagation(); performDownload('${fileName.replace(/'/g, "\\'")}', '${trackName.replace(/'/g, "\\'")}')`);
+                }
+            });
+        }
+        
+        // Check on page load if questionnaire is already completed
+        document.addEventListener('DOMContentLoaded', function() {
+            // Attendre que la playlist soit créée
+            setTimeout(function() {
+                if (isEmailRegistered()) {
+                    updateDownloadButtons();
+                }
+            }, 1000);
+        });
 
 
 
