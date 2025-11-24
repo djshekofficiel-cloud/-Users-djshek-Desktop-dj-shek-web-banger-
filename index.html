@@ -1543,6 +1543,53 @@
 
             box-sizing: border-box;
 
+            /* Fond d'écran partagé avec audio-multimedia-section */
+            background: #000;
+            background-image: url('images/fond-ecran/lune .jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+        }
+
+        /* Overlay discret pour la section partenaires */
+        .partenaires-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Effets lumineux discrets pour la section partenaires */
+        .partenaires-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(211, 47, 47, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(255, 87, 34, 0.12) 0%, transparent 50%),
+                linear-gradient(135deg, transparent 0%, rgba(211, 47, 47, 0.08) 50%, transparent 100%);
+            z-index: 1;
+            pointer-events: none;
+            animation: subtleGlow 8s ease-in-out infinite;
+        }
+
+        @keyframes subtleGlow {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
         }
 
 
@@ -4960,6 +5007,17 @@
             }
 
             .audio-multimedia-section::before {
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            /* Partenaires section - fond d'écran mobile */
+            .partenaires-section {
+                background-attachment: scroll;
+                background-size: cover;
+                background-position: center center;
+            }
+
+            .partenaires-section::before {
                 background: rgba(0, 0, 0, 0.3);
             }
 
