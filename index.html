@@ -9731,7 +9731,7 @@
                     const WEB3FORMS_KEY = '4650301f-d665-4ddc-b4d3-9bbefff2e801';
                     
                     // Si la clé n'est pas configurée, utiliser mailto
-                    if (WEB3FORMS_KEY === 'YOUR_WEB3FORMS_KEY') {
+                    if (!WEB3FORMS_KEY || WEB3FORMS_KEY === 'YOUR_WEB3FORMS_KEY') {
                         // Fallback automatique vers mailto
                         const emailSubject = encodeURIComponent(`Demande de contact - ${getServiceTypeLabel(serviceType)}`);
                         const emailBody = encodeURIComponent(
