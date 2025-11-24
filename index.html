@@ -7284,13 +7284,13 @@
 
     <div class="email-modal-overlay" id="emailModalOverlay">
 
-        <div class="email-modal">
+        <div class="email-modal" style="max-width: 600px; max-height: 90vh; overflow-y: auto;">
 
             <div class="email-modal-header">
 
-                <h2 class="email-modal-title">📧 Enregistrez votre email</h2>
+                <h2 class="email-modal-title">🎵 Questionnaire Exclusivité</h2>
 
-                <p class="email-modal-subtitle">Pour télécharger les musiques, veuillez enregistrer votre adresse email</p>
+                <p class="email-modal-subtitle">Remplissez ce formulaire pour accéder aux téléchargements exclusifs de mes productions</p>
 
             </div>
 
@@ -7300,7 +7300,57 @@
 
                 <div class="email-modal-input-group">
 
-                    <label class="email-modal-label" for="emailInput">Adresse email</label>
+                    <label class="email-modal-label" for="exclusivityFirstName">Prénom *</label>
+
+                    <input 
+
+                        type="text" 
+
+                        id="exclusivityFirstName" 
+
+                        class="email-modal-input" 
+
+                        placeholder="Votre prénom" 
+
+                        required
+
+                        autocomplete="given-name"
+
+                    >
+
+                    <div class="email-modal-error" id="firstNameError"></div>
+
+                </div>
+
+                
+                <div class="email-modal-input-group">
+
+                    <label class="email-modal-label" for="exclusivityLastName">Nom *</label>
+
+                    <input 
+
+                        type="text" 
+
+                        id="exclusivityLastName" 
+
+                        class="email-modal-input" 
+
+                        placeholder="Votre nom" 
+
+                        required
+
+                        autocomplete="family-name"
+
+                    >
+
+                    <div class="email-modal-error" id="lastNameError"></div>
+
+                </div>
+
+
+                <div class="email-modal-input-group">
+
+                    <label class="email-modal-label" for="emailInput">Adresse email *</label>
 
                     <input 
 
@@ -7318,7 +7368,56 @@
 
                     >
 
-                    <div class="email-modal-error" id="emailError">Veuillez entrer une adresse email valide</div>
+                    <div class="email-modal-error" id="emailError"></div>
+
+                </div>
+
+                
+                <div class="email-modal-input-group">
+
+                    <label class="email-modal-label" for="exclusivityProjectType">Type de projet qui vous intéresse *</label>
+
+                    <select 
+
+                        id="exclusivityProjectType" 
+
+                        class="email-modal-input" 
+
+                        required
+
+                    >
+                        <option value="">Sélectionnez un type</option>
+                        <option value="ghost-remix">Ghost Remix</option>
+                        <option value="production">Production musicale</option>
+                        <option value="mashup">Mashup</option>
+                        <option value="intro">Intro pour événement</option>
+                        <option value="projet-personnalise">Projet audio personnalisé</option>
+                        <option value="devis">Demande de devis</option>
+                        <option value="autre">Autre</option>
+                    </select>
+
+                    <div class="email-modal-error" id="projectTypeError"></div>
+
+                </div>
+
+                
+                <div class="email-modal-input-group">
+
+                    <label class="email-modal-label" for="exclusivityMessage">Message (optionnel)</label>
+
+                    <textarea 
+
+                        id="exclusivityMessage" 
+
+                        class="email-modal-input" 
+
+                        placeholder="Décrivez votre projet ou vos besoins..." 
+
+                        rows="4"
+
+                        style="resize: vertical; min-height: 100px;"
+
+                    ></textarea>
 
                 </div>
 
@@ -7326,7 +7425,7 @@
 
                 <div class="email-modal-buttons">
 
-                    <button type="submit" class="email-modal-btn email-modal-btn-primary">Enregistrer</button>
+                    <button type="submit" class="email-modal-btn email-modal-btn-primary">Valider et accéder aux téléchargements</button>
 
                     <button type="button" class="email-modal-btn email-modal-btn-secondary" onclick="closeEmailModal()">Annuler</button>
 
@@ -7443,6 +7542,13 @@
                 <span class="section-label">// Mes Productions</span>
 
                 <h2 class="section-title">djshekofficiel</h2>
+                
+                <p class="exclusivity-notice" style="margin-top: 20px; padding: 15px; background: rgba(211, 47, 47, 0.1); border-left: 3px solid #d32f2f; border-radius: 5px; font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.6;">
+                    <strong>🎵 Accès Exclusif aux Téléchargements</strong><br>
+                    Pour télécharger mes productions exclusives, veuillez remplir le questionnaire ci-dessous. 
+                    Cela me permet de mieux vous connaître et de vous proposer du contenu personnalisé. 
+                    Une fois le formulaire complété, vous aurez accès à tous les téléchargements.
+                </p>
 
                 <p class="audio-multimedia-subtitle">Écoutez toutes mes productions • Tu peux aussi télécharger</p>
 
@@ -8814,9 +8920,10 @@
 
         function isEmailRegistered() {
 
-            const registeredEmail = localStorage.getItem('djshek_user_email');
+            // Vérifier si le questionnaire complet est rempli
+            const questionnaireData = localStorage.getItem('djshek_questionnaire_completed');
 
-            return registeredEmail !== null && registeredEmail !== '';
+            return questionnaireData !== null && questionnaireData !== '';
 
         }
 
@@ -8826,21 +8933,50 @@
 
         function getRegisteredEmail() {
 
-            return localStorage.getItem('djshek_user_email');
+            const data = localStorage.getItem('djshek_questionnaire_completed');
+            if (data) {
+                try {
+                    const parsed = JSON.parse(data);
+                    return parsed.email || '';
+                } catch (e) {
+                    return '';
+                }
+            }
+            return '';
 
+        }
+        
+        // Function to get questionnaire data
+        function getQuestionnaireData() {
+            const data = localStorage.getItem('djshek_questionnaire_completed');
+            if (data) {
+                try {
+                    return JSON.parse(data);
+                } catch (e) {
+                    return null;
+                }
+            }
+            return null;
         }
 
 
 
-        // Function to register email
+        // Function to register questionnaire data
+        function registerQuestionnaire(firstName, lastName, email, projectType, message) {
 
-        function registerEmail(email) {
+            if (validateEmail(email) && firstName && lastName && projectType) {
 
-            if (validateEmail(email)) {
+                const questionnaireData = {
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    projectType: projectType,
+                    message: message || '',
+                    registeredDate: new Date().toISOString()
+                };
 
-                localStorage.setItem('djshek_user_email', email);
-
-                localStorage.setItem('djshek_email_registered_date', new Date().toISOString());
+                localStorage.setItem('djshek_questionnaire_completed', JSON.stringify(questionnaireData));
+                localStorage.setItem('djshek_user_email', email); // Garder pour compatibilité
 
                 return true;
 
@@ -8848,6 +8984,20 @@
 
             return false;
 
+        }
+        
+        // Function to get project type label
+        function getProjectTypeLabel(value) {
+            const labels = {
+                'ghost-remix': 'Ghost Remix',
+                'production': 'Production musicale',
+                'mashup': 'Mashup',
+                'intro': 'Intro pour événement',
+                'projet-personnalise': 'Projet audio personnalisé',
+                'devis': 'Demande de devis',
+                'autre': 'Autre'
+            };
+            return labels[value] || value;
         }
 
 
@@ -8906,12 +9056,18 @@
 
                 }
 
-                const error = document.getElementById('emailError');
-
-                if (error) {
-
-                    error.classList.remove('active');
-
+                // Clear all errors
+                const errorDivs = document.querySelectorAll('.email-modal-error');
+                errorDivs.forEach(div => {
+                    div.textContent = '';
+                    div.classList.remove('active');
+                });
+                
+                // Re-enable submit button
+                const submitBtn = emailForm.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Valider et accéder aux téléchargements';
                 }
 
             }
