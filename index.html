@@ -5466,27 +5466,7 @@
             position: relative;
 
             background: linear-gradient(180deg, rgba(0, 0, 0, 0.95), rgba(20, 0, 0, 0.98));
-            
-            /* Image de fond */
-            background-image: url('images/Gemini_Generated_Image_gw48elgw48elgw48 (1).png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
 
-        }
-        
-        /* Overlay sombre pour la lisibilité */
-        .audio-multimedia-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 0;
-            pointer-events: none;
         }
         
         /* S'assurer que le contenu est au-dessus de l'overlay */
@@ -7616,7 +7596,15 @@
 
 
 
-            <div class="audio-player-wrapper">
+            <div class="audio-player-wrapper" style="position: relative; display: flex; align-items: stretch; gap: clamp(15px, 3vw, 30px);">
+
+                <!-- Image gauche avec filtre couleur site -->
+                <div class="audio-player-side-image audio-player-side-left">
+                    <img src="images/Gemini_Generated_Image_gw48elgw48elgw48 (1).png" alt="DJ SHEK">
+                </div>
+
+                <!-- Contenu principal du lecteur -->
+                <div style="flex: 1; min-width: 0;">
 
                 <!-- Audio Player Controls -->
 
