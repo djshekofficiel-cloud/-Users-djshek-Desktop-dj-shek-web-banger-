@@ -1286,100 +1286,232 @@
 
         }
 
-        /* Effets d'éclairs qui traversent l'écran */
+        /* Effets d'éclairs de tonnerre réalistes */
         .lightning {
             position: absolute;
-            width: 3px;
+            width: 4px;
+            height: 100%;
+            z-index: 5;
+            pointer-events: none;
+            opacity: 0;
+            filter: blur(1px);
+        }
+
+        /* Éclair principal avec zigzag */
+        .lightning::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
             background: linear-gradient(
                 to bottom,
                 transparent 0%,
-                rgba(211, 47, 47, 0.8) 20%,
-                rgba(255, 87, 34, 1) 40%,
-                rgba(255, 0, 0, 1) 50%,
-                rgba(255, 87, 34, 1) 60%,
-                rgba(211, 47, 47, 0.8) 80%,
+                rgba(255, 255, 255, 0.9) 5%,
+                rgba(255, 255, 255, 1) 10%,
+                rgba(255, 200, 100, 1) 20%,
+                rgba(255, 255, 255, 1) 30%,
+                rgba(255, 200, 100, 1) 40%,
+                rgba(255, 255, 255, 1) 50%,
+                rgba(255, 200, 100, 1) 60%,
+                rgba(255, 255, 255, 1) 70%,
+                rgba(255, 200, 100, 1) 80%,
+                rgba(255, 255, 255, 1) 90%,
                 transparent 100%
             );
+            clip-path: polygon(
+                0% 0%,
+                20% 10%,
+                0% 20%,
+                30% 30%,
+                10% 40%,
+                40% 50%,
+                0% 60%,
+                30% 70%,
+                10% 80%,
+                20% 90%,
+                0% 100%
+            );
             box-shadow: 
-                0 0 20px rgba(211, 47, 47, 0.9),
-                0 0 40px rgba(255, 87, 34, 0.7),
-                0 0 60px rgba(255, 0, 0, 0.5),
-                0 0 80px rgba(255, 87, 34, 0.3);
-            z-index: 5;
-            pointer-events: none;
+                0 0 30px rgba(255, 255, 255, 1),
+                0 0 60px rgba(255, 200, 100, 0.8),
+                0 0 90px rgba(255, 255, 255, 0.6),
+                0 0 120px rgba(255, 200, 100, 0.4);
+        }
+
+        /* Branches secondaires */
+        .lightning::after {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: -15px;
+            width: 2px;
+            height: 30%;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(255, 255, 255, 0.8) 30%,
+                rgba(255, 200, 100, 0.9) 50%,
+                transparent 100%
+            );
+            clip-path: polygon(
+                0% 0%,
+                50% 20%,
+                0% 40%,
+                100% 60%,
+                0% 80%,
+                50% 100%
+            );
+            box-shadow: 
+                0 0 20px rgba(255, 255, 255, 0.8),
+                0 0 40px rgba(255, 200, 100, 0.6);
             opacity: 0;
         }
 
         .lightning-1 {
-            left: 15%;
-            animation: lightningStrike1 4s ease-in-out infinite;
+            left: 20%;
+            animation: thunderStrike1 5s ease-in-out infinite;
             animation-delay: 0s;
         }
 
         .lightning-2 {
             left: 50%;
-            animation: lightningStrike2 5s ease-in-out infinite;
-            animation-delay: 1.5s;
+            animation: thunderStrike2 6s ease-in-out infinite;
+            animation-delay: 2s;
         }
 
         .lightning-3 {
-            left: 85%;
-            animation: lightningStrike3 6s ease-in-out infinite;
-            animation-delay: 3s;
+            left: 80%;
+            animation: thunderStrike3 7s ease-in-out infinite;
+            animation-delay: 4s;
         }
 
-        @keyframes lightningStrike1 {
-            0%, 100% {
-                opacity: 0;
-                transform: translateY(-100%);
-            }
-            5% {
-                opacity: 1;
-                transform: translateY(0%);
-            }
-            10% {
-                opacity: 0.8;
-            }
-            15% {
-                opacity: 0;
-                transform: translateY(100%);
-            }
+        /* Flash d'éclair global */
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0);
+            z-index: 4;
+            pointer-events: none;
+            animation: lightningFlash 5s ease-in-out infinite;
         }
 
-        @keyframes lightningStrike2 {
+        @keyframes thunderStrike1 {
             0%, 100% {
                 opacity: 0;
-                transform: translateY(-100%);
+                transform: translateY(-100%) translateX(0);
             }
-            4% {
+            1% {
                 opacity: 1;
-                transform: translateY(0%);
+                transform: translateY(0%) translateX(-5px);
             }
-            8% {
+            1.5% {
                 opacity: 0.9;
+                transform: translateY(5%) translateX(5px);
             }
-            12% {
-                opacity: 0;
-                transform: translateY(100%);
+            2% {
+                opacity: 1;
+                transform: translateY(10%) translateX(-3px);
             }
-        }
-
-        @keyframes lightningStrike3 {
-            0%, 100% {
-                opacity: 0;
-                transform: translateY(-100%);
+            2.5% {
+                opacity: 0.8;
+                transform: translateY(15%) translateX(3px);
             }
             3% {
                 opacity: 1;
-                transform: translateY(0%);
+                transform: translateY(20%) translateX(-2px);
             }
-            7% {
-                opacity: 0.7;
-            }
-            11% {
+            3.5% {
                 opacity: 0;
-                transform: translateY(100%);
+                transform: translateY(25%) translateX(0);
+            }
+        }
+
+        @keyframes thunderStrike2 {
+            0%, 100% {
+                opacity: 0;
+                transform: translateY(-100%) translateX(0);
+            }
+            0.8% {
+                opacity: 1;
+                transform: translateY(0%) translateX(4px);
+            }
+            1.3% {
+                opacity: 0.9;
+                transform: translateY(5%) translateX(-4px);
+            }
+            1.8% {
+                opacity: 1;
+                transform: translateY(10%) translateX(3px);
+            }
+            2.3% {
+                opacity: 0.8;
+                transform: translateY(15%) translateX(-3px);
+            }
+            2.8% {
+                opacity: 1;
+                transform: translateY(20%) translateX(2px);
+            }
+            3.3% {
+                opacity: 0;
+                transform: translateY(25%) translateX(0);
+            }
+        }
+
+        @keyframes thunderStrike3 {
+            0%, 100% {
+                opacity: 0;
+                transform: translateY(-100%) translateX(0);
+            }
+            0.7% {
+                opacity: 1;
+                transform: translateY(0%) translateX(-6px);
+            }
+            1.2% {
+                opacity: 0.9;
+                transform: translateY(5%) translateX(6px);
+            }
+            1.7% {
+                opacity: 1;
+                transform: translateY(10%) translateX(-4px);
+            }
+            2.2% {
+                opacity: 0.8;
+                transform: translateY(15%) translateX(4px);
+            }
+            2.7% {
+                opacity: 1;
+                transform: translateY(20%) translateX(-2px);
+            }
+            3.2% {
+                opacity: 0;
+                transform: translateY(25%) translateX(0);
+            }
+        }
+
+        @keyframes lightningFlash {
+            0%, 100% {
+                background: rgba(255, 255, 255, 0);
+            }
+            1% {
+                background: rgba(255, 255, 255, 0.3);
+            }
+            1.5% {
+                background: rgba(255, 255, 255, 0.1);
+            }
+            2% {
+                background: rgba(255, 255, 255, 0);
+            }
+            2.5% {
+                background: rgba(255, 255, 255, 0.2);
+            }
+            3% {
+                background: rgba(255, 255, 255, 0);
             }
         }
 
@@ -4830,10 +4962,17 @@
 
             /* Éclairs optimisés pour mobile */
             .lightning {
-                width: 1.5px;
+                width: 2px;
+            }
+            
+            .lightning::before {
                 box-shadow: 
-                    0 0 10px rgba(211, 47, 47, 0.7),
-                    0 0 20px rgba(255, 87, 34, 0.5);
+                    0 0 15px rgba(255, 255, 255, 0.8),
+                    0 0 30px rgba(255, 200, 100, 0.6);
+            }
+            
+            .lightning::after {
+                display: none;
             }
 
             html {
