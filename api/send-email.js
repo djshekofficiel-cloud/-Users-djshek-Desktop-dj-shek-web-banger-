@@ -1,7 +1,7 @@
 // Vercel Serverless Function pour envoyer des emails
 // Nécessite une clé API d'un service d'email (Resend, SendGrid, etc.)
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // Vérifier que c'est une requête POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
