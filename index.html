@@ -8735,7 +8735,7 @@
 
                     <div class="audio-playlist-duration">--:--</div>
 
-                    <button class="audio-playlist-download" onclick="event.stopPropagation(); downloadAudioTrack('${safeFileName}', '${safeTrackName}')">⬇ Télécharger</button>
+                    <button class="audio-playlist-download" onclick="event.stopPropagation(); downloadAudioTrack('${safeFileName}', '${safeTrackName}')" data-file="${safeFileName}" data-name="${safeTrackName}">⬇ Télécharger</button>
 
                 `;
 
@@ -9312,6 +9312,9 @@ Envoyé depuis : djshekofficiel.com`);
                             if (registerQuestionnaire(firstName, lastName, email, projectType, message)) {
                                 // Close modal
                                 closeEmailModal();
+                                
+                                // Mettre à jour tous les boutons de téléchargement pour qu'ils téléchargent directement
+                                updateDownloadButtons();
 
                                 // Check if there's a pending download
                                 const pendingFile = sessionStorage.getItem('pending_download_file');
@@ -9335,6 +9338,10 @@ Envoyé depuis : djshekofficiel.com`);
                         // Enregistrer quand même localement pour permettre le téléchargement
                         if (registerQuestionnaire(firstName, lastName, email, projectType, message)) {
                             closeEmailModal();
+                            
+                            // Mettre à jour tous les boutons de téléchargement
+                            updateDownloadButtons();
+                            
                             const pendingFile = sessionStorage.getItem('pending_download_file');
                             const pendingName = sessionStorage.getItem('pending_download_name');
                             if (pendingFile && pendingName) {
