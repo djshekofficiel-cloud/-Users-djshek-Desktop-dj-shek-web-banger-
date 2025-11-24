@@ -9181,7 +9181,7 @@
 
 
 
-        // Handle email form submission
+        // Handle questionnaire form submission
 
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -9194,93 +9194,166 @@
                     e.preventDefault();
 
                     
+                    // Clear all errors
+                    const errorDivs = document.querySelectorAll('.email-modal-error');
+                    errorDivs.forEach(div => {
+                        div.textContent = '';
+                        div.classList.remove('active');
+                    });
 
+                    // Get form values
+                    const firstNameInput = document.getElementById('exclusivityFirstName');
+                    const lastNameInput = document.getElementById('exclusivityLastName');
                     const emailInput = document.getElementById('emailInput');
+                    const projectTypeInput = document.getElementById('exclusivityProjectType');
+                    const messageInput = document.getElementById('exclusivityMessage');
 
-                    const errorDiv = document.getElementById('emailError');
+                    if (!firstNameInput || !lastNameInput || !emailInput || !projectTypeInput) {
+                        console.error('Form elements not found');
+                        return;
+                    }
 
+                    const firstName = firstNameInput.value.trim();
+                    const lastName = lastNameInput.value.trim();
                     const email = emailInput.value.trim();
+                    const projectType = projectTypeInput.value;
+                    const message = messageInput.value.trim();
 
-                    
+                    // Validation
+                    let isValid = true;
+
+                    if (!firstName) {
+                        const errorDiv = document.getElementById('firstNameError');
+                        if (errorDiv) {
+                            errorDiv.textContent = 'Veuillez entrer votre prénom';
+                            errorDiv.classList.add('active');
+                        }
+                        isValid = false;
+                    }
+
+                    if (!lastName) {
+                        const errorDiv = document.getElementById('lastNameError');
+                        if (errorDiv) {
+                            errorDiv.textContent = 'Veuillez entrer votre nom';
+                            errorDiv.classList.add('active');
+                        }
+                        isValid = false;
+                    }
 
                     if (!email) {
-
+                        const errorDiv = document.getElementById('emailError');
                         if (errorDiv) {
-
                             errorDiv.textContent = 'Veuillez entrer une adresse email';
-
                             errorDiv.classList.add('active');
-
                         }
-
-                        return;
-
-                    }
-
-                    
-
-                    if (!validateEmail(email)) {
-
+                        isValid = false;
+                    } else if (!validateEmail(email)) {
+                        const errorDiv = document.getElementById('emailError');
                         if (errorDiv) {
-
                             errorDiv.textContent = 'Veuillez entrer une adresse email valide';
-
                             errorDiv.classList.add('active');
-
                         }
-
-                        return;
-
+                        isValid = false;
                     }
 
-                    
-
-                    // Register email
-
-                    if (registerEmail(email)) {
-
-                        // Close modal
-
-                        closeEmailModal();
-
-                        
-
-                        // Check if there's a pending download
-
-                        const pendingFile = sessionStorage.getItem('pending_download_file');
-
-                        const pendingName = sessionStorage.getItem('pending_download_name');
-
-                        
-
-                        if (pendingFile && pendingName) {
-
-                            // Clear pending download
-
-                            sessionStorage.removeItem('pending_download_file');
-
-                            sessionStorage.removeItem('pending_download_name');
-
-                            
-
-                            // Perform the download
-
-                            performDownload(pendingFile, pendingName);
-
-                        }
-
-                    } else {
-
+                    if (!projectType) {
+                        const errorDiv = document.getElementById('projectTypeError');
                         if (errorDiv) {
-
-                            errorDiv.textContent = 'Erreur lors de l\'enregistrement de l\'email';
-
+                            errorDiv.textContent = 'Veuillez sélectionner un type de projet';
                             errorDiv.classList.add('active');
-
                         }
-
+                        isValid = false;
                     }
 
+                    if (!isValid) {
+                        return;
+                    }
+
+                    // Show loading message
+                    const submitBtn = emailForm.querySelector('button[type="submit"]');
+                    const originalText = submitBtn ? submitBtn.textContent : '';
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = '⏳ Envoi en cours...';
+                    }
+
+                    // Envoyer les données via Web3Forms
+                    const formData = new FormData();
+                    formData.append('access_key', '4650301f-d665-4ddc-b4d3-9bbefff2e801');
+                    formData.append('subject', 'Nouveau questionnaire exclusivité - Accès téléchargements');
+                    formData.append('from_name', `${firstName} ${lastName}`);
+                    formData.append('email', email);
+                    formData.append('to_email', 'djshekofficiel@gmail.com');
+                    formData.append('name', `${firstName} ${lastName}`);
+                    formData.append('message', `Bonjour DJ SHEK,
+
+Nouveau questionnaire exclusivité rempli pour accéder aux téléchargements.
+
+---
+INFORMATIONS
+---
+Nom : ${firstName} ${lastName}
+Email : ${email}
+Type de projet : ${getProjectTypeLabel(projectType)}
+${message ? `Message : ${message}` : ''}
+
+---
+Date : ${new Date().toLocaleString('fr-FR')}
+Envoyé depuis : djshekofficiel.com`);
+
+                    fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Register questionnaire data
+                            if (registerQuestionnaire(firstName, lastName, email, projectType, message)) {
+                                // Close modal
+                                closeEmailModal();
+
+                                // Check if there's a pending download
+                                const pendingFile = sessionStorage.getItem('pending_download_file');
+                                const pendingName = sessionStorage.getItem('pending_download_name');
+
+                                if (pendingFile && pendingName) {
+                                    // Clear pending download
+                                    sessionStorage.removeItem('pending_download_file');
+                                    sessionStorage.removeItem('pending_download_name');
+
+                                    // Perform the download
+                                    performDownload(pendingFile, pendingName);
+                                }
+                            }
+                        } else {
+                            throw new Error(data.message || 'Erreur lors de l\'envoi');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur envoi questionnaire:', error);
+                        // Enregistrer quand même localement pour permettre le téléchargement
+                        if (registerQuestionnaire(firstName, lastName, email, projectType, message)) {
+                            closeEmailModal();
+                            const pendingFile = sessionStorage.getItem('pending_download_file');
+                            const pendingName = sessionStorage.getItem('pending_download_name');
+                            if (pendingFile && pendingName) {
+                                sessionStorage.removeItem('pending_download_file');
+                                sessionStorage.removeItem('pending_download_name');
+                                performDownload(pendingFile, pendingName);
+                            }
+                        } else {
+                            const errorDiv = document.getElementById('emailError');
+                            if (errorDiv) {
+                                errorDiv.textContent = 'Erreur lors de l\'envoi. Veuillez réessayer.';
+                                errorDiv.classList.add('active');
+                            }
+                            if (submitBtn) {
+                                submitBtn.disabled = false;
+                                submitBtn.textContent = originalText;
+                            }
+                        }
+                    });
                 });
 
             }
