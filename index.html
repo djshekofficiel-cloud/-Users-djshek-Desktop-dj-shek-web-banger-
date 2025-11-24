@@ -14,6 +14,9 @@
 
     <meta name="author" content="DJ SHEK">
 
+    <!-- Désactiver la toolbar Vercel -->
+    <meta name="vercel-toolbar" content="false">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://djshekofficiel.com/">
@@ -7984,6 +7987,36 @@
 
 
     <script>
+
+        // Désactiver la toolbar Vercel
+        (function() {
+            // Masquer la toolbar Vercel si elle existe
+            const hideVercelToolbar = function() {
+                const toolbar = document.querySelector('[data-vercel-toolbar]') || 
+                               document.querySelector('#vercel-toolbar') ||
+                               document.querySelector('.vercel-toolbar') ||
+                               document.querySelector('[class*="vercel"]');
+                if (toolbar) {
+                    toolbar.style.display = 'none';
+                    toolbar.remove();
+                }
+            };
+            
+            // Essayer immédiatement
+            hideVercelToolbar();
+            
+            // Essayer après le chargement
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', hideVercelToolbar);
+            }
+            
+            // Observer pour les éléments ajoutés dynamiquement
+            const observer = new MutationObserver(hideVercelToolbar);
+            observer.observe(document.body, { childList: true, subtree: true });
+            
+            // Essayer périodiquement
+            setInterval(hideVercelToolbar, 1000);
+        })();
 
         // Custom Cursor - Désactivé (curseur normal restauré)
         // Le curseur personnalisé a été désactivé pour utiliser le curseur système par défaut

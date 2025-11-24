@@ -3,6 +3,13 @@
   "buildCommand": null,
   "outputDirectory": ".",
   "framework": null,
+  "devCommand": null,
+  "installCommand": null,
+  "git": {
+    "deploymentEnabled": {
+      "main": true
+    }
+  },
   "rewrites": [
     {
       "source": "/(.*)",
