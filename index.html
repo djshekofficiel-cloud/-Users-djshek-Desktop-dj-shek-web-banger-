@@ -9726,28 +9726,76 @@
                         formMessage.style.display = 'block';
                     }
 
-                    // Envoi automatique via API Vercel (Web3Forms)
-                    // L'API Vercel gère l'envoi directement à djshekofficiel@gmail.com
+                    // Envoi automatique direct via Web3Forms (depuis le frontend)
+                    // Remplacez 'YOUR_WEB3FORMS_KEY' par votre clé obtenue sur https://web3forms.com
+                    const WEB3FORMS_KEY = 'YOUR_WEB3FORMS_KEY';
                     
-                    fetch('/api/contact', {
+                    // Si la clé n'est pas configurée, utiliser mailto
+                    if (WEB3FORMS_KEY === 'YOUR_WEB3FORMS_KEY') {
+                        // Fallback automatique vers mailto
+                        const emailSubject = encodeURIComponent(`Demande de contact - ${getServiceTypeLabel(serviceType)}`);
+                        const emailBody = encodeURIComponent(
+                            `Bonjour DJ SHEK,\n\n` +
+                            `Je vous contacte concernant : ${getServiceTypeLabel(serviceType)}\n\n` +
+                            `Nom : ${firstName} ${lastName}\n` +
+                            `Email : ${email}\n\n` +
+                            `Message :\n${message}\n\n` +
+                            `Cordialement,\n${firstName} ${lastName}`
+                        );
+                        const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${emailSubject}&body=${emailBody}`;
+                        window.location.href = mailtoLink;
+                        
+                        if (formMessage) {
+                            formMessage.className = 'form-message';
+                            formMessage.textContent = '✅ Votre client de messagerie va s\'ouvrir avec le message pré-rempli.';
+                            formMessage.style.display = 'block';
+                        }
+                        
+                        setTimeout(() => {
+                            contactForm.reset();
+                            if (formMessage) {
+                                formMessage.style.display = 'none';
+                            }
+                        }, 3000);
+                        return;
+                    }
+
+                    // Envoyer directement via Web3Forms API
+                    const formData = {
+                        access_key: WEB3FORMS_KEY,
+                        subject: `Nouveau message depuis djshekofficiel.com - ${getServiceTypeLabel(serviceType)}`,
+                        from_name: `${firstName} ${lastName}`,
+                        email: email,
+                        to_email: 'djshekofficiel@gmail.com',
+                        message: `Bonjour DJ SHEK,
+
+Vous avez reçu un nouveau message depuis votre site web djshekofficiel.com.
+
+---
+INFORMATIONS DU CLIENT
+---
+Nom : ${firstName} ${lastName}
+Email : ${email}
+Type de service : ${getServiceTypeLabel(serviceType)}
+
+---
+MESSAGE
+---
+${message}
+
+---
+Ce message a été envoyé depuis le formulaire de contact de djshekofficiel.com`
+                    };
+
+                    fetch('https://api.web3forms.com/submit', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            'Accept': 'application/json'
                         },
-                        body: JSON.stringify({
-                            firstName: firstName,
-                            lastName: lastName,
-                            email: email,
-                            serviceType: serviceType,
-                            message: message
-                        })
+                        body: JSON.stringify(formData)
                     })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Erreur réseau');
-                        }
-                        return response.json();
-                    })
+                    .then(response => response.json())
                     .then(data => {
                         if (data.success) {
                             // Succès - Email envoyé directement
@@ -9767,54 +9815,29 @@
                                 }
                             }, 5000);
                         } else {
-                            throw new Error(data.error || 'Erreur lors de l\'envoi');
+                            throw new Error(data.message || 'Erreur lors de l\'envoi');
                         }
                     })
                     .catch(error => {
-                        // Erreur - Vérifier si c'est une erreur de configuration
+                        // Erreur - Fallback vers mailto
                         console.error('Erreur envoi email:', error);
                         
-                        // Si c'est une erreur de configuration, afficher un message clair
-                        if (error.message && error.message.includes('Configuration manquante')) {
-                            if (formMessage) {
-                                formMessage.className = 'form-message error';
-                                formMessage.innerHTML = '⚠️ Configuration manquante : La clé Web3Forms n\'est pas configurée dans Vercel.<br><br>📋 <a href="https://web3forms.com" target="_blank" style="color: #ff5722; text-decoration: underline;">Obtenez votre clé ici</a> puis configurez-la dans <a href="https://vercel.com/djshekofficiel-9102s-projects/dj-shek-web-banger/settings/environment-variables" target="_blank" style="color: #ff5722; text-decoration: underline;">Vercel</a>.';
-                                formMessage.style.display = 'block';
-                            }
-                            
-                            // Fallback vers mailto après 5 secondes
-                            setTimeout(() => {
-                                const emailSubject = encodeURIComponent(`Demande de contact - ${getServiceTypeLabel(serviceType)}`);
-                                const emailBody = encodeURIComponent(
-                                    `Bonjour DJ SHEK,\n\n` +
-                                    `Je vous contacte concernant : ${getServiceTypeLabel(serviceType)}\n\n` +
-                                    `Nom : ${firstName} ${lastName}\n` +
-                                    `Email : ${email}\n\n` +
-                                    `Message :\n${message}\n\n` +
-                                    `Cordialement,\n${firstName} ${lastName}`
-                                );
-                                const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${emailSubject}&body=${emailBody}`;
-                                window.location.href = mailtoLink;
-                            }, 5000);
-                        } else {
-                            // Autre erreur - Fallback immédiat vers mailto
-                            const emailSubject = encodeURIComponent(`Demande de contact - ${getServiceTypeLabel(serviceType)}`);
-                            const emailBody = encodeURIComponent(
-                                `Bonjour DJ SHEK,\n\n` +
-                                `Je vous contacte concernant : ${getServiceTypeLabel(serviceType)}\n\n` +
-                                `Nom : ${firstName} ${lastName}\n` +
-                                `Email : ${email}\n\n` +
-                                `Message :\n${message}\n\n` +
-                                `Cordialement,\n${firstName} ${lastName}`
-                            );
-                            const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${emailSubject}&body=${emailBody}`;
-                            window.location.href = mailtoLink;
-                            
-                            if (formMessage) {
-                                formMessage.className = 'form-message';
-                                formMessage.textContent = '⚠️ Envoi direct échoué. Votre client de messagerie va s\'ouvrir.';
-                                formMessage.style.display = 'block';
-                            }
+                        const emailSubject = encodeURIComponent(`Demande de contact - ${getServiceTypeLabel(serviceType)}`);
+                        const emailBody = encodeURIComponent(
+                            `Bonjour DJ SHEK,\n\n` +
+                            `Je vous contacte concernant : ${getServiceTypeLabel(serviceType)}\n\n` +
+                            `Nom : ${firstName} ${lastName}\n` +
+                            `Email : ${email}\n\n` +
+                            `Message :\n${message}\n\n` +
+                            `Cordialement,\n${firstName} ${lastName}`
+                        );
+                        const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${emailSubject}&body=${emailBody}`;
+                        window.location.href = mailtoLink;
+                        
+                        if (formMessage) {
+                            formMessage.className = 'form-message';
+                            formMessage.textContent = '⚠️ Envoi direct échoué. Votre client de messagerie va s\'ouvrir.';
+                            formMessage.style.display = 'block';
                         }
                     });
 
