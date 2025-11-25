@@ -12151,8 +12151,12 @@
     <!-- DJ SHEK Neon Player Script -->
     <script src="dj-shek-player.js"></script>
     <script>
-        // Initialize Neon Player when page loads
-        document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Neon Player - Multiple initialization strategies
+        (function() {
+            console.log('🚀 Initialisation du player néon...');
+            
+            // Get existing playlist from the audio player
+            const existingTracks = [
             // Get existing playlist from the audio player
             const existingTracks = [
                 { name: 'DJ SHEK - ( INTRO ) REMIX   FLYING BLUE la fouine f', file: 'DJ SHEK - ( INTRO ) REMIX   FLYING BLUE la fouine f .mp3' },
@@ -12218,32 +12222,70 @@
                 }
             }
             
-            // Try to initialize immediately
-            if (!initNeonPlayer()) {
-                // Retry with delay if first attempt failed
-                let retryCount = 0;
-                const maxRetries = 10;
-                const retryInterval = setInterval(() => {
-                    retryCount++;
-                    if (initNeonPlayer() || retryCount >= maxRetries) {
-                        clearInterval(retryInterval);
-                        if (retryCount >= maxRetries) {
-                            console.error('❌ Échec de l\'initialisation après', maxRetries, 'tentatives');
-                        }
+            // Force initialization with multiple strategies
+            function forceInit() {
+                const container = document.getElementById('neonPlayerContainer');
+                if (!container) {
+                    console.warn('⚠️ Container pas encore disponible, retry...');
+                    return false;
+                }
+                
+                if (typeof DJShekNeonPlayer === 'undefined') {
+                    console.warn('⚠️ Classe DJShekNeonPlayer pas encore chargée, retry...');
+                    return false;
+                }
+                
+                try {
+                    if (window.neonPlayer) {
+                        console.log('✅ Player déjà initialisé');
+                        return true;
                     }
-                }, 100);
+                    
+                    window.neonPlayer = new DJShekNeonPlayer('neonPlayerContainer', playlist);
+                    console.log('✅✅✅ NEON PLAYER INITIALISÉ AVEC SUCCÈS ! ✅✅✅');
+                    console.log('📊 Playlist:', playlist.length, 'pistes chargées');
+                    console.log('🎵 Player prêt à jouer - Cliquez sur Play !');
+                    return true;
+                } catch (error) {
+                    console.error('❌ Erreur lors de l\'initialisation:', error);
+                    console.error('Stack:', error.stack);
+                    return false;
+                }
             }
             
-            // Also try after window load (fallback)
-            window.addEventListener('load', function() {
-                if (!window.neonPlayer) {
-                    console.log('🔄 Tentative d\'initialisation après chargement complet de la page...');
-                    initNeonPlayer();
-                } else {
-                    console.log('✅ Player déjà initialisé');
-                }
-            });
-        });
+            // Strategy 1: Try immediately
+            if (forceInit()) {
+                console.log('✅ Initialisation réussie immédiatement');
+            } else {
+                // Strategy 2: Try on DOMContentLoaded
+                document.addEventListener('DOMContentLoaded', function() {
+                    console.log('🔄 Tentative après DOMContentLoaded...');
+                    if (!forceInit()) {
+                        // Strategy 3: Retry with interval
+                        let retryCount = 0;
+                        const maxRetries = 20;
+                        const retryInterval = setInterval(() => {
+                            retryCount++;
+                            if (forceInit() || retryCount >= maxRetries) {
+                                clearInterval(retryInterval);
+                                if (retryCount >= maxRetries && !window.neonPlayer) {
+                                    console.error('❌ Échec après', maxRetries, 'tentatives');
+                                    console.error('Vérifiez que dj-shek-player.js est bien chargé');
+                                }
+                            }
+                        }, 200);
+                    }
+                });
+                
+                // Strategy 4: Try on window load
+                window.addEventListener('load', function() {
+                    console.log('🔄 Tentative après window.load...');
+                    if (!window.neonPlayer) {
+                        forceInit();
+                    }
+                });
+            }
+        })();
     </script>
 
 </body>

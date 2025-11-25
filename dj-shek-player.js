@@ -17,13 +17,23 @@ class DJShekNeonPlayer {
     
     init() {
         if (!this.container) {
-            console.error('Container not found');
+            console.error('❌ Container not found for player initialization');
             return;
         }
         
-        this.createPlayerHTML();
-        this.attachEventListeners();
-        this.loadPlaylist();
+        console.log('🎵 Initialisation du player néon...');
+        console.log('📦 Container trouvé:', this.container);
+        console.log('📋 Playlist:', this.playlist.length, 'pistes');
+        
+        try {
+            this.createPlayerHTML();
+            this.attachEventListeners();
+            this.loadPlaylist();
+            console.log('✅ Player néon initialisé avec succès !');
+        } catch (error) {
+            console.error('❌ Erreur lors de l\'initialisation:', error);
+            throw error;
+        }
     }
     
     createPlayerHTML() {
