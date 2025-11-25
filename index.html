@@ -12194,33 +12194,7 @@
                 file: track.file
             }));
 
-            // Initialize neon player
-            function initNeonPlayer() {
-                const container = document.getElementById('neonPlayerContainer');
-                if (!container) {
-                    console.error('❌ Container neonPlayerContainer not found');
-                    return false;
-                }
-                
-                if (typeof DJShekNeonPlayer !== 'undefined') {
-                    try {
-                        window.neonPlayer = new DJShekNeonPlayer('neonPlayerContainer', playlist);
-                        console.log('✅ Neon Player initialisé avec succès !');
-                        console.log('📊 Playlist:', playlist.length, 'pistes chargées');
-                        console.log('🎵 Player prêt à jouer');
-                        return true;
-                    } catch (error) {
-                        console.error('❌ Erreur lors de l\'initialisation du player:', error);
-                        console.error('Stack:', error.stack);
-                        return false;
-                    }
-                } else {
-                    console.warn('⚠️ DJShekNeonPlayer class not found - Retry dans 100ms...');
-                    return false;
-                }
-            }
-            
-            // Force initialization with multiple strategies
+            // Force initialization function
             function forceInit() {
                 const container = document.getElementById('neonPlayerContainer');
                 if (!container) {
