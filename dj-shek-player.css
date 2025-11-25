@@ -1,0 +1,531 @@
+/* ============================================
+   DJ SHEK NEON HORIZONTAL MUSIC PLAYER
+   Style néon bleu/violet/rose avec glow
+   ============================================ */
+
+.neon-horizontal-player {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    background: linear-gradient(135deg, rgba(10, 10, 30, 0.95), rgba(20, 5, 40, 0.98));
+    border-radius: 25px;
+    position: relative;
+    box-sizing: border-box;
+    
+    /* Neon border glow effect */
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    box-shadow: 
+        0 0 20px rgba(138, 43, 226, 0.5),
+        0 0 40px rgba(75, 0, 130, 0.3),
+        0 0 60px rgba(138, 43, 226, 0.2),
+        inset 0 0 30px rgba(138, 43, 226, 0.1);
+    
+    /* Outer neon glow */
+    position: relative;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.neon-horizontal-player::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        #8a2be2, 
+        #9370db, 
+        #ba55d3, 
+        #ff1493, 
+        #ff69b4, 
+        #ff1493, 
+        #ba55d3, 
+        #9370db, 
+        #8a2be2);
+    border-radius: 25px;
+    z-index: -1;
+    opacity: 0.7;
+    animation: neonPulse 3s ease-in-out infinite;
+    filter: blur(8px);
+}
+
+.neon-horizontal-player::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        #8a2be2, 
+        #9370db, 
+        #ba55d3, 
+        #ff1493);
+    border-radius: 25px;
+    z-index: -2;
+    opacity: 0.4;
+    filter: blur(15px);
+}
+
+@keyframes neonPulse {
+    0%, 100% {
+        opacity: 0.7;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+}
+
+/* Player Container */
+.neon-player-container {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* Logo Section */
+.neon-player-logo {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.3), rgba(255, 20, 147, 0.3));
+    border: 2px solid rgba(138, 43, 226, 0.6);
+    box-shadow: 
+        0 0 20px rgba(138, 43, 226, 0.6),
+        inset 0 0 20px rgba(138, 43, 226, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.neon-player-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 18px;
+}
+
+.neon-player-logo::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #8a2be2, #ff1493, #8a2be2);
+    border-radius: 20px;
+    z-index: -1;
+    opacity: 0.8;
+    filter: blur(5px);
+}
+
+/* Track Info Section */
+.neon-player-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.neon-player-title {
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, #ff1493, #ba55d3, #9370db, #8a2be2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.5px;
+}
+
+.neon-player-artist {
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(138, 43, 226, 0.4);
+}
+
+/* Controls Section */
+.neon-player-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-shrink: 0;
+}
+
+.neon-control-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid rgba(138, 43, 226, 0.6);
+    background: rgba(138, 43, 226, 0.2);
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.neon-control-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(138, 43, 226, 0.5), transparent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.4s ease;
+}
+
+.neon-control-btn:hover {
+    border-color: #ff1493;
+    background: rgba(255, 20, 147, 0.3);
+    box-shadow: 
+        0 0 20px rgba(138, 43, 226, 0.6),
+        0 0 40px rgba(255, 20, 147, 0.4);
+    transform: scale(1.1);
+}
+
+.neon-control-btn:hover::before {
+    width: 100px;
+    height: 100px;
+}
+
+.neon-control-btn:active {
+    transform: scale(0.95);
+}
+
+/* Play/Pause Button - Larger and glowing */
+.neon-play-pause-btn {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8a2be2, #ff1493);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    box-shadow: 
+        0 0 30px rgba(138, 43, 226, 0.8),
+        0 0 60px rgba(255, 20, 147, 0.5),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.neon-play-pause-btn::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, #8a2be2, #ff1493, #8a2be2);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.8;
+    filter: blur(10px);
+    animation: playButtonGlow 2s ease-in-out infinite;
+}
+
+@keyframes playButtonGlow {
+    0%, 100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+.neon-play-pause-btn:hover {
+    transform: scale(1.15);
+    box-shadow: 
+        0 0 40px rgba(138, 43, 226, 1),
+        0 0 80px rgba(255, 20, 147, 0.7),
+        inset 0 0 30px rgba(255, 255, 255, 0.2);
+}
+
+.neon-play-pause-btn.playing {
+    animation: playPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes playPulse {
+    0%, 100% {
+        box-shadow: 
+            0 0 30px rgba(138, 43, 226, 0.8),
+            0 0 60px rgba(255, 20, 147, 0.5);
+    }
+    50% {
+        box-shadow: 
+            0 0 50px rgba(138, 43, 226, 1),
+            0 0 100px rgba(255, 20, 147, 0.8);
+    }
+}
+
+/* Progress Section */
+.neon-player-progress-section {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.neon-progress-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.neon-time-display {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+    min-width: 45px;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+    font-variant-numeric: tabular-nums;
+}
+
+.neon-progress-container {
+    flex: 1;
+    height: 8px;
+    background: rgba(138, 43, 226, 0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.neon-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, 
+        #8a2be2, 
+        #9370db, 
+        #ba55d3, 
+        #ff1493, 
+        #ff69b4);
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.1s linear;
+    position: relative;
+    box-shadow: 
+        0 0 10px rgba(138, 43, 226, 0.8),
+        0 0 20px rgba(255, 20, 147, 0.6);
+}
+
+.neon-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.3), 
+        transparent);
+    animation: progressShine 2s infinite;
+}
+
+@keyframes progressShine {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.neon-progress-handle {
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border: 2px solid #ff1493;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s;
+    box-shadow: 
+        0 0 10px rgba(255, 20, 147, 0.8),
+        0 0 20px rgba(138, 43, 226, 0.6);
+    cursor: grab;
+}
+
+.neon-progress-container:hover .neon-progress-handle {
+    opacity: 1;
+}
+
+.neon-progress-container:active .neon-progress-handle {
+    cursor: grabbing;
+    transform: translateY(-50%) scale(1.2);
+}
+
+.neon-progress-buffer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    width: 0%;
+    pointer-events: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .neon-horizontal-player {
+        padding: 25px;
+    }
+    
+    .neon-player-logo {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .neon-play-pause-btn {
+        width: 55px;
+        height: 55px;
+        font-size: 1.3rem;
+    }
+    
+    .neon-control-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .neon-horizontal-player {
+        padding: 20px;
+        border-radius: 20px;
+    }
+    
+    .neon-player-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .neon-player-logo {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .neon-player-info {
+        text-align: center;
+        width: 100%;
+    }
+    
+    .neon-player-controls {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .neon-progress-wrapper {
+        flex-wrap: wrap;
+    }
+    
+    .neon-time-display {
+        font-size: 0.75rem;
+        min-width: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .neon-horizontal-player {
+        padding: 15px;
+    }
+    
+    .neon-player-logo {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .neon-play-pause-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.1rem;
+    }
+    
+    .neon-control-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+    
+    .neon-player-title {
+        font-size: 0.95rem;
+    }
+    
+    .neon-player-artist {
+        font-size: 0.75rem;
+    }
+}
+
+/* Loading State */
+.neon-player-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.neon-player-loading .neon-progress-bar {
+    animation: loadingPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes loadingPulse {
+    0%, 100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Error State */
+.neon-player-error {
+    border-color: rgba(255, 0, 0, 0.6);
+    box-shadow: 
+        0 0 20px rgba(255, 0, 0, 0.5),
+        0 0 40px rgba(255, 0, 0, 0.3);
+}
+
+.neon-player-error::before {
+    background: linear-gradient(45deg, #ff0000, #ff4444, #ff0000);
+}
+
