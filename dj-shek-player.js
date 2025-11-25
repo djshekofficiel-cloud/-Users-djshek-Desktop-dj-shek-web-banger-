@@ -27,12 +27,17 @@ class DJShekNeonPlayer {
     }
     
     createPlayerHTML() {
+        if (!this.container) {
+            console.error('Container not found for player HTML');
+            return;
+        }
+        
         this.container.innerHTML = `
             <div class="neon-horizontal-player" id="neonPlayer">
                 <div class="neon-player-container">
                     <!-- Logo Section -->
                     <div class="neon-player-logo">
-                        <img src="images/Gemini_Generated_Image_exfw8sexfw8sexfw.png" alt="DJ SHEK Logo" id="neonPlayerLogo">
+                        <img src="images/Gemini_Generated_Image_exfw8sexfw8sexfw.png" alt="DJ SHEK Logo" id="neonPlayerLogo" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'color:#fff;font-size:2rem;\\'>🎵</div>';">
                     </div>
                     
                     <!-- Track Info -->
@@ -68,7 +73,17 @@ class DJShekNeonPlayer {
             </div>
         `;
         
+        // Get audio element
         this.audio = document.getElementById('neonAudioElement');
+        if (!this.audio) {
+            console.error('Audio element not found');
+            return;
+        }
+        
+        // Set initial volume
+        this.audio.volume = this.volume;
+        
+        // Get all UI elements
         this.elements = {
             title: document.getElementById('neonPlayerTitle'),
             artist: document.getElementById('neonPlayerArtist'),
@@ -82,6 +97,17 @@ class DJShekNeonPlayer {
             currentTime: document.getElementById('neonCurrentTime'),
             duration: document.getElementById('neonDuration')
         };
+        
+        // Verify all elements are found
+        const missingElements = Object.entries(this.elements)
+            .filter(([key, value]) => !value)
+            .map(([key]) => key);
+        
+        if (missingElements.length > 0) {
+            console.warn('⚠️ Éléments manquants:', missingElements);
+        } else {
+            console.log('✅ Tous les éléments du player sont chargés');
+        }
     }
     
     attachEventListeners() {
@@ -164,8 +190,16 @@ class DJShekNeonPlayer {
             return;
         }
         
-        // Load first track
+        // Load first track automatically
         this.loadTrack(0);
+        
+        // Update UI to show first track info
+        if (this.playlist.length > 0) {
+            const firstTrack = this.playlist[0];
+            if (this.elements && this.elements.title) {
+                this.elements.title.textContent = firstTrack.title || firstTrack.name || 'Sélectionnez une piste';
+            }
+        }
     }
     
     loadTrack(index) {

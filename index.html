@@ -12228,11 +12228,31 @@
             }));
 
             // Initialize neon player
-            if (typeof DJShekNeonPlayer !== 'undefined') {
-                window.neonPlayer = new DJShekNeonPlayer('neonPlayerContainer', playlist);
-            } else {
-                console.error('DJShekNeonPlayer class not found');
+            function initNeonPlayer() {
+                if (typeof DJShekNeonPlayer !== 'undefined') {
+                    try {
+                        window.neonPlayer = new DJShekNeonPlayer('neonPlayerContainer', playlist);
+                        console.log('✅ Neon Player initialisé avec', playlist.length, 'pistes');
+                    } catch (error) {
+                        console.error('❌ Erreur lors de l\'initialisation du player:', error);
+                    }
+                } else {
+                    console.error('❌ DJShekNeonPlayer class not found - Vérifiez que dj-shek-player.js est chargé');
+                    // Retry after a short delay
+                    setTimeout(initNeonPlayer, 100);
+                }
             }
+            
+            // Try to initialize immediately
+            initNeonPlayer();
+            
+            // Also try after window load (fallback)
+            window.addEventListener('load', function() {
+                if (!window.neonPlayer) {
+                    console.log('🔄 Tentative d\'initialisation après chargement complet...');
+                    initNeonPlayer();
+                }
+            });
         });
     </script>
 
