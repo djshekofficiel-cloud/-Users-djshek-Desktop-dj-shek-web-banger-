@@ -92,3 +92,9 @@ if (currentTrackDisplay) {
 
 Tous les problèmes identifiés ont été corrigés. Le code est maintenant plus robuste et moins susceptible de générer des erreurs JavaScript.
 
+
+
+
+
+
+

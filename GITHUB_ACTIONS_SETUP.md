@@ -79,3 +79,9 @@ Une fois configuré, chaque `git push` sur `main` déclenchera automatiquement u
 
 **Note** : Si vous préférez, vous pouvez simplement connecter Vercel directement à GitHub (plus simple, pas besoin de GitHub Actions).
 
+
+
+
+
+
+

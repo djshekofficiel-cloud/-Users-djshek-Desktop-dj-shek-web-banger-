@@ -92,3 +92,9 @@ echo ""
 echo -e "${GREEN}🎉 Une fois Vercel redéployé, tous les messages iront dans djshekofficiel@gmail.com !${NC}"
 echo ""
 
+
+
+
+
+
+

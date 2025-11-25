@@ -14,23 +14,20 @@ from pathlib import Path
 
 def clean_track_name(filename):
     """Nettoie le nom de fichier pour l'affichage"""
-    # Enlever les extensions
-    name = filename.replace('.mp3', '').replace('.wav', '')
+    # Enlever l'extension
+    name = filename.replace('.mp3', '')
     # Enlever les espaces en fin
     name = name.strip()
     return name
 
 def get_audio_files():
-    """Récupère tous les fichiers audio (MP3 et WAV) du dossier audio"""
+    """Récupère tous les fichiers MP3 du dossier audio"""
     audio_dir = Path('audio')
     if not audio_dir.exists():
         print("❌ Dossier audio non trouvé")
         return []
     
-    # Récupérer MP3 et WAV
-    mp3_files = sorted(audio_dir.glob('*.mp3'))
-    wav_files = sorted(audio_dir.glob('*.wav'))
-    files = sorted(list(mp3_files) + list(wav_files))
+    files = sorted(audio_dir.glob('*.mp3'))
     return files
 
 def normalize_filename(filename):
@@ -61,7 +58,7 @@ def update_index_html():
     # Récupérer les fichiers réellement présents
     files = get_audio_files()
     if not files:
-        print("❌ Aucun fichier audio (MP3/WAV) trouvé")
+        print("❌ Aucun fichier MP3 trouvé")
         return False
     
     # Créer un set des noms de fichiers normalisés pour comparaison rapide

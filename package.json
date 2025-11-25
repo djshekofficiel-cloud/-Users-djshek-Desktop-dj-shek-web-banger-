@@ -1,11 +1,11 @@
 {
-  "name": "dj-shek-web-banger",
+  "name": "dj-shek-website",
   "version": "1.0.0",
-  "description": "Site web officiel de DJ SHEK",
+  "description": "Site officiel de DJ SHEK",
   "scripts": {
-    "deploy": "node vercel-deploy.js",
-    "deploy:vercel": "vercel --prod",
-    "deploy:git": "./deploy.sh"
+    "deploy": "vercel --prod",
+    "dev": "vercel dev",
+    "build": "echo 'No build step required'"
   },
   "keywords": [
     "dj",
@@ -15,4 +15,3 @@
   "author": "DJ SHEK",
   "license": "MIT"
 }
-

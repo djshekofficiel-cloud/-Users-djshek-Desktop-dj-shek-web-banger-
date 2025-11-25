@@ -78,3 +78,9 @@ Votre projet est maintenant prêt à être déployé sur Vercel. Il suffit de :
 
 **Les déploiements futurs seront automatiques** à chaque `git push` sur `main`.
 
+
+
+
+
+
+

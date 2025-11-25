@@ -159,3 +159,9 @@ Une fois configuré :
 
 **Suivez ces étapes et vos emails seront automatiquement envoyés ! 📧**
 
+
+
+
+
+
+

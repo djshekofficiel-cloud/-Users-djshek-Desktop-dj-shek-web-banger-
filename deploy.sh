@@ -89,3 +89,9 @@ echo "3. Vérifiez le statut sur: https://vercel.com/djshekofficiel-9102s-projec
 echo ""
 echo -e "${GREEN}🎉 Terminé!${NC}"
 
+
+
+
+
+
+

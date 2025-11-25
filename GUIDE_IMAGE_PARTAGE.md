@@ -82,3 +82,9 @@ Si vous voulez changer l'image :
 - **Couleurs :** Utilisez des couleurs contrastées
 - **Branding :** Incluez votre nom "DJ SHEK" ou "djshekofficiel"
 
+
+
+
+
+
+
