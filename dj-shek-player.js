@@ -186,9 +186,14 @@ class DJShekNeonPlayer {
     
     loadPlaylist() {
         if (this.playlist.length === 0) {
-            console.warn('Playlist is empty');
+            console.warn('⚠️ Playlist is empty');
+            if (this.elements && this.elements.title) {
+                this.elements.title.textContent = 'Aucune piste disponible';
+            }
             return;
         }
+        
+        console.log('🎵 Chargement de la playlist:', this.playlist.length, 'pistes');
         
         // Load first track automatically
         this.loadTrack(0);
@@ -199,6 +204,7 @@ class DJShekNeonPlayer {
             if (this.elements && this.elements.title) {
                 this.elements.title.textContent = firstTrack.title || firstTrack.name || 'Sélectionnez une piste';
             }
+            console.log('✅ Première piste chargée:', firstTrack.title || firstTrack.name);
         }
     }
     

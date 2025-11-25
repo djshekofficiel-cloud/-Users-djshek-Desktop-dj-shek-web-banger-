@@ -12194,28 +12194,53 @@
 
             // Initialize neon player
             function initNeonPlayer() {
+                const container = document.getElementById('neonPlayerContainer');
+                if (!container) {
+                    console.error('❌ Container neonPlayerContainer not found');
+                    return false;
+                }
+                
                 if (typeof DJShekNeonPlayer !== 'undefined') {
                     try {
                         window.neonPlayer = new DJShekNeonPlayer('neonPlayerContainer', playlist);
-                        console.log('✅ Neon Player initialisé avec', playlist.length, 'pistes');
+                        console.log('✅ Neon Player initialisé avec succès !');
+                        console.log('📊 Playlist:', playlist.length, 'pistes chargées');
+                        console.log('🎵 Player prêt à jouer');
+                        return true;
                     } catch (error) {
                         console.error('❌ Erreur lors de l\'initialisation du player:', error);
+                        console.error('Stack:', error.stack);
+                        return false;
                     }
                 } else {
-                    console.error('❌ DJShekNeonPlayer class not found - Vérifiez que dj-shek-player.js est chargé');
-                    // Retry after a short delay
-                    setTimeout(initNeonPlayer, 100);
+                    console.warn('⚠️ DJShekNeonPlayer class not found - Retry dans 100ms...');
+                    return false;
                 }
             }
             
             // Try to initialize immediately
-            initNeonPlayer();
+            if (!initNeonPlayer()) {
+                // Retry with delay if first attempt failed
+                let retryCount = 0;
+                const maxRetries = 10;
+                const retryInterval = setInterval(() => {
+                    retryCount++;
+                    if (initNeonPlayer() || retryCount >= maxRetries) {
+                        clearInterval(retryInterval);
+                        if (retryCount >= maxRetries) {
+                            console.error('❌ Échec de l\'initialisation après', maxRetries, 'tentatives');
+                        }
+                    }
+                }, 100);
+            }
             
             // Also try after window load (fallback)
             window.addEventListener('load', function() {
                 if (!window.neonPlayer) {
-                    console.log('🔄 Tentative d\'initialisation après chargement complet...');
+                    console.log('🔄 Tentative d\'initialisation après chargement complet de la page...');
                     initNeonPlayer();
+                } else {
+                    console.log('✅ Player déjà initialisé');
                 }
             });
         });
