@@ -13,20 +13,23 @@ from pathlib import Path
 
 def clean_track_name(filename):
     """Nettoie le nom de fichier pour l'affichage"""
-    # Enlever l'extension
-    name = filename.replace('.mp3', '')
+    # Enlever les extensions
+    name = filename.replace('.mp3', '').replace('.wav', '')
     # Enlever les espaces en fin
     name = name.strip()
     return name
 
 def get_audio_files():
-    """Récupère tous les fichiers MP3 du dossier audio"""
+    """Récupère tous les fichiers audio (MP3 et WAV) du dossier audio"""
     audio_dir = Path('audio')
     if not audio_dir.exists():
         print("❌ Dossier audio non trouvé")
         return []
     
-    files = sorted(audio_dir.glob('*.mp3'))
+    # Récupérer MP3 et WAV
+    mp3_files = sorted(audio_dir.glob('*.mp3'))
+    wav_files = sorted(audio_dir.glob('*.wav'))
+    files = sorted(list(mp3_files) + list(wav_files))
     return files
 
 def generate_tracks_array(files):
@@ -51,7 +54,7 @@ def update_index_html():
     
     files = get_audio_files()
     if not files:
-        print("❌ Aucun fichier MP3 trouvé")
+        print("❌ Aucun fichier audio (MP3/WAV) trouvé")
         return False
     
     print(f"✅ {len(files)} pistes trouvées")
@@ -88,7 +91,7 @@ def git_update():
     print("\n📦 Mise à jour Git...")
     
     try:
-        subprocess.run(['git', 'add', 'index.html', 'audio/*.mp3'], check=True, capture_output=True)
+        subprocess.run(['git', 'add', 'index.html', 'audio/*.mp3', 'audio/*.wav'], check=True, capture_output=True)
         subprocess.run(['git', 'commit', '-m', f'🎵 Mise à jour automatique des musiques - {len(get_audio_files())} pistes'], 
                       check=False, capture_output=True)
         print("✅ Changements commités")
@@ -111,4 +114,8 @@ if __name__ == '__main__':
         print(f"🌐 Votre site sera mis à jour sur https://djshekofficiel.com")
     else:
         print("\n❌ Échec de la mise à jour")
+
+
+
+
 

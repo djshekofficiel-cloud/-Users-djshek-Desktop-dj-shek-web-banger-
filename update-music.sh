@@ -35,14 +35,15 @@ TRACK_COUNT=0
 # Fonction pour nettoyer le nom de fichier
 clean_name() {
     local file="$1"
-    # Enlever l'extension .mp3
+    # Enlever les extensions .mp3 et .wav
     file="${file%.mp3}"
+    file="${file%.wav}"
     # Enlever les espaces en fin
     file="${file%"${file##*[![:space:]]}"}"
     echo "$file"
 }
 
-# Parcourir tous les fichiers MP3
+# Parcourir tous les fichiers audio (MP3 et WAV)
 while IFS= read -r -d '' file; do
     TRACK_COUNT=$((TRACK_COUNT + 1))
     filename=$(basename "$file")
@@ -64,7 +65,7 @@ while IFS= read -r -d '' file; do
     else
         echo "                ,{ name: '$display_name', file: '$filename' }" >> "$TEMP_FILE2"
     fi
-done < <(find audio -name "*.mp3" -type f -print0 | sort -z)
+done < <(find audio \( -name "*.mp3" -o -name "*.wav" \) -type f -print0 | sort -z)
 
 echo "            ];" >> "$TEMP_FILE"
 echo "            ];" >> "$TEMP_FILE2"
@@ -123,7 +124,7 @@ echo ""
 # Git : Ajouter, commit et push
 echo -e "${BLUE}📦 Mise à jour Git...${NC}"
 
-git add index.html audio/*.mp3 2>/dev/null || true
+git add index.html audio/*.mp3 audio/*.wav 2>/dev/null || true
 git commit -m "🎵 Mise à jour automatique des musiques - $TRACK_COUNT pistes" 2>/dev/null || {
     echo -e "${YELLOW}⚠️  Aucun changement à commiter${NC}"
 }
@@ -143,4 +144,8 @@ echo "   - Changements poussés vers GitHub"
 echo "   - Vercel déploiera automatiquement dans quelques secondes"
 echo ""
 echo -e "${GREEN}🎉 Vos musiques sont maintenant en ligne !${NC}"
+
+
+
+
 

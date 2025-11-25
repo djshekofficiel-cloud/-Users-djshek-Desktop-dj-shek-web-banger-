@@ -14,40 +14,22 @@
 
     <meta name="author" content="DJ SHEK">
 
-    <!-- Désactiver la toolbar Vercel -->
-    <meta name="vercel-toolbar" content="false">
-
-    <!-- Open Graph / Facebook / Instagram / Snapchat -->
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://djshekofficiel.com/">
     <meta property="og:title" content="DJ SHEK - djshekofficiel.com | the fucking building">
-    <meta property="og:description" content="DJ SHEK - Open-Format & Remix Master. Site officiel. Écoutez toutes mes productions exclusives.">
+    <meta property="og:description" content="DJ SHEK - Open-Format & Remix Master. Site officiel. Écoutez toutes mes productions.">
     <meta property="og:image" content="https://djshekofficiel.com/images/Gemini_Generated_Image_exfw8sexfw8sexfw.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="DJ SHEK - Open-Format & Remix Master">
-    <meta property="og:site_name" content="djshekofficiel.com">
-    <meta property="og:locale" content="fr_FR">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://djshekofficiel.com/">
 
-    <!-- Twitter / X -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://djshekofficiel.com/">
-    <meta name="twitter:title" content="DJ SHEK - djshekofficiel.com">
-    <meta name="twitter:description" content="DJ SHEK - Open-Format & Remix Master. Site officiel. Écoutez toutes mes productions exclusives.">
-    <meta name="twitter:image" content="https://djshekofficiel.com/images/Gemini_Generated_Image_exfw8sexfw8sexfw.png">
-    <meta name="twitter:image:alt" content="DJ SHEK - Open-Format & Remix Master">
-    
-    <!-- Additional meta tags for better social sharing -->
-    <meta name="theme-color" content="#000000">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="DJ SHEK">
-    
-    <!-- LinkedIn -->
-    <meta property="og:image:secure_url" content="https://djshekofficiel.com/images/Gemini_Generated_Image_exfw8sexfw8sexfw.png">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://djshekofficiel.com/">
+    <meta property="twitter:title" content="DJ SHEK - djshekofficiel.com">
+    <meta property="twitter:description" content="DJ SHEK - Open-Format & Remix Master. Site officiel.">
+    <meta property="twitter:image" content="https://djshekofficiel.com/images/Gemini_Generated_Image_exfw8sexfw8sexfw.png">
 
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
@@ -59,7 +41,7 @@
         "url": "https://djshekofficiel.com",
         "sameAs": [
             "https://soundcloud.com/djshekofficiel2025",
-            "https://www.instagram.com/djshekofficiel/"
+            "https://instagram.com/djshek"
         ],
         "email": "djshekofficiel@gmail.com",
         "jobTitle": "DJ - Open-Format & Remix Master",
@@ -224,6 +206,8 @@
             color: #fff;
 
             overflow-x: hidden;
+
+            cursor: none;
 
             -webkit-user-select: text;
 
@@ -395,11 +379,29 @@
 
 
 
-        /* Custom Cursor - Désactivé */
+        /* Custom Cursor */
 
         .cursor {
 
-            display: none;
+            width: 20px;
+
+            height: 20px;
+
+            border: 2px solid #d32f2f;
+
+            border-radius: 50%;
+
+            position: fixed;
+
+            pointer-events: none;
+
+            z-index: 99999;
+
+            transition: all 0.1s ease;
+
+            box-shadow: 0 0 20px #d32f2f;
+
+            mix-blend-mode: difference;
 
         }
 
@@ -407,7 +409,23 @@
 
         .cursor-follower {
 
-            display: none;
+            width: 40px;
+
+            height: 40px;
+
+            border: 1px solid rgba(211, 47, 47, 0.5);
+
+            border-radius: 50%;
+
+            position: fixed;
+
+            pointer-events: none;
+
+            z-index: 99998;
+
+            transition: all 0.3s ease;
+
+            mix-blend-mode: difference;
 
         }
 
@@ -2444,88 +2462,6 @@
             font-size: 0.9rem;
 
             color: #666;
-
-        }
-
-        /* Compteur discret */
-
-        .stats-counter {
-
-            position: fixed;
-
-            bottom: 20px;
-
-            right: 20px;
-
-            background: rgba(0, 0, 0, 0.7);
-
-            border: 1px solid rgba(211, 47, 47, 0.3);
-
-            border-radius: 8px;
-
-            padding: 8px 12px;
-
-            font-size: 0.7rem;
-
-            color: rgba(255, 255, 255, 0.6);
-
-            z-index: 9998;
-
-            backdrop-filter: blur(10px);
-
-            -webkit-backdrop-filter: blur(10px);
-
-            opacity: 0.6;
-
-            transition: opacity 0.3s ease;
-
-            pointer-events: none;
-
-            font-family: 'Montserrat', sans-serif;
-
-        }
-
-        .stats-counter:hover {
-
-            opacity: 1;
-
-        }
-
-        .stats-counter-item {
-
-            display: inline-block;
-
-            margin: 0 8px;
-
-        }
-
-        .stats-counter-number {
-
-            color: #ff5722;
-
-            font-weight: 600;
-
-        }
-
-        @media (max-width: 768px) {
-
-            .stats-counter {
-
-                bottom: 10px;
-
-                right: 10px;
-
-                padding: 6px 10px;
-
-                font-size: 0.65rem;
-
-            }
-
-            .stats-counter-item {
-
-                margin: 0 5px;
-
-            }
 
             letter-spacing: 0.2em;
 
@@ -5548,30 +5484,11 @@
             position: relative;
 
             background: linear-gradient(180deg, rgba(0, 0, 0, 0.95), rgba(20, 0, 0, 0.98));
-            
-            /* Image de fond */
-            background-image: url('images/Gemini_Generated_Image_gw48elgw48elgw48 (1).png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
 
         }
-        
-        /* Overlay sombre pour la lisibilité */
-        .audio-multimedia-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 0;
-            pointer-events: none;
-        }
-        
-        /* S'assurer que le contenu est au-dessus de l'overlay */
+
+
+
         .audio-multimedia-container {
 
             max-width: 1400px;
@@ -5583,10 +5500,6 @@
             padding: 0 clamp(1rem, 4vw, 2rem);
 
             box-sizing: border-box;
-            
-            position: relative;
-            
-            z-index: 1;
 
         }
 
@@ -6385,10 +6298,8 @@
         }
 
         .page-loader.hidden {
-            opacity: 0 !important;
-            pointer-events: none !important;
-            visibility: hidden !important;
-            display: none !important;
+            opacity: 0;
+            pointer-events: none;
         }
 
         .loader-spinner {
@@ -6411,256 +6322,6 @@
 
         @keyframes spin {
             to { transform: rotate(360deg); }
-        }
-
-        /* Flash de tonnerre toutes les 10 secondes */
-        .thunder-flash {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0);
-            z-index: 9999;
-            pointer-events: none;
-            animation: thunderFlash 10s ease-in-out infinite;
-        }
-
-        @keyframes thunderFlash {
-            0%, 100% {
-                background: rgba(255, 255, 255, 0);
-                opacity: 0;
-            }
-            0.1% {
-                background: rgba(255, 255, 255, 0.4);
-                opacity: 1;
-            }
-            0.2% {
-                background: rgba(255, 255, 255, 0.2);
-                opacity: 0.8;
-            }
-            0.3% {
-                background: rgba(255, 255, 255, 0.5);
-                opacity: 1;
-            }
-            0.4% {
-                background: rgba(255, 255, 255, 0.1);
-                opacity: 0.6;
-            }
-            0.5% {
-                background: rgba(255, 255, 255, 0.3);
-                opacity: 0.9;
-            }
-            0.6% {
-                background: rgba(255, 255, 255, 0);
-                opacity: 0;
-            }
-            99.9% {
-                background: rgba(255, 255, 255, 0);
-                opacity: 0;
-            }
-        }
-
-        /* Flash de tonnerre avec couleur rouge/orange (optionnel) */
-        .thunder-flash-color {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 87, 34, 0);
-            z-index: 9998;
-            pointer-events: none;
-            animation: thunderFlashColor 10s ease-in-out infinite;
-            animation-delay: 0.05s;
-        }
-
-        @keyframes thunderFlashColor {
-            0%, 100% {
-                background: rgba(255, 87, 34, 0);
-                opacity: 0;
-            }
-            0.1% {
-                background: rgba(255, 87, 34, 0.15);
-                opacity: 1;
-            }
-            0.2% {
-                background: rgba(211, 47, 47, 0.1);
-                opacity: 0.7;
-            }
-            0.3% {
-                background: rgba(255, 87, 34, 0.2);
-                opacity: 1;
-            }
-            0.4% {
-                background: rgba(255, 87, 34, 0);
-                opacity: 0;
-            }
-            99.9% {
-                background: rgba(255, 87, 34, 0);
-                opacity: 0;
-            }
-        }
-
-        /* Effets d'éclairs horizontaux */
-        .lightning-horizontal {
-            position: absolute;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, 
-                transparent 0%,
-                rgba(255, 255, 255, 0.3) 20%,
-                rgba(255, 87, 34, 0.8) 40%,
-                rgba(255, 255, 255, 1) 50%,
-                rgba(255, 87, 34, 0.8) 60%,
-                rgba(255, 255, 255, 0.3) 80%,
-                transparent 100%
-            );
-            box-shadow: 
-                0 0 10px rgba(255, 87, 34, 0.8),
-                0 0 20px rgba(255, 87, 34, 0.6),
-                0 0 30px rgba(211, 47, 47, 0.4),
-                0 0 40px rgba(255, 87, 34, 0.3);
-            z-index: 5;
-            pointer-events: none;
-            opacity: 0;
-        }
-
-        .lightning-horizontal-1 {
-            top: 20%;
-            animation: lightningHorizontal1 8s ease-in-out infinite;
-        }
-
-        .lightning-horizontal-2 {
-            top: 50%;
-            animation: lightningHorizontal2 12s ease-in-out infinite;
-            animation-delay: 2s;
-        }
-
-        .lightning-horizontal-3 {
-            top: 80%;
-            animation: lightningHorizontal3 10s ease-in-out infinite;
-            animation-delay: 4s;
-        }
-
-        @keyframes lightningHorizontal1 {
-            0%, 100% {
-                opacity: 0;
-                transform: translateX(-100%);
-            }
-            1% {
-                opacity: 1;
-                transform: translateX(-50%);
-            }
-            2% {
-                opacity: 0.8;
-                transform: translateX(0%);
-            }
-            3% {
-                opacity: 1;
-                transform: translateX(50%);
-            }
-            4% {
-                opacity: 0;
-                transform: translateX(100%);
-            }
-        }
-
-        @keyframes lightningHorizontal2 {
-            0%, 100% {
-                opacity: 0;
-                transform: translateX(100%);
-            }
-            0.8% {
-                opacity: 1;
-                transform: translateX(50%);
-            }
-            1.5% {
-                opacity: 0.9;
-                transform: translateX(0%);
-            }
-            2.2% {
-                opacity: 1;
-                transform: translateX(-50%);
-            }
-            3% {
-                opacity: 0;
-                transform: translateX(-100%);
-            }
-        }
-
-        @keyframes lightningHorizontal3 {
-            0%, 100% {
-                opacity: 0;
-                transform: translateX(-100%);
-            }
-            1.2% {
-                opacity: 1;
-                transform: translateX(-30%);
-            }
-            2% {
-                opacity: 0.7;
-                transform: translateX(30%);
-            }
-            2.8% {
-                opacity: 1;
-                transform: translateX(100%);
-            }
-            3.5% {
-                opacity: 0;
-                transform: translateX(150%);
-            }
-        }
-
-        /* Variantes d'éclairs avec branches */
-        .lightning-horizontal::before,
-        .lightning-horizontal::after {
-            content: '';
-            position: absolute;
-            width: 2px;
-            height: 30px;
-            background: linear-gradient(180deg,
-                transparent 0%,
-                rgba(255, 87, 34, 0.6) 50%,
-                transparent 100%
-            );
-            box-shadow: 0 0 5px rgba(255, 87, 34, 0.5);
-        }
-
-        .lightning-horizontal-1::before {
-            top: -15px;
-            left: 30%;
-            transform: rotate(-15deg);
-        }
-
-        .lightning-horizontal-1::after {
-            bottom: -15px;
-            left: 70%;
-            transform: rotate(15deg);
-        }
-
-        .lightning-horizontal-2::before {
-            top: -15px;
-            left: 60%;
-            transform: rotate(20deg);
-        }
-
-        .lightning-horizontal-2::after {
-            bottom: -15px;
-            left: 40%;
-            transform: rotate(-20deg);
-        }
-
-        .lightning-horizontal-3::before {
-            top: -15px;
-            left: 45%;
-            transform: rotate(-10deg);
-        }
-
-        .lightning-horizontal-3::after {
-            bottom: -15px;
-            left: 55%;
-            transform: rotate(10deg);
         }
 
         /* Audio Error Notification */
@@ -7656,35 +7317,13 @@
 
     <div class="email-modal-overlay" id="emailModalOverlay">
 
-        <div class="email-modal" style="max-width: 600px; max-height: 90vh; overflow-y: auto;">
+        <div class="email-modal">
 
             <div class="email-modal-header">
 
-                <h2 class="email-modal-title" style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; margin-bottom: 10px; line-height: 1.2;">
-                    🎵 Remix Exclusif
-                </h2>
-                
-                <h3 style="font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 800; margin-bottom: 20px; color: #d32f2f; line-height: 1.2;">
-                    DJ SHEK
-                </h3>
+                <h2 class="email-modal-title">📧 Enregistrez votre email</h2>
 
-                <div class="email-modal-subtitle" style="text-align: left; line-height: 1.8; font-size: clamp(0.75rem, 1.8vw, 0.9rem); color: #ccc;">
-                    <p style="margin-bottom: 12px;">
-                        En remplissant notre questionnaire, vous accédez automatiquement à des remixes exclusifs, spécialement réalisés pour notre communauté.
-                    </p>
-                    <p style="margin-bottom: 12px; font-weight: 600; color: #d32f2f; font-size: clamp(0.8rem, 2vw, 0.95rem);">
-                        Ces versions uniques ne sont pas téléchargeables et ne seront disponibles nulle part ailleurs, même pas sur SoundCloud.
-                    </p>
-                    <p style="margin-bottom: 12px;">
-                        Chaque semaine, de nouveaux remixes seront ajoutés et mis à votre disposition.
-                    </p>
-                    <p style="margin-bottom: 12px;">
-                        Votre participation vous permet donc de profiter régulièrement de contenus inédits, créés comme un cadeau réservé aux membres les plus impliqués.
-                    </p>
-                    <p style="margin-top: 20px; font-style: italic; color: #999; font-size: clamp(0.7rem, 1.6vw, 0.85rem);">
-                        Rejoignez-nous, donnez-nous vos retours à travers le questionnaire, et laissez-vous surprendre par des remixes uniques, mis en ligne spécialement pour vous.
-                    </p>
-                </div>
+                <p class="email-modal-subtitle">Pour télécharger les musiques, veuillez enregistrer votre adresse email</p>
 
             </div>
 
@@ -7694,57 +7333,7 @@
 
                 <div class="email-modal-input-group">
 
-                    <label class="email-modal-label" for="exclusivityFirstName">Prénom *</label>
-
-                    <input 
-
-                        type="text" 
-
-                        id="exclusivityFirstName" 
-
-                        class="email-modal-input" 
-
-                        placeholder="Votre prénom" 
-
-                        required
-
-                        autocomplete="given-name"
-
-                    >
-
-                    <div class="email-modal-error" id="firstNameError"></div>
-
-                </div>
-
-                
-                <div class="email-modal-input-group">
-
-                    <label class="email-modal-label" for="exclusivityLastName">Nom *</label>
-
-                    <input 
-
-                        type="text" 
-
-                        id="exclusivityLastName" 
-
-                        class="email-modal-input" 
-
-                        placeholder="Votre nom" 
-
-                        required
-
-                        autocomplete="family-name"
-
-                    >
-
-                    <div class="email-modal-error" id="lastNameError"></div>
-
-                </div>
-
-
-                <div class="email-modal-input-group">
-
-                    <label class="email-modal-label" for="emailInput">Adresse email *</label>
+                    <label class="email-modal-label" for="emailInput">Adresse email</label>
 
                     <input 
 
@@ -7762,56 +7351,7 @@
 
                     >
 
-                    <div class="email-modal-error" id="emailError"></div>
-
-                </div>
-
-                
-                <div class="email-modal-input-group">
-
-                    <label class="email-modal-label" for="exclusivityProjectType">Type de projet qui vous intéresse *</label>
-
-                    <select 
-
-                        id="exclusivityProjectType" 
-
-                        class="email-modal-input" 
-
-                        required
-
-                    >
-                        <option value="">Sélectionnez un type</option>
-                        <option value="ghost-remix">Ghost Remix</option>
-                        <option value="production">Production musicale</option>
-                        <option value="mashup">Mashup</option>
-                        <option value="intro">Intro pour événement</option>
-                        <option value="projet-personnalise">Projet audio personnalisé</option>
-                        <option value="devis">Demande de devis</option>
-                        <option value="autre">Autre</option>
-                    </select>
-
-                    <div class="email-modal-error" id="projectTypeError"></div>
-
-                </div>
-
-                
-                <div class="email-modal-input-group">
-
-                    <label class="email-modal-label" for="exclusivityMessage">Message (optionnel)</label>
-
-                    <textarea 
-
-                        id="exclusivityMessage" 
-
-                        class="email-modal-input" 
-
-                        placeholder="Décrivez votre projet ou vos besoins..." 
-
-                        rows="4"
-
-                        style="resize: vertical; min-height: 100px;"
-
-                    ></textarea>
+                    <div class="email-modal-error" id="emailError">Veuillez entrer une adresse email valide</div>
 
                 </div>
 
@@ -7819,7 +7359,7 @@
 
                 <div class="email-modal-buttons">
 
-                    <button type="submit" class="email-modal-btn email-modal-btn-primary">Valider et accéder aux téléchargements</button>
+                    <button type="submit" class="email-modal-btn email-modal-btn-primary">Enregistrer</button>
 
                     <button type="button" class="email-modal-btn email-modal-btn-secondary" onclick="closeEmailModal()">Annuler</button>
 
@@ -7882,10 +7422,6 @@
 
     <section class="hero-section" id="hero">
 
-        <!-- Flash de tonnerre toutes les 10 secondes -->
-        <div class="thunder-flash"></div>
-        <div class="thunder-flash-color"></div>
-
         <img src="images/Gemini_Generated_Image_exfw8sexfw8sexfw.png" alt="DJ SHEK" class="hero-image">
 
         <div class="hero-image-overlay"></div>
@@ -7898,10 +7434,7 @@
 
         <div class="orb-3d orb-3d-3"></div>
 
-        <!-- Effets d'éclairs horizontaux -->
-        <div class="lightning-horizontal lightning-horizontal-1"></div>
-        <div class="lightning-horizontal lightning-horizontal-2"></div>
-        <div class="lightning-horizontal lightning-horizontal-3"></div>
+        
 
         <div class="hero-content">
 
@@ -7943,13 +7476,6 @@
                 <span class="section-label">// Mes Productions</span>
 
                 <h2 class="section-title">djshekofficiel</h2>
-                
-                <p class="exclusivity-notice" style="margin-top: 20px; padding: 15px; background: rgba(211, 47, 47, 0.1); border-left: 3px solid #d32f2f; border-radius: 5px; font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.6;">
-                    <strong>🎵 Accès Exclusif aux Téléchargements</strong><br>
-                    Pour télécharger mes productions exclusives, veuillez remplir le questionnaire ci-dessous. 
-                    Cela me permet de mieux vous connaître et de vous proposer du contenu personnalisé. 
-                    Une fois le formulaire complété, vous aurez accès à tous les téléchargements.
-                </p>
 
                 <p class="audio-multimedia-subtitle">Écoutez toutes mes productions • Tu peux aussi télécharger</p>
 
@@ -8327,19 +7853,13 @@
 
                 <br><br>
 
-                📩 <a href="https://mail.google.com/mail/?view=cm&to=djshekofficiel@gmail.com" target="_blank" rel="noopener">djshekofficiel@gmail.com</a>
+                📩 <a href="mailto:djshekofficiel@gmail.com">djshekofficiel@gmail.com</a>
 
             </p>
 
             <!-- Contact Form -->
 
-            <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
-
-                <!-- Web3Forms Configuration -->
-                <input type="hidden" name="access_key" value="4650301f-d665-4ddc-b4d3-9bbefff2e801">
-                <input type="hidden" name="subject" value="Nouveau message depuis djshekofficiel.com">
-                <input type="hidden" name="to_email" value="djshekofficiel@gmail.com">
-                <input type="hidden" name="from_name" id="from_name" value="">
+            <form class="contact-form" id="contactForm">
 
                 <div class="form-row">
 
@@ -8433,13 +7953,13 @@
 
                 </a>
 
-                <a href="https://mail.google.com/mail/?view=cm&to=djshekofficiel@gmail.com" target="_blank" rel="noopener" class="contact-link">
+                <a href="mailto:djshekofficiel@gmail.com" class="contact-link">
 
                     djshekofficiel@gmail.com
 
                 </a>
 
-                <a href="https://www.instagram.com/djshekofficiel/" target="_blank" rel="noopener" class="contact-link">
+                <a href="https://instagram.com/djshek" target="_blank" rel="noopener" class="contact-link">
 
                     📱 Instagram
 
@@ -8497,62 +8017,42 @@
 
     </footer>
 
-    <!-- Compteur discret -->
-
-    <div class="stats-counter" id="statsCounter">
-
-        <span class="stats-counter-item">
-
-            <span class="stats-counter-number" id="visitsCount">0</span> visites
-
-        </span>
-
-        <span class="stats-counter-item">•</span>
-
-        <span class="stats-counter-item">
-
-            <span class="stats-counter-number" id="downloadsCount">0</span> téléchargements
-
-        </span>
-
-    </div>
-
 
 
     <script>
 
-        // Désactiver la toolbar Vercel
-        (function() {
-            // Masquer la toolbar Vercel si elle existe
-            const hideVercelToolbar = function() {
-                const toolbar = document.querySelector('[data-vercel-toolbar]') || 
-                               document.querySelector('#vercel-toolbar') ||
-                               document.querySelector('.vercel-toolbar') ||
-                               document.querySelector('[class*="vercel"]');
-                if (toolbar) {
-                    toolbar.style.display = 'none';
-                    toolbar.remove();
-                }
-            };
-            
-            // Essayer immédiatement
-            hideVercelToolbar();
-            
-            // Essayer après le chargement
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', hideVercelToolbar);
-            }
-            
-            // Observer pour les éléments ajoutés dynamiquement
-            const observer = new MutationObserver(hideVercelToolbar);
-            observer.observe(document.body, { childList: true, subtree: true });
-            
-            // Essayer périodiquement
-            setInterval(hideVercelToolbar, 1000);
-        })();
+        // Custom Cursor
 
-        // Custom Cursor - Désactivé (curseur normal restauré)
-        // Le curseur personnalisé a été désactivé pour utiliser le curseur système par défaut
+        // Custom Cursor avec vérifications
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+        let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0, followerX = 0, followerY = 0;
+
+        // Vérifier que les éléments existent avant d'animer
+        if (cursor && cursorFollower) {
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            function animateCursor() {
+                if (!cursor || !cursorFollower) return;
+                
+                cursorX += (mouseX - cursorX) * 0.3;
+                cursorY += (mouseY - cursorY) * 0.3;
+                followerX += (mouseX - followerX) * 0.1;
+                followerY += (mouseY - followerY) * 0.1;
+
+                cursor.style.left = cursorX + 'px';
+                cursor.style.top = cursorY + 'px';
+                cursorFollower.style.left = followerX + 'px';
+                cursorFollower.style.top = followerY + 'px';
+
+                requestAnimationFrame(animateCursor);
+            }
+
+            animateCursor();
+        }
 
 
 
@@ -8652,7 +8152,29 @@
 
 
 
-        // Hover effects - Désactivés (curseur personnalisé désactivé)
+        // Hover effects
+
+        const interactiveElements = document.querySelectorAll('a, .tag, .track-showcase, .visual-card, .track-play-btn, .contact-link');
+
+        interactiveElements.forEach(el => {
+
+            el.addEventListener('mouseenter', () => {
+
+                cursor.style.transform = 'scale(2)';
+
+                cursor.style.borderColor = '#ff5722';
+
+            });
+
+            el.addEventListener('mouseleave', () => {
+
+                cursor.style.transform = 'scale(1)';
+
+                cursor.style.borderColor = '#d32f2f';
+
+            });
+
+        });
 
 
 
@@ -8757,134 +8279,18 @@
         const DEBUG = false;
         const log = DEBUG ? console.log.bind(console) : () => {};
 
-        // ============================================
-        // FONCTIONS DE SÉCURITÉ
-        // ============================================
-
-        // Sanitizer HTML pour éviter les attaques XSS
-        function escapeHtml(text) {
-            if (typeof text !== 'string') return '';
-            const map = {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;',
-                '/': '&#x2F;'
-            };
-            return text.replace(/[&<>"'/]/g, function(m) { return map[m]; });
-        }
-
-        // Sanitizer pour les attributs HTML
-        function escapeHtmlAttribute(text) {
-            if (typeof text !== 'string') return '';
-            return escapeHtml(text).replace(/'/g, '&#x27;');
-        }
-
-        // Validation stricte des emails
-        function isValidEmailStrict(email) {
-            if (!email || typeof email !== 'string') return false;
-            // Regex plus stricte
-            const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-            if (!emailRegex.test(email)) return false;
-            // Vérifier la longueur
-            if (email.length > 254) return false;
-            // Vérifier qu'il n'y a pas de caractères dangereux
-            if (/[<>\"']/.test(email)) return false;
-            return true;
-        }
-
-        // Validation et sanitization des noms
-        function sanitizeName(name) {
-            if (!name || typeof name !== 'string') return '';
-            // Enlever les caractères dangereux, garder seulement lettres, espaces, tirets, apostrophes
-            return name.trim().replace(/[^a-zA-ZÀ-ÿ\s\-']/g, '').substring(0, 100);
-        }
-
-        // Validation et sanitization des messages
-        function sanitizeMessage(message) {
-            if (!message || typeof message !== 'string') return '';
-            // Enlever les balises HTML et scripts
-            return message.trim()
-                .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-                .replace(/<[^>]+>/g, '')
-                .substring(0, 5000);
-        }
-
-        // Rate limiting côté client (basique)
-        const rateLimitStore = {
-            submissions: [],
-            maxSubmissions: 5,
-            timeWindow: 60000 // 1 minute
-        };
-
-        function checkRateLimit() {
-            const now = Date.now();
-            // Nettoyer les anciennes soumissions
-            rateLimitStore.submissions = rateLimitStore.submissions.filter(
-                time => now - time < rateLimitStore.timeWindow
-            );
-            // Vérifier la limite
-            if (rateLimitStore.submissions.length >= rateLimitStore.maxSubmissions) {
-                return false;
-            }
-            // Ajouter la soumission actuelle
-            rateLimitStore.submissions.push(now);
-            return true;
-        }
-
-        // Protection CSRF (token simple)
-        function generateCSRFToken() {
-            return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-        }
-
-        // Validation de l'URL pour éviter les redirections malveillantes
-        function isValidUrl(url) {
-            if (!url || typeof url !== 'string') return false;
-            try {
-                const parsed = new URL(url);
-                // Autoriser seulement HTTPS (sauf localhost pour dev)
-                return (parsed.protocol === 'https:' || parsed.hostname === 'localhost' || parsed.hostname === '127.0.0.1');
-            } catch (e) {
-                return false;
-            }
-        }
-
-        // Protection contre les injections dans les noms de fichiers
-        function sanitizeFileName(fileName) {
-            if (!fileName || typeof fileName !== 'string') return '';
-            // Enlever les caractères dangereux
-            return fileName.replace(/[^a-zA-Z0-9._\-\s]/g, '').substring(0, 255);
-        }
-
-        // Fonction pour masquer le loader de manière fiable
-        function hidePageLoader() {
+        // Masquer le loader une fois la page chargée
+        window.addEventListener('load', function() {
             const pageLoader = document.getElementById('pageLoader');
             if (pageLoader) {
+                setTimeout(() => {
                     pageLoader.classList.add('hidden');
                     setTimeout(() => {
                         pageLoader.style.display = 'none';
-                    pageLoader.style.visibility = 'hidden';
-                    pageLoader.style.opacity = '0';
                     }, 500);
+                }, 300);
             }
-        }
-
-        // Masquer le loader une fois la page chargée - Multiple fallbacks
-        // 1. DOMContentLoaded (rapide)
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(hidePageLoader, 500);
         });
-
-        // 2. Window load (complet)
-        window.addEventListener('load', function() {
-            setTimeout(hidePageLoader, 300);
-        });
-
-        // 3. Fallback après 3 secondes maximum
-        setTimeout(function() {
-            hidePageLoader();
-        }, 3000);
 
         window.addEventListener('DOMContentLoaded', function() {
 
@@ -8901,9 +8307,6 @@
                 console.error('Erreur lors de l\'initialisation du lecteur audio:', error);
 
             }
-
-            // Système d'envoi d'emails via API Vercel (Web3Forms)
-            log('Système d\'envoi d\'emails prêt');
 
         });
 
@@ -8984,7 +8387,7 @@
 
             // List of all audio files
 
-            const audioTracks = [
+                                                            const audioTracks = [
                 { name: 'DJ SHEK - ( INTRO ) REMIX   FLYING BLUE la fouine f', file: 'DJ SHEK - ( INTRO ) REMIX   FLYING BLUE la fouine f .mp3' }
                 ,{ name: 'DJ SHEK - Aya Nakamura ( Comportement Remix ) Prodshek', file: 'DJ SHEK - Aya Nakamura ( Comportement Remix ) Prodshek .mp3' }
                 ,{ name: 'DJ SHEK - Aya Nakamura - Desarmer Remix shek prod', file: 'DJ SHEK - Aya Nakamura - Desarmer Remix shek prod .mp3' }
@@ -9047,13 +8450,9 @@
 
                     const progress = (audioElement.currentTime / audioElement.duration) * 100;
 
-                    if (progressBar) {
                     progressBar.style.width = progress + '%';
-                    }
 
-                    if (currentTimeDisplay) {
                     currentTimeDisplay.textContent = formatTime(audioElement.currentTime);
-                    }
 
                 }
 
@@ -9073,13 +8472,9 @@
 
                 audioElement.src = `audio/${encodeURIComponent(track.file)}`;
 
-                if (currentTrackDisplay) {
                 currentTrackDisplay.textContent = track.name;
-                }
 
-                if (currentArtistDisplay) {
                 currentArtistDisplay.textContent = 'DJ SHEK';
-                }
 
                 audioElement.load();
 
@@ -9235,7 +8630,7 @@
 
                     <div class="audio-playlist-duration">--:--</div>
 
-                    <button class="audio-playlist-download" onclick="event.stopPropagation(); downloadAudioTrack('${safeFileName}', '${safeTrackName}')" data-file="${safeFileName}" data-name="${safeTrackName}">⬇ Télécharger</button>
+                    <button class="audio-playlist-download" onclick="event.stopPropagation(); downloadAudioTrack('${safeFileName}', '${safeTrackName}')">⬇ Télécharger</button>
 
                 `;
 
@@ -9378,9 +8773,7 @@
 
                 audioElement.volume = volume;
 
-                if (volumeBar) {
                 volumeBar.style.width = (volume * 100) + '%';
-                }
 
             });
 
@@ -9390,9 +8783,7 @@
 
             audioElement.addEventListener('loadedmetadata', () => {
 
-                if (durationDisplay) {
                 durationDisplay.textContent = formatTime(audioElement.duration);
-                }
 
             });
 
@@ -9445,9 +8836,7 @@
 
             audioElement.volume = 0.7;
 
-            if (volumeBar) {
             volumeBar.style.width = '70%';
-            }
 
         }
 
@@ -9457,10 +8846,9 @@
 
         function isEmailRegistered() {
 
-            // Vérifier si le questionnaire complet est rempli
-            const questionnaireData = localStorage.getItem('djshek_questionnaire_completed');
+            const registeredEmail = localStorage.getItem('djshek_user_email');
 
-            return questionnaireData !== null && questionnaireData !== '';
+            return registeredEmail !== null && registeredEmail !== '';
 
         }
 
@@ -9470,50 +8858,21 @@
 
         function getRegisteredEmail() {
 
-            const data = localStorage.getItem('djshek_questionnaire_completed');
-            if (data) {
-                try {
-                    const parsed = JSON.parse(data);
-                    return parsed.email || '';
-                } catch (e) {
-                    return '';
-                }
-            }
-            return '';
+            return localStorage.getItem('djshek_user_email');
 
         }
-        
-        // Function to get questionnaire data
-        function getQuestionnaireData() {
-            const data = localStorage.getItem('djshek_questionnaire_completed');
-            if (data) {
-                try {
-                    return JSON.parse(data);
-                } catch (e) {
-                    return null;
-                }
-            }
-            return null;
-        }
 
 
 
-        // Function to register questionnaire data
-        function registerQuestionnaire(firstName, lastName, email, projectType, message) {
+        // Function to register email
 
-            if (validateEmail(email) && firstName && lastName && projectType) {
+        function registerEmail(email) {
 
-                const questionnaireData = {
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
-                    projectType: projectType,
-                    message: message || '',
-                    registeredDate: new Date().toISOString()
-                };
+            if (validateEmail(email)) {
 
-                localStorage.setItem('djshek_questionnaire_completed', JSON.stringify(questionnaireData));
-                localStorage.setItem('djshek_user_email', email); // Garder pour compatibilité
+                localStorage.setItem('djshek_user_email', email);
+
+                localStorage.setItem('djshek_email_registered_date', new Date().toISOString());
 
                 return true;
 
@@ -9521,20 +8880,6 @@
 
             return false;
 
-        }
-        
-        // Function to get project type label
-        function getProjectTypeLabel(value) {
-            const labels = {
-                'ghost-remix': 'Ghost Remix',
-                'production': 'Production musicale',
-                'mashup': 'Mashup',
-                'intro': 'Intro pour événement',
-                'projet-personnalise': 'Projet audio personnalisé',
-                'devis': 'Demande de devis',
-                'autre': 'Autre'
-            };
-            return labels[value] || value;
         }
 
 
@@ -9593,18 +8938,12 @@
 
                 }
 
-                // Clear all errors
-                const errorDivs = document.querySelectorAll('.email-modal-error');
-                errorDivs.forEach(div => {
-                    div.textContent = '';
-                    div.classList.remove('active');
-                });
-                
-                // Re-enable submit button
-                const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
-                if (submitBtn) {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Valider et accéder aux téléchargements';
+                const error = document.getElementById('emailError');
+
+                if (error) {
+
+                    error.classList.remove('active');
+
                 }
 
             }
@@ -9617,7 +8956,7 @@
 
         function downloadAudioTrack(fileName, trackName) {
 
-            // Check if questionnaire is registered
+            // Check if email is registered
 
             if (!isEmailRegistered()) {
 
@@ -9637,34 +8976,11 @@
 
 
 
-            // Proceed with download directly
+            // Proceed with download
 
             performDownload(fileName, trackName);
 
         }
-
-        // Function to update all download buttons after questionnaire is completed
-        function updateDownloadButtons() {
-            const downloadButtons = document.querySelectorAll('.audio-playlist-download');
-            downloadButtons.forEach(button => {
-                const fileName = button.getAttribute('data-file');
-                const trackName = button.getAttribute('data-name');
-                if (fileName && trackName) {
-                    // Remplacer l'action pour télécharger directement
-                    button.setAttribute('onclick', `event.stopPropagation(); performDownload('${fileName.replace(/'/g, "\\'")}', '${trackName.replace(/'/g, "\\'")}')`);
-                }
-            });
-        }
-        
-        // Check on page load if questionnaire is already completed
-        document.addEventListener('DOMContentLoaded', function() {
-            // Attendre que la playlist soit créée
-            setTimeout(function() {
-                if (isEmailRegistered()) {
-                    updateDownloadButtons();
-                }
-            }, 1000);
-        });
 
 
 
@@ -9700,14 +9016,11 @@
 
             log('Téléchargement de:', trackName, 'par:', getRegisteredEmail());
 
-            
-            // Tracker le téléchargement
-            trackDownload();
         }
 
 
 
-        // Handle questionnaire form submission
+        // Handle email form submission
 
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -9720,173 +9033,93 @@
                     e.preventDefault();
 
                     
-                    // Clear all errors
-                    const errorDivs = document.querySelectorAll('.email-modal-error');
-                    errorDivs.forEach(div => {
-                        div.textContent = '';
-                        div.classList.remove('active');
-                    });
 
-                    // Get form values
-                    const firstNameInput = document.getElementById('exclusivityFirstName');
-                    const lastNameInput = document.getElementById('exclusivityLastName');
                     const emailInput = document.getElementById('emailInput');
-                    const projectTypeInput = document.getElementById('exclusivityProjectType');
-                    const messageInput = document.getElementById('exclusivityMessage');
 
-                    if (!firstNameInput || !lastNameInput || !emailInput || !projectTypeInput) {
-                        console.error('Form elements not found');
-                        return;
-                    }
+                    const errorDiv = document.getElementById('emailError');
 
-                    const firstName = firstNameInput.value.trim();
-                    const lastName = lastNameInput.value.trim();
                     const email = emailInput.value.trim();
-                    const projectType = projectTypeInput.value;
-                    const message = messageInput.value.trim();
 
-                    // Validation
-                    let isValid = true;
                     
-                    if (!firstName) {
-                        const errorDiv = document.getElementById('firstNameError');
-                        if (errorDiv) {
-                            errorDiv.textContent = 'Veuillez entrer votre prénom';
-                            errorDiv.classList.add('active');
-                        }
-                        isValid = false;
-                    }
-
-                    if (!lastName) {
-                        const errorDiv = document.getElementById('lastNameError');
-                        if (errorDiv) {
-                            errorDiv.textContent = 'Veuillez entrer votre nom';
-                            errorDiv.classList.add('active');
-                        }
-                        isValid = false;
-                    }
 
                     if (!email) {
-                        const errorDiv = document.getElementById('emailError');
+
                         if (errorDiv) {
+
                             errorDiv.textContent = 'Veuillez entrer une adresse email';
-                            errorDiv.classList.add('active');
-                        }
-                        isValid = false;
-                    } else if (!validateEmail(email)) {
-                        const errorDiv = document.getElementById('emailError');
-                        if (errorDiv) {
-                            errorDiv.textContent = 'Veuillez entrer une adresse email valide';
-                            errorDiv.classList.add('active');
-                        }
-                        isValid = false;
-                    }
 
-                    if (!projectType) {
-                        const errorDiv = document.getElementById('projectTypeError');
-                        if (errorDiv) {
-                            errorDiv.textContent = 'Veuillez sélectionner un type de projet';
                             errorDiv.classList.add('active');
-                        }
-                        isValid = false;
-                    }
 
-                    if (!isValid) {
+                        }
+
                         return;
+
                     }
 
-                    // Show loading message
-                    const submitBtn = emailForm.querySelector('button[type="submit"]');
-                    const originalText = submitBtn ? submitBtn.textContent : '';
-                    if (submitBtn) {
-                        submitBtn.disabled = true;
-                        submitBtn.textContent = '⏳ Envoi en cours...';
+                    
+
+                    if (!validateEmail(email)) {
+
+                        if (errorDiv) {
+
+                            errorDiv.textContent = 'Veuillez entrer une adresse email valide';
+
+                            errorDiv.classList.add('active');
+
+                        }
+
+                        return;
+
                     }
 
-                    // Envoyer les données via Web3Forms
-                    const formData = new FormData();
-                    formData.append('access_key', '4650301f-d665-4ddc-b4d3-9bbefff2e801');
-                    formData.append('subject', 'Nouveau questionnaire exclusivité - Accès téléchargements');
-                    formData.append('from_name', `${firstName} ${lastName}`);
-                    formData.append('email', email);
-                    formData.append('to_email', 'djshekofficiel@gmail.com');
-                    formData.append('name', `${firstName} ${lastName}`);
-                    formData.append('message', `Bonjour DJ SHEK,
+                    
 
-Nouveau questionnaire exclusivité rempli pour accéder aux téléchargements.
+                    // Register email
 
----
-INFORMATIONS
----
-Nom : ${firstName} ${lastName}
-Email : ${email}
-Type de projet : ${getProjectTypeLabel(projectType)}
-${message ? `Message : ${message}` : ''}
+                    if (registerEmail(email)) {
 
----
-Date : ${new Date().toLocaleString('fr-FR')}
-Envoyé depuis : djshekofficiel.com`);
-
-                    fetch('https://api.web3forms.com/submit', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Register questionnaire data
-                            if (registerQuestionnaire(firstName, lastName, email, projectType, message)) {
                         // Close modal
+
                         closeEmailModal();
 
-                                // Mettre à jour tous les boutons de téléchargement pour qu'ils téléchargent directement
-                                updateDownloadButtons();
+                        
 
                         // Check if there's a pending download
+
                         const pendingFile = sessionStorage.getItem('pending_download_file');
+
                         const pendingName = sessionStorage.getItem('pending_download_name');
 
+                        
+
                         if (pendingFile && pendingName) {
+
                             // Clear pending download
+
                             sessionStorage.removeItem('pending_download_file');
+
                             sessionStorage.removeItem('pending_download_name');
 
+                            
+
                             // Perform the download
+
                             performDownload(pendingFile, pendingName);
+
                         }
-                            }
+
                     } else {
-                            throw new Error(data.message || 'Erreur lors de l\'envoi');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erreur envoi questionnaire:', error);
-                        // Enregistrer quand même localement pour permettre le téléchargement
-                        if (registerQuestionnaire(firstName, lastName, email, projectType, message)) {
-                            closeEmailModal();
-                            
-                            // Mettre à jour tous les boutons de téléchargement
-                            updateDownloadButtons();
-                            
-                            const pendingFile = sessionStorage.getItem('pending_download_file');
-                            const pendingName = sessionStorage.getItem('pending_download_name');
-                            if (pendingFile && pendingName) {
-                                sessionStorage.removeItem('pending_download_file');
-                                sessionStorage.removeItem('pending_download_name');
-                                performDownload(pendingFile, pendingName);
-                            }
-                        } else {
-                            const errorDiv = document.getElementById('emailError');
-                            if (errorDiv) {
-                                errorDiv.textContent = 'Erreur lors de l\'envoi. Veuillez réessayer.';
+
+                        if (errorDiv) {
+
+                            errorDiv.textContent = 'Erreur lors de l\'enregistrement de l\'email';
+
                             errorDiv.classList.add('active');
+
                         }
-                            if (submitBtn) {
-                                submitBtn.disabled = false;
-                                submitBtn.textContent = originalText;
+
                     }
-                        }
-                    });
+
                 });
 
             }
@@ -10060,7 +9293,7 @@ Envoyé depuis : djshekofficiel.com`);
 
             // List of all audio files in the audio folder
 
-                        const audioTracks = [
+                                                            const audioTracks = [
                 { name: 'DJ SHEK - ( INTRO ) REMIX   FLYING BLUE la fouine f', file: 'DJ SHEK - ( INTRO ) REMIX   FLYING BLUE la fouine f .mp3' }
                 ,{ name: 'DJ SHEK - Aya Nakamura ( Comportement Remix ) Prodshek', file: 'DJ SHEK - Aya Nakamura ( Comportement Remix ) Prodshek .mp3' }
                 ,{ name: 'DJ SHEK - Aya Nakamura - Desarmer Remix shek prod', file: 'DJ SHEK - Aya Nakamura - Desarmer Remix shek prod .mp3' }
@@ -10453,38 +9686,22 @@ Envoyé depuis : djshekofficiel.com`);
 
             if (contactForm) {
                 contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
                     // Reset form state
                     const formGroups = contactForm.querySelectorAll('.form-group');
                     formGroups.forEach(group => {
                         group.classList.remove('error');
                     });
-                    if (formMessage) {
                     formMessage.className = 'form-message';
                     formMessage.textContent = '';
-                    }
 
-                    // Get form values with null checks
-                    const firstNameInput = document.getElementById('firstName');
-                    const lastNameInput = document.getElementById('lastName');
-                    const emailInput = document.getElementById('email');
-                    const serviceTypeInput = document.getElementById('serviceType');
-                    const messageInput = document.getElementById('message');
-
-                    if (!firstNameInput || !lastNameInput || !emailInput || !serviceTypeInput || !messageInput) {
-                        e.preventDefault();
-                        if (formMessage) {
-                            formMessage.className = 'form-message error';
-                            formMessage.textContent = 'Erreur : Formulaire incomplet. Veuillez rafraîchir la page.';
-                            formMessage.style.display = 'block';
-                        }
-                        return;
-                    }
-
-                    const firstName = firstNameInput.value.trim();
-                    const lastName = lastNameInput.value.trim();
-                    const email = emailInput.value.trim();
-                    const serviceType = serviceTypeInput.value;
-                    const message = messageInput.value.trim();
+                    // Get form values
+                    const firstName = document.getElementById('firstName').value.trim();
+                    const lastName = document.getElementById('lastName').value.trim();
+                    const email = document.getElementById('email').value.trim();
+                    const serviceType = document.getElementById('serviceType').value;
+                    const message = document.getElementById('message').value.trim();
 
                     // Validation
                     let isValid = true;
@@ -10499,7 +9716,7 @@ Envoyé depuis : djshekofficiel.com`);
                         isValid = false;
                     }
 
-                    if (!email || !isValidEmailStrict(email)) {
+                    if (!email || !isValidEmail(email)) {
                         showError('email', 'Veuillez entrer une adresse email valide');
                         isValid = false;
                     }
@@ -10515,83 +9732,13 @@ Envoyé depuis : djshekofficiel.com`);
                     }
 
                     if (!isValid) {
-                        e.preventDefault();
-                        if (formMessage) {
                         formMessage.className = 'form-message error';
                         formMessage.textContent = 'Veuillez corriger les erreurs dans le formulaire';
                         formMessage.style.display = 'block';
-                        }
                         return;
                     }
 
-                    // Préparer les champs cachés pour Web3Forms
-                    const fromNameField = document.getElementById('from_name');
-                    if (fromNameField) {
-                        fromNameField.value = `${firstName} ${lastName}`;
-                    }
-
-                    // Mettre à jour le sujet avec le type de service
-                    const subjectField = contactForm.querySelector('input[name="subject"]');
-                    if (subjectField) {
-                        subjectField.value = `Nouveau message depuis djshekofficiel.com - ${getServiceTypeLabel(serviceType)}`;
-                    }
-
-                    // Ajouter le type de service et les infos dans le message
-                    const messageField = document.getElementById('message');
-                    if (messageField) {
-                        const fullMessage = `Type de demande : ${getServiceTypeLabel(serviceType)}\n\n${message}`;
-                        messageField.value = fullMessage;
-                    }
-
-                    // Afficher message de chargement
-                    if (formMessage) {
-                        formMessage.className = 'form-message';
-                        formMessage.textContent = '⏳ Envoi en cours...';
-                        formMessage.style.display = 'block';
-                    }
-
-                    // Laisser le formulaire se soumettre normalement (HTML direct vers Web3Forms)
-                    // Le formulaire va rediriger vers Web3Forms qui affichera une page de confirmation
-                    // On intercepte la réponse pour afficher notre propre message
-                    
-                    // Intercepter la soumission pour gérer la réponse
-                    e.preventDefault();
-                    
-                    // Créer un FormData pour l'envoi
-                    const formData = new FormData(contactForm);
-                    formData.append('name', `${firstName} ${lastName}`);
-                    
-                    fetch('https://api.web3forms.com/submit', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Succès - Email envoyé directement
-                            if (formMessage) {
-                                formMessage.className = 'form-message success';
-                                formMessage.textContent = '✅ Votre message a été envoyé avec succès à djshekofficiel@gmail.com ! Je vous répondrai dans les plus brefs délais.';
-                                formMessage.style.display = 'block';
-                            }
-                            
-                            // Réinitialiser le formulaire
-                            contactForm.reset();
-                            
-                            // Masquer le message après 5 secondes
-                            setTimeout(() => {
-                                if (formMessage) {
-                                    formMessage.style.display = 'none';
-                                }
-                            }, 5000);
-                        } else {
-                            throw new Error(data.message || 'Erreur lors de l\'envoi');
-                        }
-                    })
-                    .catch(error => {
-                        // Erreur - Fallback vers mailto
-                        console.error('Erreur envoi email:', error);
-                        
+                    // Prepare email content
                     const emailSubject = encodeURIComponent(`Demande de contact - ${getServiceTypeLabel(serviceType)}`);
                     const emailBody = encodeURIComponent(
                         `Bonjour DJ SHEK,\n\n` +
@@ -10601,20 +9748,24 @@ Envoyé depuis : djshekofficiel.com`);
                         `Message :\n${message}\n\n` +
                         `Cordialement,\n${firstName} ${lastName}`
                     );
+
+                    // Open email client
                     const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${emailSubject}&body=${emailBody}`;
                     window.location.href = mailtoLink;
 
-                        if (formMessage) {
-                            formMessage.className = 'form-message';
-                            formMessage.textContent = '⚠️ Envoi direct échoué. Votre client de messagerie va s\'ouvrir.';
+                    // Show success message
+                    formMessage.className = 'form-message success';
+                    formMessage.textContent = '✅ Votre demande a été préparée ! Votre client de messagerie va s\'ouvrir.';
                     formMessage.style.display = 'block';
-                        }
-                    });
+
+                    // Reset form after 3 seconds
+                    setTimeout(() => {
+                        contactForm.reset();
+                        formMessage.style.display = 'none';
+                    }, 5000);
 
                     // Scroll to message
-                    if (formMessage) {
                     formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    }
                 });
 
                 // Real-time validation
@@ -10673,8 +9824,8 @@ Envoyé depuis : djshekofficiel.com`);
             }
 
             function isValidEmail(email) {
-                // Utiliser la validation stricte
-                return isValidEmailStrict(email);
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
             }
 
             function getServiceTypeLabel(value) {
@@ -10707,10 +9858,7 @@ Envoyé depuis : djshekofficiel.com`);
             ];
 
             // Vider la grille
-            // Vider la grille de manière sécurisée
-            while (partenairesGrid.firstChild) {
-                partenairesGrid.removeChild(partenairesGrid.firstChild);
-            }
+            partenairesGrid.innerHTML = '';
 
             // Charger toutes les images
             partenairesImages.forEach((imageName, index) => {
@@ -10746,112 +9894,6 @@ Envoyé depuis : djshekofficiel.com`);
         // Charger les partenaires au chargement de la page
         window.addEventListener('DOMContentLoaded', function() {
             loadPartenaires();
-        });
-
-        // ============================================
-        // SYSTÈME DE COMPTEUR DISCRET
-        // ============================================
-
-        // Fonction pour obtenir ou initialiser les statistiques
-        function getStats() {
-            const stats = localStorage.getItem('dj_shek_stats');
-            if (stats) {
-                return JSON.parse(stats);
-            }
-            return {
-                visits: 0,
-                downloads: 0,
-                lastVisit: null
-            };
-        }
-
-        // Fonction pour sauvegarder les statistiques
-        function saveStats(stats) {
-            localStorage.setItem('dj_shek_stats', JSON.stringify(stats));
-            updateStatsDisplay(stats);
-        }
-
-        // Fonction pour mettre à jour l'affichage des statistiques
-        function updateStatsDisplay(stats) {
-            const visitsCount = document.getElementById('visitsCount');
-            const downloadsCount = document.getElementById('downloadsCount');
-            
-            if (visitsCount) {
-                visitsCount.textContent = formatNumber(stats.visits);
-            }
-            if (downloadsCount) {
-                downloadsCount.textContent = formatNumber(stats.downloads);
-            }
-        }
-
-        // Fonction pour formater les nombres (ajouter des séparateurs)
-        function formatNumber(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-        }
-
-        // Fonction pour tracker une visite
-        function trackVisit() {
-            const stats = getStats();
-            const today = new Date().toDateString();
-            
-            // Compter une visite seulement si c'est une nouvelle session (pas de visite aujourd'hui)
-            if (stats.lastVisit !== today) {
-                stats.visits += 1;
-                stats.lastVisit = today;
-                saveStats(stats);
-                
-                // Envoyer les stats au serveur (optionnel)
-                sendStatsToServer('visit', stats);
-            }
-        }
-
-        // Fonction pour tracker un téléchargement
-        function trackDownload() {
-            const stats = getStats();
-            stats.downloads += 1;
-            saveStats(stats);
-            
-            // Envoyer les stats au serveur (optionnel)
-            sendStatsToServer('download', stats);
-        }
-
-        // Fonction pour envoyer les stats au serveur (optionnel - peut être désactivé)
-        function sendStatsToServer(type, stats) {
-            // Option 1: Utiliser Web3Forms pour envoyer les stats par email (désactivé par défaut)
-            // Option 2: Utiliser une API personnalisée
-            // Option 3: Ne rien faire (stats uniquement en local)
-            
-            // Pour activer l'envoi, décommentez le code ci-dessous et configurez votre endpoint
-            /*
-            try {
-                fetch('https://votre-api.com/stats', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        type: type,
-                        visits: stats.visits,
-                        downloads: stats.downloads,
-                        timestamp: new Date().toISOString()
-                    })
-                }).catch(err => {
-                    // Ignorer les erreurs silencieusement
-                });
-            } catch (e) {
-                // Ignorer les erreurs silencieusement
-            }
-            */
-        }
-
-        // Initialiser le tracking au chargement de la page
-        document.addEventListener('DOMContentLoaded', function() {
-            // Charger et afficher les stats existantes
-            const stats = getStats();
-            updateStatsDisplay(stats);
-            
-            // Tracker la visite
-            trackVisit();
         });
     </script>
 
