@@ -8704,13 +8704,13 @@
 
 
 
-            <!-- DJ SHEK Neon Horizontal Player -->
+            <!-- DJ SHEK Neon Horizontal Player - Player Principal -->
             <div id="neonPlayerContainer" style="margin-bottom: 40px;"></div>
 
-
-
-            <div class="audio-player-wrapper">
-
+            <!-- ============================================
+                 ANCIEN PLAYER SUPPRIMÉ - REMPLACÉ PAR LE PLAYER NÉON
+                 ============================================ -->
+            <!--
                 <!-- Audio Player Controls -->
 
                 <div class="audio-player-main">
@@ -8998,42 +8998,6 @@
                 </div>
 
             </div>
-
-
-
-            <!-- Mini Player (fixe en bas, masqué par défaut) -->
-
-            <div class="audio-mini-player" id="audioMiniPlayer" style="display: none;">
-
-                <div class="audio-mini-cover" id="audioMiniCover">🎵</div>
-
-                <div class="audio-mini-info">
-
-                    <div class="audio-mini-track" id="audioMiniTrack">Aucune piste</div>
-
-                    <div class="audio-mini-artist" id="audioMiniArtist">DJ SHEK</div>
-
-                </div>
-
-                <div class="audio-mini-controls">
-
-                    <button class="audio-mini-btn" id="audioMiniPrevBtn">⏮</button>
-
-                    <button class="audio-mini-btn audio-mini-play" id="audioMiniPlayBtn">▶</button>
-
-                    <button class="audio-mini-btn" id="audioMiniNextBtn">⏭</button>
-
-                </div>
-
-                <div class="audio-mini-progress" id="audioMiniProgress"></div>
-
-                <button class="audio-mini-expand" id="audioMiniExpand">▲</button>
-
-            </div>
-
-
-
-            <audio id="audioPlayerElement" preload="metadata"></audio>
 
         </div>
 
@@ -9930,9 +9894,9 @@
 
             try {
 
-                initAudioMultimediaPlayer();
-
-                log('Lecteur audio multimédia initialisé avec succès');
+                // Ancien player supprimé - Utilisation du nouveau player néon uniquement
+                // initAudioMultimediaPlayer();
+                // log('Lecteur audio multimédia initialisé avec succès');
 
             } catch (error) {
 
@@ -9967,7 +9931,8 @@
             }, 5000);
         }
 
-        function initAudioMultimediaPlayer() {
+        // Ancien player supprimé - Utilisation du nouveau player néon uniquement
+        /* function initAudioMultimediaPlayer() {
 
             const audioElement = document.getElementById('audioPlayerElement');
 
