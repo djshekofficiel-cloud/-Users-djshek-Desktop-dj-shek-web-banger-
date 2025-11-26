@@ -1472,18 +1472,89 @@
             width: 100%;
             padding: 0;
             box-sizing: border-box;
+            /* Fond harmonisé avec la section pour intégration parfaite */
+            background: linear-gradient(180deg, var(--blue-night-darkest) 0%, var(--black) 100%);
+            border-radius: 12px;
+        }
+        /* Contour d'écran lumineux raffiné */
+        .video-wrapper-neon::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, 
+                rgba(45, 74, 110, 0.6) 0%,
+                rgba(255, 107, 53, 0.4) 50%,
+                rgba(45, 74, 110, 0.6) 100%
+            );
+            background-size: 200% 200%;
+            z-index: 1;
+            animation: screenGlow 6s ease-in-out infinite;
+            pointer-events: none;
+            padding: 2px;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+        /* Halo lumineux externe raffiné */
+        .video-wrapper-neon::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border-radius: 20px;
+            background: radial-gradient(ellipse at center,
+                transparent 0%,
+                transparent 60%,
+                rgba(45, 74, 110, 0.12) 75%,
+                rgba(255, 107, 53, 0.1) 85%,
+                transparent 100%
+            );
+            filter: blur(15px);
+            z-index: 0;
+            pointer-events: none;
+            animation: screenHalo 8s ease-in-out infinite alternate;
+        }
+        @keyframes screenGlow {
+            0%, 100% {
+                background-position: 0% 50%;
+                opacity: 0.7;
+            }
+            50% {
+                background-position: 100% 50%;
+                opacity: 0.9;
+            }
+        }
+        @keyframes screenHalo {
+            0% {
+                opacity: 0.4;
+                transform: scale(0.98);
+            }
+            100% {
+                opacity: 0.7;
+                transform: scale(1.02);
+            }
         }
         .video-player {
             width: 100%;
             max-width: 100%;
             height: auto;
             display: block;
-            border-radius: 8px;
+            border-radius: 12px;
             position: relative;
-            background: var(--black-dark);
-            border: 1px solid rgba(45, 74, 110, 0.15);
+            z-index: 2;
+            /* Fond intégré sans différence de couleur */
+            background: transparent;
             outline: none;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            /* Ombre subtile pour profondeur */
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.6),
+                inset 0 0 0 1px rgba(45, 74, 110, 0.1);
         }
         .video-player::-webkit-media-controls {
             display: none !important;
