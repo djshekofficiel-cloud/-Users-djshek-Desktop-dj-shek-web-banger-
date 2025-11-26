@@ -2,6 +2,8 @@ import './css/style.css'; // Importation du CSS pour que Vite le traite
 
 import { audioTracks } from './data/tracks.js';
 
+import { validateForm, prepareFormData, rateLimiter } from './js/form-security.js';
+
 
 
 // --- CONFIGURATION ---
@@ -504,7 +506,7 @@ function handleDownload(track) {
 
 function initForms() {
 
-    // Gestion simple du formulaire contact vers mailto
+    // Gestion sécurisée du formulaire contact
 
     if (elements.contactForm) {
 
@@ -512,11 +514,79 @@ function initForms() {
 
             e.preventDefault();
 
-            // Logique mailto conservée mais améliorée visuellement
+            // Réinitialiser les erreurs
 
-            alert("Votre client mail va s'ouvrir pour envoyer la demande.");
+            clearFormErrors();
 
-            elements.contactForm.submit(); // Fallback to standard submission behavior or implement Formspree later
+            // Récupérer les valeurs
+
+            const rawData = {
+
+                firstName: document.getElementById('firstName')?.value || '',
+
+                email: document.getElementById('email')?.value || '',
+
+                message: document.getElementById('message')?.value || ''
+
+            };
+
+            // Sanitization et validation
+
+            const sanitizedData = prepareFormData(rawData);
+
+            const validation = validateForm(sanitizedData);
+
+            if (!validation.isValid) {
+
+                // Afficher les erreurs
+
+                displayFormErrors(validation.errors);
+
+                return;
+
+            }
+
+            // Désactiver le bouton pour éviter les doubles soumissions
+
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (submitBtn) {
+
+                submitBtn.disabled = true;
+
+                submitBtn.textContent = 'Envoi en cours...';
+
+            }
+
+            // Préparer l'email mailto sécurisé
+
+            const subject = encodeURIComponent('Nouveau message depuis djshekofficiel.com');
+
+            const body = encodeURIComponent(`Prénom: ${sanitizedData.firstName}\nEmail: ${sanitizedData.email}\n\nMessage:\n${sanitizedData.message}`);
+
+            const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${subject}&body=${body}`;
+
+            // Ouvrir le client mail
+
+            window.location.href = mailtoLink;
+
+            // Afficher un message de confirmation
+
+            showFormMessage('Votre client mail va s\'ouvrir pour envoyer la demande.', 'success');
+
+            // Réactiver le bouton après 2 secondes
+
+            setTimeout(() => {
+
+                if (submitBtn) {
+
+                    submitBtn.disabled = false;
+
+                    submitBtn.textContent = 'Envoyer';
+
+                }
+
+            }, 2000);
 
         });
 
@@ -555,6 +625,102 @@ function initForms() {
     const closeBtn = elements.modalOverlay.querySelector('.email-modal-btn-secondary');
 
     if(closeBtn) closeBtn.addEventListener('click', () => elements.modalOverlay.classList.remove('active'));
+
+}
+
+// Fonctions utilitaires pour le formulaire
+
+function clearFormErrors() {
+
+    document.querySelectorAll('.error-message').forEach(el => {
+
+        el.textContent = '';
+
+        el.style.display = 'none';
+
+    });
+
+    document.querySelectorAll('.form-group').forEach(group => {
+
+        group.classList.remove('error');
+
+    });
+
+    const formMessage = document.getElementById('formMessage');
+
+    if (formMessage) {
+
+        formMessage.style.display = 'none';
+
+        formMessage.className = 'form-message';
+
+    }
+
+}
+
+function displayFormErrors(errors) {
+
+    Object.keys(errors).forEach(field => {
+
+        if (field === 'rateLimit') {
+
+            showFormMessage(errors[field], 'error');
+
+            return;
+
+        }
+
+        const errorEl = document.getElementById(`${field}Error`);
+
+        const inputEl = document.getElementById(field);
+
+        const formGroup = inputEl?.closest('.form-group');
+
+        if (errorEl) {
+
+            errorEl.textContent = errors[field];
+
+            errorEl.style.display = 'block';
+
+        }
+
+        if (formGroup) {
+
+            formGroup.classList.add('error');
+
+        }
+
+        if (inputEl) {
+
+            inputEl.focus();
+
+        }
+
+    });
+
+}
+
+function showFormMessage(message, type = 'success') {
+
+    const formMessage = document.getElementById('formMessage');
+
+    if (formMessage) {
+
+        formMessage.textContent = message;
+
+        formMessage.className = `form-message ${type}`;
+
+        formMessage.style.display = 'block';
+
+        // Auto-hide après 5 secondes
+
+        setTimeout(() => {
+
+            formMessage.style.display = 'none';
+
+        }, 5000);
+
+    }
 
 }
 

@@ -508,25 +508,15 @@
 
         <div class="contact-content">
 
-            <form class="contact-form" id="contactForm" action="mailto:djshekofficiel@gmail.com" method="post" enctype="text/plain">
+            <form class="contact-form" id="contactForm" action="mailto:djshekofficiel@gmail.com" method="post" enctype="text/plain" novalidate>
 
-                <div class="form-row">
+                <div class="form-group">
 
-                    <div class="form-group">
+                    <label for="firstName">Prénom *</label>
 
-                        <label for="firstName">Prénom *</label>
+                    <input type="text" id="firstName" name="firstName" required minlength="2" maxlength="100" autocomplete="given-name">
 
-                        <input type="text" id="firstName" name="firstName" required>
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label for="lastName">Nom *</label>
-
-                        <input type="text" id="lastName" name="lastName" required>
-
-                    </div>
+                    <span class="error-message" id="firstNameError"></span>
 
                 </div>
 
@@ -534,7 +524,9 @@
 
                     <label for="email">Email *</label>
 
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" required maxlength="254" autocomplete="email">
+
+                    <span class="error-message" id="emailError"></span>
 
                 </div>
 
@@ -542,11 +534,15 @@
 
                     <label for="message">Message *</label>
 
-                    <textarea id="message" name="message" required></textarea>
+                    <textarea id="message" name="message" required minlength="10" maxlength="5000" rows="6"></textarea>
+
+                    <span class="error-message" id="messageError"></span>
 
                 </div>
 
-                <button type="submit" class="form-submit-btn">Envoyer</button>
+                <div class="form-message" id="formMessage" style="display: none;"></div>
+
+                <button type="submit" class="form-submit-btn" id="submitBtn">Envoyer</button>
 
             </form>
 
