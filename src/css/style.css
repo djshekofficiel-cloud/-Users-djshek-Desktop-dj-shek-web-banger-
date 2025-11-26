@@ -1470,123 +1470,20 @@
         .video-wrapper-neon {
             position: relative;
             width: 100%;
-            padding: 24px;
-            border-radius: 16px;
-            background: var(--black-dark);
+            padding: 0;
             box-sizing: border-box;
-            box-shadow: 
-                0 0 0 1px rgba(45, 74, 110, 0.2),
-                inset 0 0 60px rgba(17, 34, 64, 0.4);
-        }
-        /* Bordure raffinée avec dégradé animé - Utilise les couleurs exactes de la palette */
-        .video-wrapper-neon::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border-radius: 18px;
-            background: linear-gradient(135deg, 
-                var(--blue-night) 0%,
-                var(--blue-night-dark) 20%,
-                var(--black-dark) 30%,
-                var(--orange) 50%,
-                var(--black-dark) 70%,
-                var(--blue-night-dark) 80%,
-                var(--blue-night) 100%
-            );
-            background-size: 400% 400%;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            padding: 2px;
-            animation: refinedGradientFlow 8s ease-in-out infinite;
-            z-index: 1;
-            opacity: 0.6;
-        }
-        /* Halo lumineux externe raffiné */
-        .video-wrapper-neon::after {
-            content: '';
-            position: absolute;
-            top: -8px;
-            left: -8px;
-            right: -8px;
-            bottom: -8px;
-            border-radius: 24px;
-            background: radial-gradient(ellipse at center, 
-                transparent 0%,
-                transparent 40%,
-                rgba(45, 74, 110, 0.15) 60%,
-                rgba(255, 107, 53, 0.2) 80%,
-                rgba(45, 74, 110, 0.1) 100%
-            );
-            filter: blur(25px);
-            animation: refinedGlow 6s ease-in-out infinite alternate;
-            z-index: 0;
-            pointer-events: none;
-        }
-        /* Animation de dégradé fluide et raffinée */
-        @keyframes refinedGradientFlow {
-            0%, 100% {
-                background-position: 0% 50%;
-                opacity: 0.6;
-            }
-            25% {
-                background-position: 50% 0%;
-                opacity: 0.7;
-            }
-            50% {
-                background-position: 100% 50%;
-                opacity: 0.8;
-            }
-            75% {
-                background-position: 50% 100%;
-                opacity: 0.7;
-            }
-        }
-        /* Animation de halo douce */
-        @keyframes refinedGlow {
-            0% {
-                opacity: 0.3;
-                filter: blur(20px);
-                transform: scale(0.98);
-            }
-            100% {
-                opacity: 0.6;
-                filter: blur(30px);
-                transform: scale(1.02);
-            }
         }
         .video-player {
             width: 100%;
             max-width: 100%;
             height: auto;
             display: block;
-            border-radius: 12px;
+            border-radius: 8px;
             position: relative;
-            z-index: 2;
             background: var(--black-dark);
-            border: 1px solid rgba(45, 74, 110, 0.3);
+            border: 1px solid rgba(45, 74, 110, 0.15);
             outline: none;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            /* Ombres raffinées utilisant les couleurs de la palette */
-            box-shadow: 
-                0 0 0 1px rgba(45, 74, 110, 0.2) inset,
-                0 4px 20px rgba(0, 0, 0, 0.8),
-                0 0 40px rgba(45, 74, 110, 0.15),
-                0 0 60px rgba(255, 107, 53, 0.1),
-                inset 0 0 40px rgba(17, 34, 64, 0.3);
-        }
-        /* Effet de brillance subtil au survol */
-        .video-wrapper-neon:hover .video-player {
-            border-color: rgba(45, 74, 110, 0.5);
-            box-shadow: 
-                0 0 0 1px rgba(45, 74, 110, 0.3) inset,
-                0 6px 30px rgba(0, 0, 0, 0.9),
-                0 0 50px rgba(45, 74, 110, 0.25),
-                0 0 80px rgba(255, 107, 53, 0.15),
-                inset 0 0 50px rgba(17, 34, 64, 0.4);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
         .video-player::-webkit-media-controls {
             display: none !important;
@@ -1607,52 +1504,6 @@
         .video-player video::-webkit-media-controls-enclosure {
             display: none !important;
         }
-        /* Animation subtile de pulsation pour le wrapper */
-        @keyframes refinedPulse {
-            0%, 100% {
-                box-shadow: 
-                    0 0 0 1px rgba(45, 74, 110, 0.2),
-                    inset 0 0 60px rgba(17, 34, 64, 0.4);
-            }
-            50% {
-                box-shadow: 
-                    0 0 0 1px rgba(45, 74, 110, 0.3),
-                    inset 0 0 70px rgba(17, 34, 64, 0.5);
-            }
-        }
-        .video-wrapper-neon {
-            animation: refinedPulse 4s ease-in-out infinite;
-        }
-        /* Effets lumineux supplémentaires raffinés */
-        .video-container::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120%;
-            height: 120%;
-            background: radial-gradient(ellipse at center, 
-                transparent 0%,
-                transparent 50%,
-                rgba(45, 74, 110, 0.08) 70%,
-                rgba(255, 107, 53, 0.06) 85%,
-                transparent 100%
-            );
-            pointer-events: none;
-            z-index: 0;
-            animation: ambientGlow 10s ease-in-out infinite alternate;
-        }
-        @keyframes ambientGlow {
-            0% {
-                opacity: 0.5;
-                transform: translate(-50%, -50%) scale(0.95);
-            }
-            100% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1.05);
-            }
-        }
         /* Responsive Video */
         @media (max-width: 768px) {
             .video-section {
@@ -1661,12 +1512,6 @@
             .video-container {
                 padding: 0 clamp(15px, 3vw, 30px);
             }
-            .video-wrapper-neon {
-                padding: 16px;
-            }
-            .video-wrapper-neon::before {
-                padding: 1.5px;
-            }
         }
         @media (max-width: 480px) {
             .video-section {
@@ -1674,16 +1519,6 @@
             }
             .video-container {
                 padding: 0 15px;
-            }
-            .video-wrapper-neon {
-                padding: 12px;
-            }
-            .video-wrapper-neon::before {
-                padding: 1px;
-            }
-            .video-container::before {
-                width: 140%;
-                height: 140%;
             }
         }
         /* Experience Section - Timeline */
