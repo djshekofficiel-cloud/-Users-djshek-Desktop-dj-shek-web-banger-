@@ -3332,11 +3332,6 @@
 
 
 
-            .cursor, .cursor-follower {
-
-                display: none;
-
-            }
 
 
 
@@ -7921,38 +7916,6 @@
 
     <script>
 
-        // Custom Cursor
-
-        // Custom Cursor avec vérifications
-        const cursor = document.querySelector('.cursor');
-        const cursorFollower = document.querySelector('.cursor-follower');
-        let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0, followerX = 0, followerY = 0;
-
-        // Vérifier que les éléments existent avant d'animer
-        if (cursor && cursorFollower) {
-            document.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-            });
-
-            function animateCursor() {
-                if (!cursor || !cursorFollower) return;
-                
-                cursorX += (mouseX - cursorX) * 0.3;
-                cursorY += (mouseY - cursorY) * 0.3;
-                followerX += (mouseX - followerX) * 0.1;
-                followerY += (mouseY - followerY) * 0.1;
-
-                cursor.style.left = cursorX + 'px';
-                cursor.style.top = cursorY + 'px';
-                cursorFollower.style.left = followerX + 'px';
-                cursorFollower.style.top = followerY + 'px';
-
-                requestAnimationFrame(animateCursor);
-            }
-
-            animateCursor();
-        }
 
 
 
@@ -8052,29 +8015,6 @@
 
 
 
-        // Hover effects
-
-        const interactiveElements = document.querySelectorAll('a, .tag, .track-showcase, .visual-card, .track-play-btn, .contact-link');
-
-        interactiveElements.forEach(el => {
-
-            el.addEventListener('mouseenter', () => {
-
-                cursor.style.transform = 'scale(2)';
-
-                cursor.style.borderColor = 'var(--orange)';
-
-            });
-
-            el.addEventListener('mouseleave', () => {
-
-                cursor.style.transform = 'scale(1)';
-
-                cursor.style.borderColor = 'var(--blue-night)';
-
-            });
-
-        });
 
 
 
