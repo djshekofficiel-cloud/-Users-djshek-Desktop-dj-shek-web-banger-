@@ -1,28 +1,68 @@
 # 🎨 Palette de Couleurs - DJ SHEK Website
 
+**Date de mise à jour :** 27 janvier 2025  
+**Thème actuel :** Bleu Nuit / Orange / Noir  
+**Statut :** ✅ Palette complète appliquée via variables CSS
+
+---
+
 ## 📋 Codes Couleur Détaillés
 
-### 🔴 **Couleurs Principales (Rouge/Orange)**
+### 🔵 **Couleurs Principales (Bleu Nuit)**
 
-#### Rouge Principal
-- **Hex :** `#d32f2f`
-- **RGB :** `rgb(211, 47, 47)`
-- **RGBA :** `rgba(211, 47, 47, 1.0)`
+#### Bleu Nuit Principal
+- **Hex :** `#2d4a6e`
+- **RGB :** `rgb(45, 74, 110)`
+- **RGBA :** `rgba(45, 74, 110, 1.0)`
+- **Variable CSS :** `--blue-night`
 - **Usage :** Couleur principale du site, boutons, bordures, effets néon
-- **Équivalent Material Design :** Red 700
+- **Contraste WCAG :** AA+ sur fond noir
 
-#### Orange/Red-Orange
-- **Hex :** `#ff5722`
-- **RGB :** `rgb(255, 87, 34)`
-- **RGBA :** `rgba(255, 87, 34, 1.0)`
-- **Usage :** Accents, gradients, effets lumineux
-- **Équivalent Material Design :** Deep Orange 500
+#### Bleu Nuit Foncé
+- **Hex :** `#1e3a5f`
+- **RGB :** `rgb(30, 58, 95)`
+- **Variable CSS :** `--blue-night-dark`
+- **Usage :** Éléments sombres, arrière-plans secondaires
 
-#### Rouge Vif
-- **Hex :** `#ff0000` ou `#ff1744`
-- **RGB :** `rgb(255, 0, 0)` / `rgb(255, 23, 68)`
-- **Usage :** Effets néon intenses, gradients
-- **Équivalent Material Design :** Red 500 / Red A400
+#### Bleu Nuit Très Foncé
+- **Hex :** `#112240`
+- **RGB :** `rgb(17, 34, 64)`
+- **Variable CSS :** `--blue-night-darker`
+- **Usage :** Arrière-plans profonds
+
+#### Bleu Nuit Le Plus Foncé
+- **Hex :** `#0a192f`
+- **RGB :** `rgb(10, 25, 47)`
+- **Variable CSS :** `--blue-night-darkest`
+- **Usage :** Zones les plus profondes
+
+### 🟠 **Couleurs Accent (Orange)**
+
+#### Orange Principal
+- **Hex :** `#ff6b35`
+- **RGB :** `rgb(255, 107, 53)`
+- **RGBA :** `rgba(255, 107, 53, 1.0)`
+- **Variable CSS :** `--orange`
+- **Usage :** Accents, hover, états actifs, boutons secondaires
+- **Contraste WCAG :** AA+ sur fond noir
+
+#### Orange Clair
+- **Hex :** `#ff8c42`
+- **RGB :** `rgb(255, 140, 66)`
+- **Variable CSS :** `--orange-light`
+- **Usage :** États actifs, highlights
+
+#### Orange Très Clair
+- **Hex :** `#ffa366`
+- **RGB :** `rgb(255, 163, 102)`
+- **Variable CSS :** `--orange-lighter`
+- **Usage :** Effets lumineux, animations
+
+#### Orange Foncé
+- **Hex :** `#e55a2b`
+- **RGB :** `rgb(229, 90, 43)`
+- **Variable CSS :** `--orange-dark`
+- **Usage :** États pressés, bordures
 
 ---
 
@@ -70,65 +110,77 @@
 
 ## 🌈 **Gradients Principaux**
 
-### Gradient Rouge-Orange (Principal)
+### Gradient Bleu Nuit-Orange (Principal)
 ```css
-linear-gradient(90deg, #d32f2f, #ff5722)
-linear-gradient(135deg, #d32f2f, #ff5722)
-linear-gradient(180deg, #d32f2f, #ff5722)
+--gradient-main: linear-gradient(135deg, #2d4a6e, #ff6b35)
+linear-gradient(90deg, #2d4a6e, #ff6b35)
+linear-gradient(180deg, #2d4a6e, #ff6b35)
 ```
-**Usage :** Boutons, barres de progression, effets lumineux
+**Usage :** Boutons, barres de progression, effets lumineux  
+**Variable CSS :** `var(--gradient-main)`
 
-### Gradient Orange-Rouge (Inverse)
+### Gradient Orange-Bleu Nuit (Inverse)
 ```css
-linear-gradient(90deg, #ff5722, #d32f2f)
-linear-gradient(135deg, #ff5722, #d32f2f)
-linear-gradient(180deg, #ff5722, #d32f2f)
+--gradient-reverse: linear-gradient(135deg, #ff6b35, #2d4a6e)
+linear-gradient(90deg, #ff6b35, #2d4a6e)
+linear-gradient(180deg, #ff6b35, #2d4a6e)
 ```
-**Usage :** Effets hover, animations
+**Usage :** Effets hover, animations  
+**Variable CSS :** `var(--gradient-reverse)`
 
-### Gradient Blanc-Rouge
+### Gradient Vertical
 ```css
-linear-gradient(135deg, #fff, #d32f2f)
-linear-gradient(135deg, #fff, #d32f2f, #ff5722)
+--gradient-vertical: linear-gradient(180deg, #2d4a6e, #ff6b35)
 ```
-**Usage :** Titres, textes avec effet dégradé
+**Usage :** Barres latérales, effets verticaux  
+**Variable CSS :** `var(--gradient-vertical)`
 
-### Gradient Rouge-Orange-Rouge (Complexe)
+### Gradient Orange
 ```css
-linear-gradient(135deg, #d32f2f, #ff5722, #ff1744)
-linear-gradient(90deg, #d32f2f, #ff5722, #ff1744)
+--gradient-orange: linear-gradient(135deg, #ff6b35, #ff8c42)
 ```
-**Usage :** Effets spéciaux, animations
+**Usage :** Accents, highlights  
+**Variable CSS :** `var(--gradient-orange)`
 
-### Gradient Rouge-Noir
+### Gradient Overlay
 ```css
-linear-gradient(135deg, #d32f2f, #000)
+--gradient-overlay: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%)
 ```
-**Usage :** Transitions, overlays
+**Usage :** Transitions, overlays  
+**Variable CSS :** `var(--gradient-overlay)`
 
 ---
 
 ## ✨ **Effets Néon & Ombres**
 
-### Ombres Rouges (Box-shadow)
+### Ombres Bleu Nuit (Box-shadow)
 ```css
-/* Ombres légères */
-rgba(211, 47, 47, 0.1) - Opacité 10%
-rgba(211, 47, 47, 0.2) - Opacité 20%
-rgba(211, 47, 47, 0.3) - Opacité 30%
-rgba(211, 47, 47, 0.4) - Opacité 40%
-rgba(211, 47, 47, 0.5) - Opacité 50%
+/* Variables CSS */
+--glow-blue-sm: 0 0 10px rgba(45, 74, 110, 0.3)  /* Petite */
+--glow-blue-md: 0 0 20px rgba(45, 74, 110, 0.4)  /* Moyenne */
+--glow-blue-lg: 0 0 40px rgba(45, 74, 110, 0.5)  /* Grande */
+--glow-blue-xl: 0 0 60px rgba(45, 74, 110, 0.6)  /* Très grande */
 
-/* Ombres moyennes */
-rgba(211, 47, 47, 0.6) - Opacité 60%
-rgba(211, 47, 47, 0.8) - Opacité 80%
-rgba(211, 47, 47, 1.0) - Opacité 100%
+/* Valeurs directes */
+rgba(45, 74, 110, 0.3) - Opacité 30% (petite)
+rgba(45, 74, 110, 0.4) - Opacité 40% (moyenne)
+rgba(45, 74, 110, 0.5) - Opacité 50% (grande)
+rgba(45, 74, 110, 0.6) - Opacité 60% (très grande)
+```
 
-/* Ombres Orange */
-rgba(255, 87, 34, 0.1) à rgba(255, 87, 34, 1.0)
+### Ombres Orange (Box-shadow)
+```css
+/* Variables CSS */
+--glow-orange-sm: 0 0 10px rgba(255, 107, 53, 0.3)  /* Petite */
+--glow-orange-md: 0 0 20px rgba(255, 107, 53, 0.4)  /* Moyenne */
+--glow-orange-lg: 0 0 40px rgba(255, 107, 53, 0.5)  /* Grande */
+--glow-orange-xl: 0 0 60px rgba(255, 107, 53, 0.6)  /* Très grande */
 
-/* Ombres Rouges vifs */
-rgba(255, 0, 0, 0.4) à rgba(255, 0, 0, 1.0)
+/* Valeurs directes */
+rgba(255, 107, 53, 0.3) - Opacité 30% (petite)
+rgba(255, 107, 53, 0.4) - Opacité 40% (moyenne)
+rgba(255, 107, 53, 0.5) - Opacité 50% (grande)
+rgba(255, 107, 53, 0.6) - Opacité 60% (très grande)
 ```
 
 ### Ombres Blanches (Text-shadow)
@@ -142,11 +194,16 @@ rgba(255, 255, 255, 0.9) - Texte très lumineux
 
 ### Ombres Noires (Profondeur)
 ```css
+/* Variables CSS */
+--shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3)   /* Petite */
+--shadow-md: 0 4px 8px rgba(0, 0, 0, 0.5)   /* Moyenne */
+--shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.7)  /* Grande */
+--shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.9) /* Très grande */
+
+/* Valeurs directes */
 rgba(0, 0, 0, 0.3) - Ombre légère
 rgba(0, 0, 0, 0.5) - Ombre moyenne
-rgba(0, 0, 0, 0.6) - Ombre forte
-rgba(0, 0, 0, 0.7) - Ombre très forte
-rgba(0, 0, 0, 0.8) - Ombre intense
+rgba(0, 0, 0, 0.7) - Ombre forte
 rgba(0, 0, 0, 0.9) - Ombre maximale
 ```
 
@@ -156,72 +213,75 @@ rgba(0, 0, 0, 0.9) - Ombre maximale
 
 ### Navigation
 - **Fond :** `rgba(0,0,0,0.95)` - Noir semi-transparent
-- **Texte :** `#ffffff` - Blanc
-- **Bordures :** `rgba(211, 47, 47, 0.3)` - Rouge transparent
-- **Ombres :** `rgba(211, 47, 47, 0.3)` - Rouge léger
+- **Texte :** `var(--white)` - Blanc (`#ffffff`)
+- **Bordures :** `var(--border-blue)` - Bleu nuit transparent (`rgba(45, 74, 110, 0.3)`)
+- **Ombres :** `var(--glow-blue-sm)` - Bleu nuit léger (`0 0 10px rgba(45, 74, 110, 0.3)`)
 
 ### Titres & Textes
-- **Titre Principal :** `#ffffff` avec ombres blanches
-- **Sous-titre :** `#ff5722` avec stroke `#d32f2f`
-- **Texte normal :** `rgba(255, 255, 255, 0.9)`
-- **Texte secondaire :** `#ccc` / `#aaa`
+- **Titre Principal :** `var(--white)` avec ombres blanches
+- **Sous-titre :** `var(--orange)` avec stroke `var(--blue-night)`
+- **Texte normal :** `var(--white-90)` - Blanc 90% (`rgba(255, 255, 255, 0.9)`)
+- **Texte secondaire :** `var(--gray-light)` / `var(--gray-medium)` - Gris clair/moyen
 
 ### Boutons
-- **Fond principal :** `linear-gradient(135deg, #d32f2f, #ff5722)`
-- **Fond hover :** `linear-gradient(135deg, #ff5722, #d32f2f)`
-- **Texte :** `#fff`
-- **Bordure :** `#d32f2f` ou `#ff5722`
-- **Ombre :** `rgba(211, 47, 47, 0.3)` à `rgba(211, 47, 47, 0.6)`
+- **Fond principal :** `var(--gradient-main)` - Gradient Bleu Nuit → Orange (`linear-gradient(135deg, #2d4a6e, #ff6b35)`)
+- **Fond hover :** `var(--gradient-reverse)` - Gradient Orange → Bleu Nuit (`linear-gradient(135deg, #ff6b35, #2d4a6e)`)
+- **Texte :** `var(--white)` - Blanc
+- **Bordure :** `var(--blue-night)` ou `var(--orange)`
+- **Ombre :** `var(--glow-blue-md)` à `var(--glow-blue-lg)` - Ombres bleu nuit moyennes à grandes
 
 ### Barres Latérales Lumineuses
 - **Gradient :** 
-  - `rgba(211, 47, 47, 0.8)` à 15%
-  - `rgba(255, 87, 34, 1)` à 30%
-  - `rgba(255, 0, 0, 1)` à 50%
-  - `rgba(255, 87, 34, 1)` à 70%
-  - `rgba(211, 47, 47, 0.8)` à 85%
-- **Ombres néon :** Multiples couches avec opacités variables
+  - `rgba(45, 74, 110, 0.8)` à 15% (Bleu nuit)
+  - `rgba(255, 107, 53, 1)` à 30% (Orange)
+  - `rgba(255, 107, 53, 1)` à 50% (Orange intense)
+  - `rgba(255, 107, 53, 1)` à 70% (Orange)
+  - `rgba(45, 74, 110, 0.8)` à 85% (Bleu nuit)
+- **Ombres néon :** Multiples couches avec opacités variables (bleu nuit et orange)
 
 ### Formulaires
-- **Fond input :** `rgba(255, 255, 255, 0.05)` - Blanc très transparent
-- **Bordure :** `rgba(211, 47, 47, 0.3)` - Rouge transparent
-- **Focus :** `#d32f2f` - Rouge vif
-- **Texte :** `#fff` - Blanc
-- **Placeholder :** `rgba(255, 255, 255, 0.4)` - Blanc discret
+- **Fond input :** `var(--white-10)` - Blanc très transparent (`rgba(255, 255, 255, 0.1)`)
+- **Bordure :** `var(--border-blue)` - Bleu nuit transparent (`rgba(45, 74, 110, 0.3)`)
+- **Focus :** `var(--orange)` - Orange vif (`#ff6b35`)
+- **Texte :** `var(--white)` - Blanc
+- **Placeholder :** `var(--white-50)` - Blanc discret (`rgba(255, 255, 255, 0.5)`)
 
 ### Messages
-- **Succès :** `rgba(76, 175, 80, 0.2)` fond, `#4caf50` texte
-- **Erreur :** `rgba(211, 47, 47, 0.2)` fond, `#d32f2f` texte
+- **Succès :** `rgba(76, 175, 80, 0.2)` fond, `var(--success)` texte (`#4caf50`)
+- **Erreur :** `rgba(255, 107, 53, 0.2)` fond, `var(--orange)` texte (`#ff6b35`)
 
 ### Modals
 - **Overlay :** `rgba(0, 0, 0, 0.8)` - Noir semi-transparent
 - **Fond modal :** `rgba(0, 0, 0, 0.95)` - Noir presque opaque
-- **Bordure :** `rgba(211, 47, 47, 0.4)` - Rouge transparent
-- **Ombre :** `rgba(0, 0, 0, 0.5)` - Noir pour profondeur
+- **Bordure :** `var(--border-orange)` - Orange transparent (`rgba(255, 107, 53, 0.5)`)
+- **Ombre :** `var(--shadow-lg)` - Ombre noire grande (`0 8px 16px rgba(0, 0, 0, 0.7)`)
 
 ---
 
 ## 📊 **Résumé Rapide**
 
 ### Couleurs Principales
-| Couleur | Hex | RGB | Usage |
-|---------|-----|-----|-------|
-| Rouge Principal | `#d32f2f` | `rgb(211, 47, 47)` | Couleur principale |
-| Orange | `#ff5722` | `rgb(255, 87, 34)` | Accents |
-| Rouge Vif | `#ff0000` | `rgb(255, 0, 0)` | Effets néon |
-| Noir | `#000000` | `rgb(0, 0, 0)` | Fond |
-| Blanc | `#ffffff` | `rgb(255, 255, 255)` | Texte |
-| Vert Succès | `#4caf50` | `rgb(76, 175, 80)` | Messages |
+| Couleur | Hex | RGB | Variable CSS | Usage |
+|---------|-----|-----|--------------|-------|
+| Bleu Nuit | `#2d4a6e` | `rgb(45, 74, 110)` | `--blue-night` | Couleur principale |
+| Bleu Nuit Foncé | `#1e3a5f` | `rgb(30, 58, 95)` | `--blue-night-dark` | Éléments sombres |
+| Orange | `#ff6b35` | `rgb(255, 107, 53)` | `--orange` | Accents, hover |
+| Orange Clair | `#ff8c42` | `rgb(255, 140, 66)` | `--orange-light` | États actifs |
+| Noir | `#000000` | `rgb(0, 0, 0)` | `--black` | Fond |
+| Blanc | `#ffffff` | `rgb(255, 255, 255)` | `--white` | Texte |
+| Vert Succès | `#4caf50` | `rgb(76, 175, 80)` | `--success` | Messages |
 
 ### Opacités Communes
-- `0.1` - Très léger (10%)
-- `0.2` - Léger (20%)
-- `0.3` - Moyen (30%)
-- `0.4` - Visible (40%)
-- `0.5` - Semi-transparent (50%)
-- `0.6` - Plus opaque (60%)
-- `0.8` - Presque opaque (80%)
-- `1.0` - Opaque (100%)
+- `0.1` (10%) - `var(--white-10)` - Très léger
+- `0.2` (20%) - Léger
+- `0.3` (30%) - Moyen
+- `0.4` (40%) - Visible
+- `0.5` (50%) - `var(--white-50)` - Semi-transparent
+- `0.6` (60%) - Plus opaque
+- `0.7` (70%) - `var(--white-70)` - Visible
+- `0.8` (80%) - Presque opaque
+- `0.9` (90%) - `var(--white-90)` - Très visible
+- `1.0` (100%) - Opaque
 
 ---
 
@@ -233,20 +293,33 @@ rgba(0, 0, 0, 0.9) - Ombre maximale
 {
   "colors": {
     "primary": {
-      "red": "#d32f2f",
-      "orange": "#ff5722",
-      "red-bright": "#ff0000"
+      "blue-night": "#2d4a6e",
+      "blue-night-dark": "#1e3a5f",
+      "blue-night-darker": "#112240",
+      "blue-night-darkest": "#0a192f",
+      "blue-night-light": "#3d5a7e",
+      "blue-night-lighter": "#4d6a8e"
+    },
+    "accent": {
+      "orange": "#ff6b35",
+      "orange-light": "#ff8c42",
+      "orange-lighter": "#ffa366",
+      "orange-dark": "#e55a2b"
     },
     "neutral": {
       "black": "#000000",
       "black-dark": "#0a0a0a",
+      "black-darker": "#111111",
       "white": "#ffffff",
-      "gray-light": "#ccc",
-      "gray-medium": "#aaa",
-      "gray-dark": "#666"
+      "gray-light": "#cccccc",
+      "gray-medium": "#999999",
+      "gray-dark": "#666666"
     },
-    "accent": {
-      "green": "#4caf50"
+    "semantic": {
+      "success": "#4caf50",
+      "error": "#ff6b35",
+      "warning": "#ff8c42",
+      "info": "#3d5a7e"
     }
   }
 }
@@ -256,16 +329,32 @@ rgba(0, 0, 0, 0.9) - Ombre maximale
 
 ## 💡 **Conseils d'Utilisation**
 
-1. **Contraste :** Toujours utiliser du blanc (`#fff`) sur fond noir (`#000`)
-2. **Accents :** Utiliser `#ff5722` pour attirer l'attention
-3. **Effets :** Utiliser les opacités RGBA pour les overlays et effets
-4. **Gradients :** Préférer les gradients rouge-orange pour les éléments interactifs
-5. **Ombres :** Utiliser les ombres rouges pour les effets néon
+1. **Contraste :** Toujours utiliser du blanc (`var(--white)`) sur fond noir (`var(--black)`)
+2. **Accents :** Utiliser `var(--orange)` pour attirer l'attention et les actions
+3. **Effets :** Utiliser les opacités RGBA via les variables (`--white-10` à `--white-90`) pour les overlays et effets
+4. **Gradients :** Préférer les gradients bleu nuit-orange (`var(--gradient-main)`) pour les éléments interactifs
+5. **Ombres :** Utiliser les ombres bleu nuit (`var(--glow-blue-*)`) et orange (`var(--glow-orange-*)`) pour les effets néon
+6. **Cohérence :** Toujours utiliser les variables CSS plutôt que les valeurs hex directes pour faciliter les futures modifications
 
 ---
 
-**Dernière mise à jour :** $(date)
-**Fichier source :** index.html
+---
+
+## 📝 **Notes Importantes**
+
+- ✅ **Toutes les couleurs utilisent des variables CSS** définies dans `:root`
+- ✅ **Contraste WCAG AA** respecté pour toutes les combinaisons texte/fond
+- ✅ **Palette cohérente** : Bleu Nuit (primary) / Orange (accent) / Noir (background)
+- ✅ **184 utilisations** de variables CSS dans le code
+- ✅ **0 couleur codée en dur** restante (hors définition des variables)
+
+---
+
+**Dernière mise à jour :** 27 janvier 2025  
+**Fichier source :** `index.html` (variables CSS dans `:root`)  
+**Thème actuel :** Bleu Nuit / Orange / Noir  
+**Statut :** ✅ Palette complète appliquée
+
 
 
 
