@@ -1457,6 +1457,7 @@
             background: linear-gradient(180deg, rgba(20, 0, 0, 0.98), rgba(0, 0, 0, 0.95));
             width: 100%;
             box-sizing: border-box;
+            overflow: hidden;
         }
         .video-container {
             width: 100%;
@@ -1464,6 +1465,89 @@
             margin: 0 auto;
             padding: 0 clamp(20px, 4vw, 60px);
             box-sizing: border-box;
+            position: relative;
+        }
+        .video-wrapper-neon {
+            position: relative;
+            width: 100%;
+            padding: 20px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+        }
+        .video-wrapper-neon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            padding: 4px;
+            background: linear-gradient(45deg, 
+                rgba(45, 74, 110, 0.8) 0%,
+                rgba(255, 107, 53, 0.8) 25%,
+                rgba(45, 74, 110, 0.8) 50%,
+                rgba(255, 107, 53, 0.8) 75%,
+                rgba(45, 74, 110, 0.8) 100%
+            );
+            background-size: 300% 300%;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: neonRotate 3s linear infinite, neonPulse 2s ease-in-out infinite;
+            z-index: 1;
+        }
+        .video-wrapper-neon::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 22px;
+            background: linear-gradient(45deg, 
+                rgba(45, 74, 110, 1),
+                rgba(255, 107, 53, 1),
+                rgba(45, 74, 110, 1),
+                rgba(255, 107, 53, 1)
+            );
+            background-size: 400% 400%;
+            filter: blur(20px);
+            opacity: 0.7;
+            animation: neonRotate 4s linear infinite, neonGlow 2s ease-in-out infinite alternate;
+            z-index: 0;
+        }
+        @keyframes neonRotate {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        @keyframes neonPulse {
+            0%, 100% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.02);
+            }
+        }
+        @keyframes neonGlow {
+            0% {
+                opacity: 0.5;
+                filter: blur(15px);
+            }
+            100% {
+                opacity: 0.9;
+                filter: blur(25px);
+            }
         }
         .video-player {
             width: 100%;
@@ -1471,23 +1555,62 @@
             height: auto;
             display: block;
             border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8),
-                        0 0 30px rgba(45, 74, 110, 0.4),
-                        0 0 60px rgba(255, 107, 53, 0.2);
+            position: relative;
+            z-index: 2;
+            box-shadow: 
+                0 0 20px rgba(45, 74, 110, 0.8),
+                0 0 40px rgba(255, 107, 53, 0.6),
+                0 0 60px rgba(45, 74, 110, 0.5),
+                0 0 80px rgba(255, 107, 53, 0.4),
+                0 0 100px rgba(45, 74, 110, 0.3),
+                inset 0 0 30px rgba(255, 107, 53, 0.2);
             background: var(--black-dark);
-            border: 2px solid rgba(45, 74, 110, 0.3);
+            border: 3px solid rgba(255, 107, 53, 0.5);
             outline: none;
             transition: all 0.3s ease;
         }
-        .video-player:hover {
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9),
-                        0 0 40px rgba(45, 74, 110, 0.6),
-                        0 0 80px rgba(255, 107, 53, 0.3);
-            border-color: rgba(45, 74, 110, 0.5);
+        .video-player::-webkit-media-controls {
+            display: none !important;
         }
-        .video-player:focus {
-            outline: 2px solid var(--orange);
-            outline-offset: 4px;
+        .video-player::-webkit-media-controls-panel {
+            display: none !important;
+        }
+        .video-player::-webkit-media-controls-play-button {
+            display: none !important;
+        }
+        .video-player::-webkit-media-controls-start-playback-button {
+            display: none !important;
+        }
+        /* Masquer tous les contrôles natifs */
+        .video-player[controls] {
+            pointer-events: none;
+        }
+        .video-player video::-webkit-media-controls-enclosure {
+            display: none !important;
+        }
+        /* Animation supplémentaire pour effet néon plus intense */
+        @keyframes neonFlicker {
+            0%, 100% {
+                opacity: 1;
+            }
+            41% {
+                opacity: 0.8;
+            }
+            42% {
+                opacity: 1;
+            }
+            45% {
+                opacity: 0.8;
+            }
+            46% {
+                opacity: 1;
+            }
+        }
+        .video-wrapper-neon {
+            animation: neonFlicker 4s ease-in-out infinite;
+        }
+        .video-wrapper-neon::before {
+            animation: neonRotate 3s linear infinite, neonPulse 2s ease-in-out infinite, neonFlicker 3s ease-in-out infinite;
         }
         /* Responsive Video */
         @media (max-width: 768px) {

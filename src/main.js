@@ -99,6 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initForms();
 
+    initVideo();
+
     log('System initialized');
 
 });
@@ -249,6 +251,92 @@ function initPlayer() {
         elements.player.currentTime = pct * elements.player.duration;
 
     });
+
+}
+
+// --- VIDEO INITIALIZATION ---
+
+function initVideo() {
+
+    const video = document.getElementById('djshekVideo');
+
+    if (!video) return;
+
+    // Configurer la vitesse de lecture (plus rapide)
+
+    video.playbackRate = 1.5; // 1.5x la vitesse normale
+
+    // S'assurer que la vidéo est muette
+
+    video.muted = true;
+
+    // Activer la boucle
+
+    video.loop = true;
+
+    // Forcer la lecture automatique
+
+    const playVideo = async () => {
+
+        try {
+
+            await video.play();
+
+            log('Vidéo démarrée automatiquement');
+
+        } catch (error) {
+
+            log('Erreur lecture automatique vidéo:', error);
+
+            // Retenter après interaction utilisateur
+
+            document.addEventListener('click', playVideo, { once: true });
+
+            document.addEventListener('touchstart', playVideo, { once: true });
+
+        }
+
+    };
+
+    // Démarrer la vidéo dès que possible
+
+    if (video.readyState >= 3) { // HAVE_FUTURE_DATA
+
+        playVideo();
+
+    } else {
+
+        video.addEventListener('loadeddata', playVideo, { once: true });
+
+        video.addEventListener('canplay', playVideo, { once: true });
+
+    }
+
+    // S'assurer que la boucle fonctionne
+
+    video.addEventListener('ended', () => {
+
+        video.currentTime = 0;
+
+        video.play().catch(() => {});
+
+    });
+
+    // Maintenir la vitesse même après chargement
+
+    video.addEventListener('loadedmetadata', () => {
+
+        video.playbackRate = 1.5;
+
+    });
+
+    // Empêcher l'affichage des contrôles
+
+    video.controls = false;
+
+    // Ajouter un style pour cacher complètement les contrôles
+
+    video.style.pointerEvents = 'none'; // Empêche les interactions avec la vidéo
 
 }
 
