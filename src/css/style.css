@@ -1450,6 +1450,62 @@
             transform: scale(1.2);
             box-shadow: 0 0 40px rgba(45, 74, 110, 0.8);
         }
+        /* Video Section */
+        .video-section {
+            padding: clamp(60px, 10vw, 100px) 0;
+            position: relative;
+            background: linear-gradient(180deg, rgba(20, 0, 0, 0.98), rgba(0, 0, 0, 0.95));
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .video-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 clamp(20px, 4vw, 60px);
+            box-sizing: border-box;
+        }
+        .video-player {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8),
+                        0 0 30px rgba(45, 74, 110, 0.4),
+                        0 0 60px rgba(255, 107, 53, 0.2);
+            background: var(--black-dark);
+            border: 2px solid rgba(45, 74, 110, 0.3);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .video-player:hover {
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9),
+                        0 0 40px rgba(45, 74, 110, 0.6),
+                        0 0 80px rgba(255, 107, 53, 0.3);
+            border-color: rgba(45, 74, 110, 0.5);
+        }
+        .video-player:focus {
+            outline: 2px solid var(--orange);
+            outline-offset: 4px;
+        }
+        /* Responsive Video */
+        @media (max-width: 768px) {
+            .video-section {
+                padding: clamp(40px, 8vw, 60px) 0;
+            }
+            .video-container {
+                padding: 0 clamp(15px, 3vw, 30px);
+            }
+        }
+        @media (max-width: 480px) {
+            .video-section {
+                padding: clamp(30px, 6vw, 50px) 0;
+            }
+            .video-container {
+                padding: 0 15px;
+            }
+        }
         /* Experience Section - Timeline */
         .experience-section {
             padding: clamp(3rem, 8vw, 150px) clamp(1rem, 4vw, 60px);
