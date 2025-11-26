@@ -2,8 +2,8 @@
 
 **Date** : 27 janvier 2025  
 **Version** : 2.0.0  
-**Build Tool** : Vite 5.0  
-**Statut** : ✅ Architecture complète créée
+**Build Tool** : Vite 7.2.4  
+**Statut** : ✅ Architecture complète créée et à jour
 
 ---
 

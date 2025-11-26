@@ -99,6 +99,6 @@ Vercel déploiera automatiquement !
 
 **Version** : ✅ **2.0.0 DÉPLOYÉE**  
 **Architecture** : ✅ **MODULAIRE**  
-**Build Tool** : ✅ **VITE 5.0**  
+**Build Tool** : ✅ **VITE 7.2.4**  
 **Statut** : ✅ **PRODUCTION READY**
 

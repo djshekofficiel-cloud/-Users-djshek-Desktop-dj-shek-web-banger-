@@ -74,6 +74,51 @@ export function sanitizeMessage(message, maxLength = 5000) {
 }
 
 /**
+ * Sanitize un numéro de téléphone
+ */
+export function sanitizePhone(phone, maxLength = 20) {
+    if (!phone || typeof phone !== 'string') return '';
+    
+    return phone
+        .trim()
+        // Garder seulement chiffres, espaces, +, -, (, )
+        .replace(/[^0-9\s\+\-\(\)]/g, '')
+        .substring(0, maxLength);
+}
+
+/**
+ * Validation d'un numéro de téléphone (format international)
+ */
+export function isValidPhone(phone) {
+    if (!phone || typeof phone !== 'string') return false;
+    
+    // Supprimer les espaces et caractères spéciaux pour la validation
+    const cleaned = phone.replace(/[\s\-\(\)]/g, '');
+    
+    // Doit contenir entre 8 et 15 chiffres (format international)
+    if (cleaned.length < 8 || cleaned.length > 15) return false;
+    
+    // Doit commencer par + ou un chiffre
+    if (!/^[\+]?[0-9]/.test(cleaned)) return false;
+    
+    return true;
+}
+
+/**
+ * Validation d'une date (doit être dans le futur pour les événements)
+ */
+export function isValidEventDate(dateString) {
+    if (!dateString) return true; // Optionnel
+    
+    const date = new Date(dateString);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    // La date doit être valide et dans le futur
+    return !isNaN(date.getTime()) && date >= today;
+}
+
+/**
  * Rate limiting côté client (basique)
  */
 class RateLimiter {
@@ -104,16 +149,16 @@ class RateLimiter {
 export const rateLimiter = new RateLimiter(3, 60000); // 3 par minute
 
 /**
- * Validation complète du formulaire
+ * Validation complète du formulaire (version simplifiée)
  */
 export function validateForm(formData) {
     const errors = {};
     
-    // Validation prénom
-    if (!formData.firstName || formData.firstName.trim().length < 2) {
-        errors.firstName = 'Le prénom doit contenir au moins 2 caractères';
-    } else if (formData.firstName.length > 100) {
-        errors.firstName = 'Le prénom est trop long (max 100 caractères)';
+    // Validation nom / pseudo
+    if (!formData.nom || formData.nom.trim().length < 2) {
+        errors.nom = 'Le nom / pseudo doit contenir au moins 2 caractères';
+    } else if (formData.nom.length > 100) {
+        errors.nom = 'Le nom / pseudo est trop long (max 100 caractères)';
     }
     
     // Validation email
@@ -121,11 +166,29 @@ export function validateForm(formData) {
         errors.email = 'Veuillez entrer une adresse email valide';
     }
     
-    // Validation message
-    if (!formData.message || formData.message.trim().length < 10) {
-        errors.message = 'Le message doit contenir au moins 10 caractères';
-    } else if (formData.message.length > 5000) {
-        errors.message = 'Le message est trop long (max 5000 caractères)';
+    // Validation type de prestation
+    if (!formData.type_prestation || formData.type_prestation.trim().length === 0) {
+        errors.type_prestation = 'Veuillez sélectionner un type de prestation';
+    }
+    
+    // Validation instructions (minimum 30 caractères)
+    if (!formData.instructions || formData.instructions.trim().length < 30) {
+        errors.instructions = 'Les instructions doivent contenir au moins 30 caractères pour nous donner plus de détails';
+    } else if (formData.instructions.length > 5000) {
+        errors.instructions = 'Les instructions sont trop longues (max 5000 caractères)';
+    }
+    
+    // Validation BPM (si renseigné)
+    if (formData.bpm) {
+        const bpm = parseInt(formData.bpm);
+        if (isNaN(bpm) || bpm < 50 || bpm > 200) {
+            errors.bpm = 'Le BPM doit être entre 50 et 200';
+        }
+    }
+    
+    // Validation GDPR (requis)
+    if (!formData.gdpr) {
+        errors.gdpr = 'Vous devez accepter l\'utilisation de vos données pour traiter votre demande';
     }
     
     // Vérifier le rate limiting
@@ -140,13 +203,27 @@ export function validateForm(formData) {
 }
 
 /**
- * Préparer les données du formulaire pour l'envoi (sanitization complète)
+ * Sanitize une URL
+ */
+export function sanitizeUrl(url, maxLength = 500) {
+    if (!url || typeof url !== 'string') return '';
+    return url.trim().substring(0, maxLength);
+}
+
+/**
+ * Préparer les données du formulaire pour l'envoi (sanitization complète - version simplifiée)
  */
 export function prepareFormData(rawData) {
     return {
-        firstName: sanitizeName(rawData.firstName || ''),
+        nom: sanitizeName(rawData.nom || '', 100),
         email: rawData.email?.trim().toLowerCase() || '',
-        message: sanitizeMessage(rawData.message || '')
+        type_prestation: sanitizeString(rawData.type_prestation || '', 50),
+        style: sanitizeString(rawData.style || '', 200),
+        instructions: sanitizeMessage(rawData.instructions || ''),
+        fichiers: sanitizeUrl(rawData.fichiers || ''),
+        bpm: rawData.bpm ? parseInt(rawData.bpm) || 0 : 0,
+        delai: sanitizeString(rawData.delai || '', 20),
+        gdpr: rawData.gdpr || false
     };
 }
 

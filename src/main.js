@@ -4,6 +4,8 @@ import { audioTracks } from './data/tracks.js';
 
 import { validateForm, prepareFormData, rateLimiter } from './js/form-security.js';
 
+import { csrfProtection } from './js/csrf-protection.js';
+
 
 
 // --- CONFIGURATION ---
@@ -136,17 +138,28 @@ function initPlayer() {
 
         item.tabIndex = 0;
 
-        item.innerHTML = `
+        // Sécurisé : utilisation de createElement au lieu de innerHTML
+        const numberDiv = document.createElement('div');
+        numberDiv.className = 'audio-playlist-number';
+        numberDiv.textContent = String(index + 1).padStart(2, '0');
 
-            <div class="audio-playlist-number">${String(index + 1).padStart(2, '0')}</div>
+        const nameDiv = document.createElement('div');
+        nameDiv.className = 'audio-playlist-name';
+        nameDiv.textContent = track.name; // track.name est déjà dans les données statiques, sécurisé
 
-            <div class="audio-playlist-name">${track.name}</div>
+        const durationDiv = document.createElement('div');
+        durationDiv.className = 'audio-playlist-duration';
+        durationDiv.textContent = '--:--';
 
-            <div class="audio-playlist-duration">--:--</div>
+        const downloadBtn = document.createElement('button');
+        downloadBtn.className = 'audio-playlist-download';
+        downloadBtn.setAttribute('aria-label', 'Télécharger');
+        downloadBtn.textContent = '⬇';
 
-            <button class="audio-playlist-download" aria-label="Télécharger">⬇</button>
-
-        `;
+        item.appendChild(numberDiv);
+        item.appendChild(nameDiv);
+        item.appendChild(durationDiv);
+        item.appendChild(downloadBtn);
 
         
 
@@ -462,7 +475,15 @@ function initPartenaires() {
 
         div.className = 'partenaire-item';
 
-        div.innerHTML = `<img src="/images/partenaire/${imgName}" alt="Partenaire" loading="lazy">`;
+        // Sécurisé : utilisation de createElement au lieu de innerHTML
+        const img = document.createElement('img');
+        // Sanitize le nom de fichier pour éviter directory traversal
+        const sanitizedImgName = imgName.replace(/[^a-zA-Z0-9._-]/g, '');
+        img.src = `/images/partenaire/${sanitizedImgName}`;
+        img.alt = 'Partenaire';
+        img.loading = 'lazy';
+
+        div.appendChild(img);
 
         grid.appendChild(div);
 
@@ -472,9 +493,56 @@ function initPartenaires() {
 
 
 
+// Fonction utilitaire pour gérer le localStorage de manière sécurisée
+function getStoredEmail() {
+    try {
+        const stored = localStorage.getItem('djshek_user_email');
+        if (!stored) return null;
+
+        const data = JSON.parse(stored);
+        const now = Date.now();
+
+        // Vérifier l'expiration (30 jours)
+        if (data.expires && now > data.expires) {
+            localStorage.removeItem('djshek_user_email');
+            return null;
+        }
+
+        // Valider l'email stocké
+        if (data.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+            return data.email;
+        }
+
+        return null;
+    } catch (e) {
+        console.error('Erreur lors de la récupération de l\'email:', e);
+        localStorage.removeItem('djshek_user_email');
+        return null;
+    }
+}
+
+function setStoredEmail(email) {
+    try {
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            return false;
+        }
+
+        const data = {
+            email: email,
+            expires: Date.now() + (30 * 24 * 60 * 60 * 1000) // 30 jours
+        };
+
+        localStorage.setItem('djshek_user_email', JSON.stringify(data));
+        return true;
+    } catch (e) {
+        console.error('Erreur lors du stockage de l\'email:', e);
+        return false;
+    }
+}
+
 function handleDownload(track) {
 
-    const email = localStorage.getItem('djshek_user_email');
+    const email = getStoredEmail();
 
     if (!email) {
 
@@ -510,6 +578,25 @@ function initForms() {
 
     if (elements.contactForm) {
 
+        // Ajouter le token CSRF au formulaire
+        csrfProtection.addTokenToForm(elements.contactForm);
+
+        // Compteur de caractères pour les instructions
+        const instructionsTextarea = document.getElementById('instructions');
+        const charCount = document.getElementById('charCount');
+
+        if (instructionsTextarea && charCount) {
+            instructionsTextarea.addEventListener('input', () => {
+                const length = instructionsTextarea.value.length;
+                charCount.textContent = length;
+                if (length > 4500) {
+                    charCount.style.color = 'var(--orange)';
+                } else {
+                    charCount.style.color = 'rgba(255, 255, 255, 0.7)';
+                }
+            });
+        }
+
         elements.contactForm.addEventListener('submit', (e) => {
 
             e.preventDefault();
@@ -518,16 +605,25 @@ function initForms() {
 
             clearFormErrors();
 
-            // Récupérer les valeurs
+            // Valider le token CSRF
+            if (!csrfProtection.validateFormToken(elements.contactForm)) {
+                showFormMessage('Erreur de sécurité. Veuillez rafraîchir la page et réessayer.', 'error');
+                // Régénérer le token
+                csrfProtection.addTokenToForm(elements.contactForm);
+                return;
+            }
 
+            // Récupérer les valeurs (formulaire simplifié)
             const rawData = {
-
-                firstName: document.getElementById('firstName')?.value || '',
-
+                nom: document.getElementById('nom')?.value || '',
                 email: document.getElementById('email')?.value || '',
-
-                message: document.getElementById('message')?.value || ''
-
+                type_prestation: document.getElementById('type_prestation')?.value || '',
+                style: document.getElementById('style')?.value || '',
+                instructions: document.getElementById('instructions')?.value || '',
+                fichiers: document.getElementById('fichiers')?.value || '',
+                bpm: document.getElementById('bpm')?.value || '',
+                delai: document.getElementById('delai')?.value || '',
+                gdpr: document.getElementById('gdpr')?.checked || false
             };
 
             // Sanitization et validation
@@ -550,21 +646,76 @@ function initForms() {
 
             const submitBtn = document.getElementById('submitBtn');
 
+            const btnText = submitBtn?.querySelector('.btn-text');
+
+            const btnLoader = submitBtn?.querySelector('.btn-loader');
+
             if (submitBtn) {
 
                 submitBtn.disabled = true;
 
-                submitBtn.textContent = 'Envoi en cours...';
+                if (btnText) btnText.style.opacity = '0';
+
+                if (btnLoader) btnLoader.classList.remove('hidden');
 
             }
 
             // Préparer l'email mailto sécurisé
+            const subject = encodeURIComponent(`[${sanitizedData.type_prestation || 'Prestation'}] Nouvelle demande depuis djshekofficiel.com`);
 
-            const subject = encodeURIComponent('Nouveau message depuis djshekofficiel.com');
+            let body = `═══════════════════════════════════════\n`;
+            body += `NOUVELLE DEMANDE DE PRESTATION - DJ SHEK\n`;
+            body += `═══════════════════════════════════════\n\n`;
 
-            const body = encodeURIComponent(`Prénom: ${sanitizedData.firstName}\nEmail: ${sanitizedData.email}\n\nMessage:\n${sanitizedData.message}`);
+            body += `📋 INFORMATIONS\n`;
+            body += `───────────────────────────────────────\n`;
+            body += `Nom / Pseudo: ${sanitizedData.nom}\n`;
+            body += `Email: ${sanitizedData.email}\n`;
+            body += `\n`;
 
-            const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${subject}&body=${body}`;
+            body += `🎯 TYPE DE PRESTATION\n`;
+            body += `───────────────────────────────────────\n`;
+            body += `${sanitizedData.type_prestation || 'Non spécifié'}\n`;
+            body += `\n`;
+
+            if (sanitizedData.style) {
+                body += `🎵 STYLE / RÉFÉRENCE\n`;
+                body += `───────────────────────────────────────\n`;
+                body += `${sanitizedData.style}\n`;
+                body += `\n`;
+            }
+
+            body += `💬 INSTRUCTIONS DÉTAILLÉES\n`;
+            body += `───────────────────────────────────────\n`;
+            body += `${sanitizedData.instructions}\n`;
+            body += `\n`;
+
+            if (sanitizedData.fichiers) {
+                body += `📎 LIENS VERS FICHIERS\n`;
+                body += `───────────────────────────────────────\n`;
+                body += `${sanitizedData.fichiers}\n`;
+                body += `\n`;
+            }
+
+            if (sanitizedData.bpm) {
+                body += `🎚️ BPM SOUHAITÉ\n`;
+                body += `───────────────────────────────────────\n`;
+                body += `${sanitizedData.bpm} BPM\n`;
+                body += `\n`;
+            }
+
+            if (sanitizedData.delai) {
+                body += `⏰ DÉLAI DÉSIRÉ\n`;
+                body += `───────────────────────────────────────\n`;
+                body += `${sanitizedData.delai}\n`;
+                body += `\n`;
+            }
+
+            body += `═══════════════════════════════════════\n`;
+            if (rawData.gdpr) body += `✓ Consentement RGPD donné\n`;
+            body += `═══════════════════════════════════════\n`;
+
+            const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${subject}&body=${encodeURIComponent(body)}`;
 
             // Ouvrir le client mail
 
@@ -574,15 +725,24 @@ function initForms() {
 
             showFormMessage('Votre client mail va s\'ouvrir pour envoyer la demande.', 'success');
 
-            // Réactiver le bouton après 2 secondes
+            // Réinitialiser le formulaire après un court délai
 
             setTimeout(() => {
+
+                elements.contactForm.reset();
+
+                if (charCount) charCount.textContent = '0';
+
+                // Régénérer le token CSRF
+                csrfProtection.addTokenToForm(elements.contactForm);
 
                 if (submitBtn) {
 
                     submitBtn.disabled = false;
 
-                    submitBtn.textContent = 'Envoyer';
+                    if (btnText) btnText.style.opacity = '1';
+
+                    if (btnLoader) btnLoader.classList.add('hidden');
 
                 }
 
@@ -598,19 +758,34 @@ function initForms() {
 
     if (elements.modalForm) {
 
+        // Ajouter le token CSRF au formulaire modal
+        csrfProtection.addTokenToForm(elements.modalForm);
+
         elements.modalForm.addEventListener('submit', (e) => {
 
             e.preventDefault();
 
+            // Valider le token CSRF
+            if (!csrfProtection.validateFormToken(elements.modalForm)) {
+                alert('Erreur de sécurité. Veuillez rafraîchir la page et réessayer.');
+                csrfProtection.addTokenToForm(elements.modalForm);
+                return;
+            }
+
             const email = document.getElementById('emailInput').value;
 
-            if (email.includes('@')) {
+            if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
 
-                localStorage.setItem('djshek_user_email', email);
-
+                if (setStoredEmail(email)) {
                 elements.modalOverlay.classList.remove('active');
-
                 alert("Email enregistré ! Vous pouvez maintenant télécharger.");
+                } else {
+                    alert("Erreur lors de l'enregistrement de l'email. Veuillez réessayer.");
+                }
+
+            } else {
+
+                alert("Veuillez entrer une adresse email valide.");
 
             }
 
