@@ -176,6 +176,24 @@ export function validateForm(formData) {
         errors.instructions = 'Les instructions doivent contenir au moins 30 caractères pour nous donner plus de détails';
     } else if (formData.instructions.length > 5000) {
         errors.instructions = 'Les instructions sont trop longues (max 5000 caractères)';
+    } else {
+        // Vérifier les patterns suspects (injection XSS potentielle)
+        if (formData.instructions && typeof formData.instructions === 'string') {
+            const suspiciousPatterns = [
+                /<script[^>]*>/gi,
+                /javascript:/gi,
+                /on\w+\s*=/gi,
+                /<iframe/gi,
+                /data:text\/html/gi
+            ];
+            
+            for (const pattern of suspiciousPatterns) {
+                if (pattern.test(formData.instructions)) {
+                    errors.instructions = 'Le contenu contient des éléments non autorisés';
+                    break;
+                }
+            }
+        }
     }
     
     // Validation BPM (si renseigné)
@@ -203,11 +221,23 @@ export function validateForm(formData) {
 }
 
 /**
- * Sanitize une URL
+ * Sanitize une URL avec validation stricte
  */
 export function sanitizeUrl(url, maxLength = 500) {
     if (!url || typeof url !== 'string') return '';
-    return url.trim().substring(0, maxLength);
+    
+    const trimmed = url.trim().substring(0, maxLength);
+    
+    // Validation stricte de l'URL (doit commencer par http:// ou https://)
+    if (trimmed && !trimmed.match(/^https?:\/\//i)) {
+        // Si pas de protocole, essayer d'ajouter https://
+        if (trimmed.match(/^[a-zA-Z0-9][a-zA-Z0-9-.]*\.[a-zA-Z]{2,}/)) {
+            return `https://${trimmed}`;
+        }
+        return ''; // URL invalide
+    }
+    
+    return trimmed;
 }
 
 /**

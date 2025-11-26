@@ -6,6 +6,15 @@ import { validateForm, prepareFormData, rateLimiter } from './js/form-security.j
 
 import { csrfProtection } from './js/csrf-protection.js';
 
+import { 
+    honeypot, 
+    timingProtection, 
+    submissionTracker,
+    validateUrlStrict,
+    detectSuspiciousPatterns,
+    isSpamContent
+} from './js/advanced-security.js';
+
 
 
 // --- CONFIGURATION ---
@@ -581,6 +590,12 @@ function initForms() {
         // Ajouter le token CSRF au formulaire
         csrfProtection.addTokenToForm(elements.contactForm);
 
+        // Ajouter le champ honeypot (protection anti-bots)
+        honeypot.createHoneypotField(elements.contactForm);
+
+        // Démarrer le chronomètre de timing (protection contre soumissions trop rapides)
+        timingProtection.startTiming('contactForm');
+
         // Compteur de caractères pour les instructions
         const instructionsTextarea = document.getElementById('instructions');
         const charCount = document.getElementById('charCount');
@@ -610,6 +625,25 @@ function initForms() {
                 showFormMessage('Erreur de sécurité. Veuillez rafraîchir la page et réessayer.', 'error');
                 // Régénérer le token
                 csrfProtection.addTokenToForm(elements.contactForm);
+                return;
+            }
+
+            // Vérifier le honeypot (détection de bots)
+            if (honeypot.isBot(elements.contactForm)) {
+                showFormMessage('Spam détecté. Si vous êtes humain, réessayez.', 'error');
+                return;
+            }
+
+            // Vérifier le timing (protection contre soumissions trop rapides)
+            if (!timingProtection.isValidTiming('contactForm')) {
+                showFormMessage('Le formulaire doit être rempli en au moins 3 secondes. Veuillez réessayer.', 'error');
+                return;
+            }
+
+            // Vérifier le nombre de soumissions
+            if (!submissionTracker.canSubmit()) {
+                const remaining = submissionTracker.getRemainingSubmissions();
+                showFormMessage(`Trop de soumissions. Vous pouvez envoyer ${remaining} demande(s) par heure maximum.`, 'error');
                 return;
             }
 
@@ -714,6 +748,30 @@ function initForms() {
             body += `═══════════════════════════════════════\n`;
             if (rawData.gdpr) body += `✓ Consentement RGPD donné\n`;
             body += `═══════════════════════════════════════\n`;
+
+            // Vérifications de sécurité supplémentaires avant l'envoi
+            // Vérifier les patterns suspects dans les instructions
+            if (detectSuspiciousPatterns(sanitizedData.instructions)) {
+                showFormMessage('Le contenu contient des éléments suspects. Veuillez corriger votre message.', 'error');
+                return;
+            }
+
+            // Vérifier le spam dans les instructions
+            if (isSpamContent(sanitizedData.instructions)) {
+                showFormMessage('Le contenu semble être du spam. Veuillez corriger votre message.', 'error');
+                return;
+            }
+
+            // Valider l'URL des fichiers si présente
+            if (sanitizedData.fichiers && sanitizedData.fichiers.trim().length > 0) {
+                if (!validateUrlStrict(sanitizedData.fichiers)) {
+                    showFormMessage('Le lien fourni n\'est pas valide. Veuillez vérifier l\'URL (doit commencer par https://).', 'error');
+                    return;
+                }
+            }
+
+            // Enregistrer la soumission (rate limiting avancé)
+            submissionTracker.recordSubmission();
 
             const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${subject}&body=${encodeURIComponent(body)}`;
 
