@@ -1454,7 +1454,7 @@
         .video-section {
             padding: clamp(60px, 10vw, 100px) 0;
             position: relative;
-            background: linear-gradient(180deg, rgba(20, 0, 0, 0.98), rgba(0, 0, 0, 0.95));
+            background: linear-gradient(180deg, var(--blue-night-darkest) 0%, var(--black) 100%);
             width: 100%;
             box-sizing: border-box;
             overflow: hidden;
@@ -1470,83 +1470,92 @@
         .video-wrapper-neon {
             position: relative;
             width: 100%;
-            padding: 20px;
-            border-radius: 20px;
-            background: rgba(0, 0, 0, 0.5);
+            padding: 24px;
+            border-radius: 16px;
+            background: var(--black-dark);
             box-sizing: border-box;
+            box-shadow: 
+                0 0 0 1px rgba(45, 74, 110, 0.2),
+                inset 0 0 60px rgba(17, 34, 64, 0.4);
         }
+        /* Bordure raffinée avec dégradé animé - Utilise les couleurs exactes de la palette */
         .video-wrapper-neon::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 20px;
-            padding: 4px;
-            background: linear-gradient(45deg, 
-                rgba(45, 74, 110, 0.8) 0%,
-                rgba(255, 107, 53, 0.8) 25%,
-                rgba(45, 74, 110, 0.8) 50%,
-                rgba(255, 107, 53, 0.8) 75%,
-                rgba(45, 74, 110, 0.8) 100%
-            );
-            background-size: 300% 300%;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            animation: neonRotate 3s linear infinite, neonPulse 2s ease-in-out infinite;
-            z-index: 1;
-        }
-        .video-wrapper-neon::after {
             content: '';
             position: absolute;
             top: -2px;
             left: -2px;
             right: -2px;
             bottom: -2px;
-            border-radius: 22px;
-            background: linear-gradient(45deg, 
-                rgba(45, 74, 110, 1),
-                rgba(255, 107, 53, 1),
-                rgba(45, 74, 110, 1),
-                rgba(255, 107, 53, 1)
+            border-radius: 18px;
+            background: linear-gradient(135deg, 
+                var(--blue-night) 0%,
+                var(--blue-night-dark) 20%,
+                var(--black-dark) 30%,
+                var(--orange) 50%,
+                var(--black-dark) 70%,
+                var(--blue-night-dark) 80%,
+                var(--blue-night) 100%
             );
             background-size: 400% 400%;
-            filter: blur(20px);
-            opacity: 0.7;
-            animation: neonRotate 4s linear infinite, neonGlow 2s ease-in-out infinite alternate;
-            z-index: 0;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            padding: 2px;
+            animation: refinedGradientFlow 8s ease-in-out infinite;
+            z-index: 1;
+            opacity: 0.6;
         }
-        @keyframes neonRotate {
-            0% {
+        /* Halo lumineux externe raffiné */
+        .video-wrapper-neon::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border-radius: 24px;
+            background: radial-gradient(ellipse at center, 
+                transparent 0%,
+                transparent 40%,
+                rgba(45, 74, 110, 0.15) 60%,
+                rgba(255, 107, 53, 0.2) 80%,
+                rgba(45, 74, 110, 0.1) 100%
+            );
+            filter: blur(25px);
+            animation: refinedGlow 6s ease-in-out infinite alternate;
+            z-index: 0;
+            pointer-events: none;
+        }
+        /* Animation de dégradé fluide et raffinée */
+        @keyframes refinedGradientFlow {
+            0%, 100% {
                 background-position: 0% 50%;
+                opacity: 0.6;
+            }
+            25% {
+                background-position: 50% 0%;
+                opacity: 0.7;
             }
             50% {
                 background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-        @keyframes neonPulse {
-            0%, 100% {
                 opacity: 0.8;
-                transform: scale(1);
             }
-            50% {
-                opacity: 1;
-                transform: scale(1.02);
+            75% {
+                background-position: 50% 100%;
+                opacity: 0.7;
             }
         }
-        @keyframes neonGlow {
+        /* Animation de halo douce */
+        @keyframes refinedGlow {
             0% {
-                opacity: 0.5;
-                filter: blur(15px);
+                opacity: 0.3;
+                filter: blur(20px);
+                transform: scale(0.98);
             }
             100% {
-                opacity: 0.9;
-                filter: blur(25px);
+                opacity: 0.6;
+                filter: blur(30px);
+                transform: scale(1.02);
             }
         }
         .video-player {
@@ -1557,17 +1566,27 @@
             border-radius: 12px;
             position: relative;
             z-index: 2;
-            box-shadow: 
-                0 0 20px rgba(45, 74, 110, 0.8),
-                0 0 40px rgba(255, 107, 53, 0.6),
-                0 0 60px rgba(45, 74, 110, 0.5),
-                0 0 80px rgba(255, 107, 53, 0.4),
-                0 0 100px rgba(45, 74, 110, 0.3),
-                inset 0 0 30px rgba(255, 107, 53, 0.2);
             background: var(--black-dark);
-            border: 3px solid rgba(255, 107, 53, 0.5);
+            border: 1px solid rgba(45, 74, 110, 0.3);
             outline: none;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            /* Ombres raffinées utilisant les couleurs de la palette */
+            box-shadow: 
+                0 0 0 1px rgba(45, 74, 110, 0.2) inset,
+                0 4px 20px rgba(0, 0, 0, 0.8),
+                0 0 40px rgba(45, 74, 110, 0.15),
+                0 0 60px rgba(255, 107, 53, 0.1),
+                inset 0 0 40px rgba(17, 34, 64, 0.3);
+        }
+        /* Effet de brillance subtil au survol */
+        .video-wrapper-neon:hover .video-player {
+            border-color: rgba(45, 74, 110, 0.5);
+            box-shadow: 
+                0 0 0 1px rgba(45, 74, 110, 0.3) inset,
+                0 6px 30px rgba(0, 0, 0, 0.9),
+                0 0 50px rgba(45, 74, 110, 0.25),
+                0 0 80px rgba(255, 107, 53, 0.15),
+                inset 0 0 50px rgba(17, 34, 64, 0.4);
         }
         .video-player::-webkit-media-controls {
             display: none !important;
@@ -1588,29 +1607,51 @@
         .video-player video::-webkit-media-controls-enclosure {
             display: none !important;
         }
-        /* Animation supplémentaire pour effet néon plus intense */
-        @keyframes neonFlicker {
+        /* Animation subtile de pulsation pour le wrapper */
+        @keyframes refinedPulse {
             0%, 100% {
-                opacity: 1;
+                box-shadow: 
+                    0 0 0 1px rgba(45, 74, 110, 0.2),
+                    inset 0 0 60px rgba(17, 34, 64, 0.4);
             }
-            41% {
-                opacity: 0.8;
-            }
-            42% {
-                opacity: 1;
-            }
-            45% {
-                opacity: 0.8;
-            }
-            46% {
-                opacity: 1;
+            50% {
+                box-shadow: 
+                    0 0 0 1px rgba(45, 74, 110, 0.3),
+                    inset 0 0 70px rgba(17, 34, 64, 0.5);
             }
         }
         .video-wrapper-neon {
-            animation: neonFlicker 4s ease-in-out infinite;
+            animation: refinedPulse 4s ease-in-out infinite;
         }
-        .video-wrapper-neon::before {
-            animation: neonRotate 3s linear infinite, neonPulse 2s ease-in-out infinite, neonFlicker 3s ease-in-out infinite;
+        /* Effets lumineux supplémentaires raffinés */
+        .video-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(ellipse at center, 
+                transparent 0%,
+                transparent 50%,
+                rgba(45, 74, 110, 0.08) 70%,
+                rgba(255, 107, 53, 0.06) 85%,
+                transparent 100%
+            );
+            pointer-events: none;
+            z-index: 0;
+            animation: ambientGlow 10s ease-in-out infinite alternate;
+        }
+        @keyframes ambientGlow {
+            0% {
+                opacity: 0.5;
+                transform: translate(-50%, -50%) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.05);
+            }
         }
         /* Responsive Video */
         @media (max-width: 768px) {
@@ -1620,6 +1661,12 @@
             .video-container {
                 padding: 0 clamp(15px, 3vw, 30px);
             }
+            .video-wrapper-neon {
+                padding: 16px;
+            }
+            .video-wrapper-neon::before {
+                padding: 1.5px;
+            }
         }
         @media (max-width: 480px) {
             .video-section {
@@ -1627,6 +1674,16 @@
             }
             .video-container {
                 padding: 0 15px;
+            }
+            .video-wrapper-neon {
+                padding: 12px;
+            }
+            .video-wrapper-neon::before {
+                padding: 1px;
+            }
+            .video-container::before {
+                width: 140%;
+                height: 140%;
             }
         }
         /* Experience Section - Timeline */
