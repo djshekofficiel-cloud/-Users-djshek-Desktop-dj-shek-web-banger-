@@ -1,17 +1,23 @@
 {
   "name": "dj-shek-website",
-  "version": "1.0.0",
-  "description": "Site officiel de DJ SHEK",
+  "version": "2.0.0",
+  "description": "Site officiel de DJ SHEK - Optimized by Cursor Pro",
+  "type": "module",
   "scripts": {
-    "deploy": "vercel --prod",
-    "dev": "vercel dev",
-    "build": "echo 'No build step required'"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "keywords": [
     "dj",
     "music",
-    "website"
+    "website",
+    "remix",
+    "open-format"
   ],
   "author": "DJ SHEK",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
 }

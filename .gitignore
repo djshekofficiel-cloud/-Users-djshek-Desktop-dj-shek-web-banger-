@@ -1,49 +1,35 @@
-# OS Files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Temporary files
-*.tmp
-*.temp
-.cache/
+# Build output
+dist/
+build/
+*.local
 
 # Environment variables
 .env
 .env.local
+.env.*.local
 
-# Backup files
-*.bak
-*.backup
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# Audio files (si vous ne voulez pas les versionner)
-# audio/*.mp3
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-# Images de test (optionnel)
-# images/test/
-
-.vercel
-
-
-
-
-
-
-
+# Vite
+.vite/
