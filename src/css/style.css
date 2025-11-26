@@ -7,13 +7,13 @@
             --blue-night-dark: #1e3a5f;
             --blue-night-darker: #112240;
             --blue-night-darkest: #0a192f;
-            --blue-night-light: var(--blue-night-light);
-            --blue-night-lighter: var(--blue-night-lighter);
+            --blue-night-light: #3d5a7e;
+            --blue-night-lighter: #4d6a8e;
             /* ORANGE - Accents et Actions */
             --orange: #ff6b35;
             --orange-light: #ff8c42;
             --orange-lighter: #ffa366;
-            --orange-dark: var(--orange-dark);
+            --orange-dark: #e55a2b;
             /* NOIR - Fond */
             --black: #000000;
             --black-dark: #0a0a0a;
@@ -57,9 +57,9 @@
             --gradient-overlay: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
             /* ÉTATS */
             --success: #4caf50;
-            --error: var(--orange);
-            --warning: var(--orange-light);
-            --info: var(--blue-night-light);
+            --error: #ff6b35;
+            --warning: #ff8c42;
+            --info: #3d5a7e;
         }
         * {
             margin: 0;
