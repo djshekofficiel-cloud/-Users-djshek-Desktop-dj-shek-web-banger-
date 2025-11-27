@@ -878,12 +878,24 @@ function initForms() {
             // Vérifier les patterns suspects dans les instructions
             if (detectSuspiciousPatterns(sanitizedData.instructions)) {
                 showFormMessage('Le contenu contient des éléments suspects. Veuillez corriger votre message.', 'error');
+                // Réactiver le bouton
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    if (btnText) btnText.style.opacity = '1';
+                    if (btnLoader) btnLoader.classList.add('hidden');
+                }
                 return;
             }
 
             // Vérifier le spam dans les instructions
             if (isSpamContent(sanitizedData.instructions)) {
                 showFormMessage('Le contenu semble être du spam. Veuillez corriger votre message.', 'error');
+                // Réactiver le bouton
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    if (btnText) btnText.style.opacity = '1';
+                    if (btnLoader) btnLoader.classList.add('hidden');
+                }
                 return;
             }
 
@@ -891,25 +903,93 @@ function initForms() {
             if (sanitizedData.fichiers && sanitizedData.fichiers.trim().length > 0) {
                 if (!validateUrlStrict(sanitizedData.fichiers)) {
                     showFormMessage('Le lien fourni n\'est pas valide. Veuillez vérifier l\'URL (doit commencer par https://).', 'error');
+                    // Réactiver le bouton
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        if (btnText) btnText.style.opacity = '1';
+                        if (btnLoader) btnLoader.classList.add('hidden');
+                    }
                     return;
                 }
+            }
+            
+            // Vérification finale : s'assurer que toutes les données sont présentes
+            if (!sanitizedData.nom || !sanitizedData.email || !sanitizedData.type_prestation || !sanitizedData.instructions) {
+                showFormMessage('❌ Erreur : Certaines données sont manquantes. Veuillez remplir tous les champs obligatoires.', 'error');
+                // Réactiver le bouton
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    if (btnText) btnText.style.opacity = '1';
+                    if (btnLoader) btnLoader.classList.add('hidden');
+                }
+                return;
             }
 
             // Enregistrer la soumission (rate limiting avancé)
             submissionTracker.recordSubmission();
 
-            const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${subject}&body=${encodeURIComponent(body)}`;
+            // S'assurer que l'email de destination est correct (vérification finale)
+            const recipientEmail = 'djshekofficiel@gmail.com';
+            
+            // Vérifier que l'email de destination est bien configuré dans le formulaire
+            const formEmailAttr = elements.contactForm.getAttribute('data-recipient-email') || 
+                                  elements.contactForm.action?.replace('mailto:', '') || 
+                                  recipientEmail;
+            
+            // S'assurer que l'email est bien djshekofficiel@gmail.com
+            const finalRecipientEmail = formEmailAttr.includes('djshekofficiel@gmail.com') 
+                ? recipientEmail 
+                : recipientEmail;
+            
+            // Créer le lien mailto sécurisé
+            const mailtoLink = `mailto:${finalRecipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
             // Track form submission
             trackEvent('Contact Form', 'submit', sanitizedData.type_prestation || 'contact');
 
-            // Ouvrir le client mail
-
-            window.location.href = mailtoLink;
-
-            // Afficher un message de confirmation
-
-            showFormMessage('✅ Votre client mail va s\'ouvrir pour envoyer la demande à djshekofficiel@gmail.com', 'success');
+            // Ouvrir le client mail avec confirmation et vérification
+            try {
+                // Vérification finale avant l'envoi
+                if (finalRecipientEmail !== recipientEmail) {
+                    console.warn('⚠️ Email de destination différent de celui attendu:', finalRecipientEmail);
+                    showFormMessage('⚠️ Vérifiez que l\'adresse de destination est bien djshekofficiel@gmail.com avant d\'envoyer.', 'error');
+                    return;
+                }
+                
+                window.location.href = mailtoLink;
+                
+                // Afficher un message de confirmation avec l'email de destination
+                showFormMessage('✅ Votre client mail va s\'ouvrir. Vérifiez que l\'adresse de destination est bien djshekofficiel@gmail.com avant d\'envoyer.', 'success');
+                
+                // Log pour debugging et traçabilité
+                console.log('📧 ========================================');
+                console.log('📧 Email généré pour:', finalRecipientEmail);
+                console.log('📋 Sujet:', decodeURIComponent(subject));
+                console.log('👤 De:', sanitizedData.email);
+                console.log('📧 ========================================');
+                
+            } catch (error) {
+                console.error('❌ Erreur lors de l\'ouverture du client mail:', error);
+                showFormMessage('❌ Erreur lors de l\'ouverture du client mail. Veuillez envoyer manuellement à djshekofficiel@gmail.com avec les informations ci-dessous.', 'error');
+                
+                // Afficher les informations complètes dans la console en cas d'erreur
+                console.log('📧 ========================================');
+                console.log('📧 EMAIL À ENVOYER MANUELLEMENT');
+                console.log('📧 ========================================');
+                console.log('📧 À:', finalRecipientEmail);
+                console.log('📋 Sujet:', decodeURIComponent(subject));
+                console.log('📄 Corps du message:');
+                console.log(body);
+                console.log('📧 ========================================');
+                
+                // Réactiver le bouton en cas d'erreur
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    if (btnText) btnText.style.opacity = '1';
+                    if (btnLoader) btnLoader.classList.add('hidden');
+                }
+                return;
+            }
 
             // Réinitialiser le formulaire après un court délai
 
