@@ -25,6 +25,26 @@ const DEBUG = import.meta.env.MODE === 'development';
 
 const log = DEBUG ? console.log.bind(console) : () => {};
 
+// --- GOOGLE ANALYTICS TRACKING ---
+
+function trackEvent(category, action, label = '', value = 0) {
+    if (typeof gtag !== 'undefined') {
+        gtag('event', action, {
+            'event_category': category,
+            'event_label': label,
+            'value': value
+        });
+    }
+}
+
+function trackPageView(path) {
+    if (typeof gtag !== 'undefined') {
+        gtag('config', 'G-XXXXXXXXXX', {
+            'page_path': path
+        });
+    }
+}
+
 
 
 // --- GLOBAL VARIABLES ---
@@ -391,6 +411,10 @@ function togglePlay() {
 
 
 function playAudio() {
+    // Track audio play event
+    if (currentTrackIndex >= 0 && audioTracks[currentTrackIndex]) {
+        trackEvent('Audio Player', 'play', audioTracks[currentTrackIndex].name);
+    }
 
     elements.player.play()
 
@@ -411,6 +435,10 @@ function playAudio() {
 
 
 function pauseAudio() {
+    // Track audio pause event
+    if (currentTrackIndex >= 0 && audioTracks[currentTrackIndex]) {
+        trackEvent('Audio Player', 'pause', audioTracks[currentTrackIndex].name);
+    }
 
     elements.player.pause();
 
@@ -657,6 +685,9 @@ function handleDownload(track) {
 
     }
 
+    // Track download event
+    trackEvent('Audio Download', 'download', track.name);
+
     // Trigger download
 
     const link = document.createElement('a');
@@ -868,6 +899,9 @@ function initForms() {
             submissionTracker.recordSubmission();
 
             const mailtoLink = `mailto:djshekofficiel@gmail.com?subject=${subject}&body=${encodeURIComponent(body)}`;
+
+            // Track form submission
+            trackEvent('Contact Form', 'submit', sanitizedData.type_prestation || 'contact');
 
             // Ouvrir le client mail
 

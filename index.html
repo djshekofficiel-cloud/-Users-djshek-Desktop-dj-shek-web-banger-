@@ -43,6 +43,20 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;600;700;800;900&display=swap" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
 
+    <!-- Google Analytics 4 -->
+    <!-- ⚠️ IMPORTANT : Remplacez 'G-XXXXXXXXXX' par votre ID Google Analytics 4 -->
+    <!-- Pour obtenir votre ID : https://analytics.google.com/ → Admin → Data Streams → Créer un flux -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX', {
+            'anonymize_ip': true,
+            'cookie_flags': 'SameSite=None;Secure'
+        });
+    </script>
+
     <!-- Custom Code - Section Glow Effect -->
     <style>
         .section-glow {

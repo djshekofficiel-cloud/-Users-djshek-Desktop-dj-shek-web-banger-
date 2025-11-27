@@ -46,6 +46,14 @@ export class DeduplicateApp {
   }
 
   async handleFileUpload(filesOrZip, type) {
+    // Track deduplicate tool usage
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'deduplicate_start', {
+        'event_category': 'Stop Doublon',
+        'event_label': type === 'zip' ? 'ZIP file' : 'Individual files'
+      })
+    }
+
     try {
       this.store.setStep('analyzing')
       this.store.setProcessing(true)
