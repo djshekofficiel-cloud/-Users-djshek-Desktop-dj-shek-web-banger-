@@ -925,9 +925,12 @@
             gap: 1rem;
             flex-wrap: wrap;
         }
+        .deduplicate-app-title-block {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
         .deduplicate-app-title-block h1 {
             font-size: 1.1rem;
-            font-family: 'Montserrat', system-ui;
+            font-family: 'Orbitron', system-ui;
             text-transform: uppercase;
             letter-spacing: 0.16em;
             color: rgba(255, 255, 255, 0.7);
@@ -936,16 +939,31 @@
         }
         .deduplicate-app-title-block h2 {
             font-size: clamp(1.4rem, 3vw, 2rem);
+            font-family: 'Orbitron', system-ui;
             color: var(--white);
             font-weight: 800;
             margin-bottom: 0.4rem;
         }
         .deduplicate-app-title-block p {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: rgba(255, 255, 255, 0.65);
             margin-top: 0.4rem;
-            max-width: 400px;
-            line-height: 1.5;
+            max-width: 650px;
+            line-height: 1.7;
+        }
+        .deduplicate-description-full {
+            font-size: 0.9rem;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            max-width: 650px;
+            line-height: 1.8;
+            text-align: justify;
+        }
+        .deduplicate-description-full:first-of-type {
+            margin-top: 0.4rem;
         }
         .deduplicate-app-status-pill {
             padding: 0.35rem 0.7rem;
