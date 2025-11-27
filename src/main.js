@@ -766,8 +766,23 @@ function initForms() {
         // Ajouter le champ honeypot (protection anti-bots)
         honeypot.createHoneypotField(elements.contactForm);
 
-        // Démarrer le chronomètre de timing (protection contre soumissions trop rapides)
-        timingProtection.startTiming('contactForm');
+        // Démarrer le chronomètre de timing SEULEMENT quand l'utilisateur commence à remplir
+        // (au lieu de le démarrer au chargement de la page)
+        let timingStarted = false;
+        const startTimingOnInteraction = () => {
+            if (!timingStarted) {
+                timingProtection.startTiming('contactForm');
+                timingStarted = true;
+                console.log('Timing protection démarré - formulaire activé');
+            }
+        };
+        
+        // Démarrer le timing au focus sur n'importe quel champ
+        const formFields = elements.contactForm.querySelectorAll('input, textarea, select');
+        formFields.forEach(field => {
+            field.addEventListener('focus', startTimingOnInteraction, { once: true });
+            field.addEventListener('input', startTimingOnInteraction, { once: true });
+        });
 
         // Compteur de caractères pour les instructions
         const instructionsTextarea = document.getElementById('instructions');
@@ -808,8 +823,14 @@ function initForms() {
             }
 
             // Vérifier le timing (protection contre soumissions trop rapides)
+            // Délai réduit à 2 secondes pour une meilleure expérience utilisateur
+            const minTimeSeconds = 2; // Réduit de 3 à 2 secondes
             if (!timingProtection.isValidTiming('contactForm')) {
-                showFormMessage('Le formulaire doit être rempli en au moins 3 secondes. Veuillez réessayer.', 'error');
+                const elapsed = timingProtection.startTimes.has('contactForm') 
+                    ? (Date.now() - timingProtection.startTimes.get('contactForm')) / 1000 
+                    : 0;
+                const remaining = Math.ceil(minTimeSeconds - elapsed);
+                showFormMessage(`⏳ Veuillez patienter encore ${remaining} seconde${remaining > 1 ? 's' : ''} avant de soumettre le formulaire.`, 'error');
                 return;
             }
 
