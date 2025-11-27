@@ -111,7 +111,9 @@ export class ResultsStep {
   attachEvents(state) {
     // Quick actions
     document.querySelectorAll('.deduplicate-quick-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault()
+        e.stopPropagation()
         const rule = btn.dataset.rule
         this.onAction('applyRule', { rule })
       })
@@ -120,6 +122,7 @@ export class ResultsStep {
     // File selection via radio buttons
     document.querySelectorAll('.deduplicate-results-table input[type="radio"]').forEach(radio => {
       radio.addEventListener('change', (e) => {
+        e.stopPropagation()
         if (e.target.checked) {
           this.onAction('selectFile', {
             path: e.target.value,
@@ -131,7 +134,9 @@ export class ResultsStep {
 
     // Action buttons in table
     document.querySelectorAll('.deduplicate-action-btn-small').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault()
+        e.stopPropagation()
         this.onAction('selectFile', {
           path: btn.dataset.path,
           groupId: btn.dataset.group
@@ -140,12 +145,16 @@ export class ResultsStep {
     })
 
     // Generate ZIP
-    document.getElementById('generateZip')?.addEventListener('click', () => {
+    document.getElementById('generateZip')?.addEventListener('click', (e) => {
+      e.preventDefault()
+      e.stopPropagation()
       this.onAction('generateZip')
     })
 
     // Reset
-    document.getElementById('resetAnalysis')?.addEventListener('click', () => {
+    document.getElementById('resetAnalysis')?.addEventListener('click', (e) => {
+      e.preventDefault()
+      e.stopPropagation()
       this.onAction('reset')
     })
   }

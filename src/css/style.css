@@ -723,7 +723,9 @@
             background: linear-gradient(180deg, rgba(0, 0, 0, 0.95), rgba(20, 0, 0, 0.98));
             width: 100%;
             box-sizing: border-box;
-            scroll-margin-top: 100px; /* Offset pour la navigation fixe */
+            scroll-margin-top: 120px; /* Offset pour la navigation fixe */
+            scroll-snap-align: start; /* Snap au début de la section */
+            min-height: 100vh; /* S'assurer que la section prend au moins la hauteur de l'écran */
         }
         /* Empêcher le scroll automatique lors des interactions */
         .deduplicate-section * {
@@ -733,6 +735,10 @@
         .deduplicate-section button,
         .deduplicate-section [role="button"] {
             scroll-behavior: auto;
+        }
+        /* Empêcher les focus qui causent du scroll */
+        .deduplicate-section *:focus {
+            scroll-margin: 0;
         }
         .deduplicate-page {
             width: 100%;

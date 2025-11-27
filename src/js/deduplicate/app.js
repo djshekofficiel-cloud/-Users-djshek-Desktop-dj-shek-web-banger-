@@ -53,13 +53,16 @@ export class DeduplicateApp {
     const section = document.getElementById('deduplicate')
     if (!section) return
 
-    // Empêcher les comportements par défaut qui causent du scroll
+    // Empêcher tous les scrolls non désirés dans la section
     section.addEventListener('click', (e) => {
-      // Si c'est un lien ou un bouton, empêcher le comportement par défaut seulement si nécessaire
-      const target = e.target.closest('a, button, [role="button"]')
-      if (target && target.href && target.href.includes('#')) {
-        e.preventDefault()
-        // Ne pas scroller, rester dans la section
+      const target = e.target.closest('a, button, [role="button"], input, select, textarea')
+      if (target) {
+        // Empêcher le scroll si c'est un lien avec hash
+        if (target.href && target.href.includes('#')) {
+          e.preventDefault()
+        }
+        // Pour les autres éléments, on laisse le comportement normal mais on évite le scroll
+        e.stopPropagation()
       }
     }, { capture: true })
 
@@ -67,19 +70,41 @@ export class DeduplicateApp {
     section.addEventListener('dragover', (e) => {
       e.preventDefault()
       e.stopPropagation()
-    })
+    }, { passive: false })
 
     section.addEventListener('drop', (e) => {
       e.preventDefault()
       e.stopPropagation()
-      // S'assurer qu'on reste dans la section
-      setTimeout(() => {
+    }, { passive: false })
+
+    // Empêcher le scroll lors des changements d'état (steps, résultats)
+    const observer = new MutationObserver(() => {
+      // Vérifier que la section est toujours visible
+      const rect = section.getBoundingClientRect()
+      const isPartiallyVisible = rect.top < window.innerHeight && rect.bottom > 0
+      if (!isPartiallyVisible && rect.top > 0) {
+        // Si la section est en dessous de la vue, scroller doucement vers elle
         section.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }, 100)
+      }
     })
+
+    observer.observe(section, { childList: true, subtree: true })
   }
 
   async handleFileUpload(filesOrZip, type) {
+    // S'assurer qu'on reste dans la section pendant le traitement
+    const section = document.getElementById('deduplicate')
+    if (section) {
+      // Vérifier si la section est visible, sinon scroller vers elle
+      const rect = section.getBoundingClientRect()
+      const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight
+      if (!isVisible) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        // Attendre que le scroll soit terminé avant de continuer
+        await new Promise(resolve => setTimeout(resolve, 500))
+      }
+    }
+
     // Track deduplicate tool usage
     if (typeof gtag !== 'undefined') {
       gtag('event', 'deduplicate_start', {
