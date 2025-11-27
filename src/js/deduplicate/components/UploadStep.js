@@ -15,31 +15,52 @@ export class UploadStep {
 
   render() {
     this.container.innerHTML = `
-      <div class="deduplicate-step deduplicate-step-upload">
-        <div class="deduplicate-step-icon">📤</div>
-        <h3 class="deduplicate-step-title">Étape 1 : Téléverser votre ZIP</h3>
-        <p class="deduplicate-step-description">
-          Sélectionnez votre fichier ZIP à analyser. Le traitement se fait entièrement dans votre navigateur, vos fichiers ne quittent jamais votre ordinateur.
-        </p>
-        <label class="deduplicate-upload-zone" id="uploadZone">
-          <input type="file" id="zipFileInput" accept=".zip" class="deduplicate-file-input">
-          <div class="deduplicate-upload-box">
-            <div class="deduplicate-upload-icon">📁</div>
-            <div class="deduplicate-upload-text">
-              <span class="deduplicate-upload-main">Cliquez pour sélectionner</span>
-              <span class="deduplicate-upload-sub">ou glissez-déposez votre fichier ZIP</span>
+      <section class="deduplicate-app-body">
+        <div class="deduplicate-app-card">
+          <h3>Espace d'import</h3>
+          <div class="deduplicate-dropzone" id="uploadZone">
+            <p>Glissez-déposez votre fichier ZIP ici ou sélectionnez-le depuis votre appareil.</p>
+            <label for="zipFileInput">
+              <button class="deduplicate-primary-btn" type="button">Importer un fichier ZIP</button>
+            </label>
+            <input type="file" id="zipFileInput" accept=".zip" class="deduplicate-file-input">
+            <p class="deduplicate-hint">
+              Format accepté : <code>.ZIP</code>
+            </p>
+          </div>
+          <div class="deduplicate-stats-row" id="uploadStats" style="display: none;">
+            <div class="deduplicate-stat-chip">
+              <span class="deduplicate-stat-value">0</span>
+              <span><span class="deduplicate-stat-dot"></span>Fichiers analysés</span>
+            </div>
+            <div class="deduplicate-stat-chip">
+              <span class="deduplicate-stat-value">0</span>
+              <span><span class="deduplicate-stat-dot"></span>Doublons trouvés</span>
             </div>
           </div>
-        </label>
-        <div id="deduplicate-status" class="deduplicate-status"></div>
-      </div>
+        </div>
+        <div class="deduplicate-app-card" id="resultsCard" style="display: none;">
+          <div class="deduplicate-results-header">
+            <div>
+              <h3>Doublons détectés</h3>
+              <span class="deduplicate-results-meta">Prévisualisez et choisissez les fichiers à conserver.</span>
+            </div>
+            <span class="deduplicate-results-badge">Tri intelligent activé</span>
+          </div>
+          <div id="resultsContent"></div>
+        </div>
+      </section>
+      <div id="deduplicate-status" class="deduplicate-status"></div>
     `
 
     this.attachEvents()
+    this.setupDragAndDrop()
   }
 
   attachEvents() {
     const input = document.getElementById('zipFileInput')
+    const label = document.querySelector('label[for="zipFileInput"]')
+    
     input?.addEventListener('change', (e) => {
       const file = e.target.files[0]
       if (file && zipService.isValidZip(file)) {
@@ -48,34 +69,36 @@ export class UploadStep {
         this.showError('Veuillez sélectionner un fichier ZIP valide')
       }
     })
+
+    label?.addEventListener('click', (e) => {
+      e.preventDefault()
+      input?.click()
+    })
   }
 
   setupDragAndDrop() {
-    // Sera attaché après le render
-    setTimeout(() => {
-      const uploadZone = document.getElementById('uploadZone')
-      if (!uploadZone) return
+    const uploadZone = document.getElementById('uploadZone')
+    if (!uploadZone) return
 
-      uploadZone.addEventListener('dragover', (e) => {
-        e.preventDefault()
-        uploadZone.classList.add('deduplicate-drag-over')
-      })
+    uploadZone.addEventListener('dragover', (e) => {
+      e.preventDefault()
+      uploadZone.classList.add('deduplicate-drag-over')
+    })
 
-      uploadZone.addEventListener('dragleave', () => {
-        uploadZone.classList.remove('deduplicate-drag-over')
-      })
+    uploadZone.addEventListener('dragleave', () => {
+      uploadZone.classList.remove('deduplicate-drag-over')
+    })
 
-      uploadZone.addEventListener('drop', (e) => {
-        e.preventDefault()
-        uploadZone.classList.remove('deduplicate-drag-over')
-        const file = e.dataTransfer.files[0]
-        if (file && zipService.isValidZip(file)) {
-          this.onFileSelected(file)
-        } else {
-          this.showError('Veuillez déposer un fichier ZIP valide')
-        }
-      })
-    }, 100)
+    uploadZone.addEventListener('drop', (e) => {
+      e.preventDefault()
+      uploadZone.classList.remove('deduplicate-drag-over')
+      const file = e.dataTransfer.files[0]
+      if (file && zipService.isValidZip(file)) {
+        this.onFileSelected(file)
+      } else {
+        this.showError('Veuillez déposer un fichier ZIP valide')
+      }
+    })
   }
 
   showError(message) {

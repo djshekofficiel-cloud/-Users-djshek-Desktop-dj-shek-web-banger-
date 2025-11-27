@@ -125,6 +125,9 @@ export class DeduplicateApp {
       this.components.analyzing.render(50)
 
       // Générer le ZIP
+      this.store.setStep('analyzing')
+      this.components.analyzing.render(50)
+      
       const zipBuffer = await zipService.createZip(state.files, state.selectedFiles)
       
       this.components.analyzing.render(100)
@@ -140,8 +143,8 @@ export class DeduplicateApp {
         state.stats.totalFiles
       )
 
+      this.store.setState({ downloadStats: stats })
       this.store.setStep('download')
-      this.components.download.render(stats)
     } catch (error) {
       this.store.setError(error.message)
       console.error('Erreur lors de la génération:', error)
@@ -149,6 +152,12 @@ export class DeduplicateApp {
   }
 
   render(state) {
+    // Mettre à jour les steps
+    this.updateSteps(state.currentStep)
+
+    // Mettre à jour le status
+    this.updateStatus(state.currentStep)
+
     switch (state.currentStep) {
       case 'upload':
         this.components.upload.render()
@@ -163,7 +172,7 @@ export class DeduplicateApp {
         break
 
       case 'download':
-        // Déjà rendu par generateCleanZip
+        this.components.download.render(state.downloadStats || { kept: state.selectedFiles.size, removed: state.stats.totalFiles - state.selectedFiles.size, savedPercentage: '0' })
         break
 
       default:
@@ -173,6 +182,43 @@ export class DeduplicateApp {
     // Afficher les erreurs
     if (state.error) {
       this.showError(state.error)
+    }
+  }
+
+  updateSteps(currentStep) {
+    const steps = document.querySelectorAll('.deduplicate-step-pill')
+    steps.forEach((step, index) => {
+      const stepNum = index + 1
+      if (currentStep === 'upload' && stepNum === 1) {
+        step.classList.add('deduplicate-step-active')
+      } else if (currentStep === 'analyzing' && stepNum === 2) {
+        step.classList.add('deduplicate-step-active')
+      } else if (currentStep === 'results' && stepNum === 3) {
+        step.classList.add('deduplicate-step-active')
+      } else {
+        step.classList.remove('deduplicate-step-active')
+      }
+    })
+  }
+
+  updateStatus(currentStep) {
+    const statusPill = document.getElementById('deduplicateStatusPill')
+    const statusText = document.getElementById('deduplicateStatusText')
+    if (!statusPill || !statusText) return
+
+    switch (currentStep) {
+      case 'upload':
+        statusText.textContent = 'Analyse prête'
+        break
+      case 'analyzing':
+        statusText.textContent = 'Analyse en cours...'
+        break
+      case 'results':
+        statusText.textContent = 'Résultats disponibles'
+        break
+      case 'download':
+        statusText.textContent = 'Téléchargement réussi'
+        break
     }
   }
 

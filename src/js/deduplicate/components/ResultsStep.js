@@ -117,8 +117,8 @@ export class ResultsStep {
       })
     })
 
-    // File selection
-    document.querySelectorAll('.deduplicate-file-item input[type="radio"]').forEach(radio => {
+    // File selection via radio buttons
+    document.querySelectorAll('.deduplicate-results-table input[type="radio"]').forEach(radio => {
       radio.addEventListener('change', (e) => {
         if (e.target.checked) {
           this.onAction('selectFile', {
@@ -126,6 +126,16 @@ export class ResultsStep {
             groupId: e.target.dataset.group
           })
         }
+      })
+    })
+
+    // Action buttons in table
+    document.querySelectorAll('.deduplicate-action-btn-small').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.onAction('selectFile', {
+          path: btn.dataset.path,
+          groupId: btn.dataset.group
+        })
       })
     })
 

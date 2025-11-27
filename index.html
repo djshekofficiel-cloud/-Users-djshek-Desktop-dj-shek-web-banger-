@@ -308,22 +308,90 @@
     <!-- Stop Doublon Section -->
     <section class="deduplicate-section section-glow" id="deduplicate">
 
-        <div class="deduplicate-container">
+        <div class="deduplicate-page">
 
-            <div class="deduplicate-header">
+            <!-- Panel Gauche : Liste des Outils -->
+            <aside class="deduplicate-tools-panel">
+                <header class="deduplicate-tools-header">
+                    <div>
+                        <div class="deduplicate-tools-title">Outils gratuits</div>
+                    </div>
+                    <span class="deduplicate-tools-chip">BETA LAB</span>
+                </header>
 
-                <span class="section-label">// Outil Gratuit</span>
+                <div class="deduplicate-tools-list">
+                    <article class="deduplicate-tool-card">
+                        <div class="deduplicate-tool-main-row">
+                            <div class="deduplicate-tool-icon">
+                                <span></span>
+                            </div>
+                            <div class="deduplicate-tool-text">
+                                <h3>Suppression de doublons</h3>
+                                <p>Analysez vos fichiers ZIP et nettoyez automatiquement les copies inutiles.</p>
+                            </div>
+                        </div>
+                        <div class="deduplicate-tool-footer">
+                            <span class="deduplicate-tool-badge">SaaS intégré</span>
+                            <button class="deduplicate-tool-btn">Utiliser l'outil</button>
+                        </div>
+                    </article>
 
-                <h2 class="section-title">Stop Doublon</h2>
+                    <article class="deduplicate-tool-card deduplicate-tool-card--secondary">
+                        <div class="deduplicate-tool-main-row">
+                            <div class="deduplicate-tool-icon">
+                                <span></span>
+                            </div>
+                            <div class="deduplicate-tool-text">
+                                <h3>Outil 2 (à venir)</h3>
+                                <p>Placez ici un futur outil gratuit : conversion, compression, etc.</p>
+                            </div>
+                        </div>
+                        <div class="deduplicate-tool-footer">
+                            <span class="deduplicate-tool-badge">En préparation</span>
+                            <button class="deduplicate-tool-btn deduplicate-tool-btn-disabled">Bientôt</button>
+                        </div>
+                    </article>
+                </div>
+            </aside>
 
-                <p class="deduplicate-intro">
-                    Détectez et supprimez automatiquement les fichiers dupliqués dans vos archives ZIP.
-                    Gratuit, rapide et sécurisé - tout se passe dans votre navigateur.
-                </p>
+            <!-- Panel Droit : Application -->
+            <main class="deduplicate-app-panel">
+                <div class="deduplicate-app-inner">
+                    <header class="deduplicate-app-header">
+                        <div class="deduplicate-app-title-block">
+                            <h1>Outil gratuit</h1>
+                            <h2>Suppression de doublons</h2>
+                            <p>
+                                Importez votre fichier ZIP, laissez l'algorithme détecter les doublons
+                                et choisissez ce que vous gardez en un clin d'œil.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="deduplicate-app-status-pill" id="deduplicateStatusPill">
+                                <span class="deduplicate-app-status-dot"></span>
+                                <span id="deduplicateStatusText">Analyse prête</span>
+                            </div>
+                        </div>
+                    </header>
 
-            </div>
+                    <div class="deduplicate-app-steps" id="deduplicateSteps">
+                        <div class="deduplicate-step-pill deduplicate-step-active" data-step="1">
+                            <span class="deduplicate-step-num">1</span>
+                            <span>Importer ZIP</span>
+                        </div>
+                        <div class="deduplicate-step-pill" data-step="2">
+                            <span class="deduplicate-step-num">2</span>
+                            <span>Analyse des doublons</span>
+                        </div>
+                        <div class="deduplicate-step-pill" data-step="3">
+                            <span class="deduplicate-step-num">3</span>
+                            <span>Nettoyage</span>
+                        </div>
+                    </div>
 
-            <div id="deduplicate-section"></div>
+                    <div id="deduplicate-section"></div>
+                </div>
+            </main>
 
         </div>
 
