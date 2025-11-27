@@ -953,14 +953,13 @@
             line-height: 1.7;
         }
         .deduplicate-description-full {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            color: rgba(255, 255, 255, 0.7);
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-            max-width: 650px;
-            line-height: 1.8;
-            text-align: justify;
+            color: rgba(255, 255, 255, 0.65);
+            margin-top: 0.8rem;
+            margin-bottom: 0.8rem;
+            max-width: 550px;
+            line-height: 1.6;
         }
         .deduplicate-description-full:first-of-type {
             margin-top: 0.4rem;
