@@ -126,3 +126,4 @@ Si tout fonctionne, vous devriez voir :
 2. ✅ `npm run dev` est lancé
 3. ✅ Vous êtes sur `http://localhost:3000`
 
+

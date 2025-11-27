@@ -43,6 +43,33 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
 
+    <!-- Custom Code - Section Glow Effect -->
+    <style>
+        .section-glow {
+            position: relative;
+            overflow: hidden;
+        }
+        .section-glow::before {
+            content: "";
+            position: absolute;
+            top: -20%;
+            left: -10%;
+            width: 120%;
+            height: 60%;
+            background: radial-gradient(circle at 50% 0, rgba(255, 255, 255, 0.5), transparent 60%);
+            filter: blur(25px);
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .section-glow--active::before {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
     {
