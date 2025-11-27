@@ -871,7 +871,7 @@ function initForms() {
 
             // Afficher un message de confirmation
 
-            showFormMessage('Votre client mail va s\'ouvrir pour envoyer la demande.', 'success');
+            showFormMessage('✅ Votre client mail va s\'ouvrir pour envoyer la demande à djshekofficiel@gmail.com', 'success');
 
             // Réinitialiser le formulaire après un court délai
 
