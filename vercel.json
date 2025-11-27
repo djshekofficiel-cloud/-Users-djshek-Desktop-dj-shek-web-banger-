@@ -122,10 +122,6 @@
       "destination": "/sitemap.xml"
     },
     {
-      "source": "/gateway.html",
-      "destination": "/gateway.html"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

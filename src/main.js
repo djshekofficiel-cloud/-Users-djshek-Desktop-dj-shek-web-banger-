@@ -108,8 +108,6 @@ const elements = {
 // --- INITIALIZATION ---
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Vérifier l'accès (gateway email)
-    checkAccess();
 
     initLoader();
 
@@ -132,40 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
     log('System initialized');
 
 });
-
-// Vérifier si l'utilisateur a accès au site (via email)
-function checkAccess() {
-    // Ne pas vérifier si on est sur la page gateway
-    if (window.location.pathname === '/gateway.html' || window.location.pathname.includes('gateway')) {
-        return;
-    }
-
-    try {
-        const savedEmail = localStorage.getItem('djshek_user_email');
-        
-        if (!savedEmail) {
-            // Pas d'email enregistré, rediriger vers gateway
-            window.location.href = '/gateway.html';
-            return;
-        }
-
-        // Vérifier l'expiration
-        const emailData = JSON.parse(savedEmail);
-        if (emailData.expires && Date.now() >= emailData.expires) {
-            // Email expiré, rediriger vers gateway
-            localStorage.removeItem('djshek_user_email');
-            window.location.href = '/gateway.html';
-            return;
-        }
-
-        // Email valide, accès autorisé
-        log('Access granted for:', emailData.email);
-    } catch (error) {
-        console.error('Erreur lors de la vérification d\'accès:', error);
-        // En cas d'erreur, rediriger vers gateway pour sécurité
-        window.location.href = '/gateway.html';
-    }
-}
 
 
 
