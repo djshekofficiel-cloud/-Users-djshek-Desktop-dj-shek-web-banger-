@@ -582,6 +582,36 @@ function initNavigation() {
 
     }
 
+    // Smooth scroll pour les liens de navigation
+    if (elements.navMenu) {
+        const navLinks = elements.navMenu.querySelectorAll('a[href^="#"]');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href && href !== '#') {
+                    const targetId = href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        e.preventDefault();
+                        
+                        // Fermer le menu mobile si ouvert
+                        if (elements.navMenu.classList.contains('active')) {
+                            elements.navMenu.classList.remove('active');
+                            elements.navToggle.classList.remove('active');
+                        }
+                        
+                        // Smooth scroll vers la section
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+    }
+
 }
 
 
