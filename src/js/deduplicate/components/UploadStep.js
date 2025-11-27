@@ -13,6 +13,11 @@ export class UploadStep {
   }
 
   render() {
+    if (!this.container) {
+      console.error('UploadStep: container not found')
+      return
+    }
+    
     this.container.innerHTML = `
       <section class="deduplicate-app-body">
         <div class="deduplicate-app-card">
@@ -78,7 +83,6 @@ export class UploadStep {
 
     label?.addEventListener('click', (e) => {
       e.preventDefault()
-      e.stopPropagation()
       input?.click()
     })
   }
@@ -89,28 +93,16 @@ export class UploadStep {
 
     uploadZone.addEventListener('dragover', (e) => {
       e.preventDefault()
-      e.stopPropagation()
       uploadZone.classList.add('deduplicate-drag-over')
     })
 
-    uploadZone.addEventListener('dragleave', (e) => {
-      e.preventDefault()
-      e.stopPropagation()
+    uploadZone.addEventListener('dragleave', () => {
       uploadZone.classList.remove('deduplicate-drag-over')
     })
 
     uploadZone.addEventListener('drop', (e) => {
       e.preventDefault()
-      e.stopPropagation()
       uploadZone.classList.remove('deduplicate-drag-over')
-      
-      // S'assurer qu'on reste dans la section après le drop
-      const section = document.getElementById('deduplicate')
-      if (section) {
-        setTimeout(() => {
-          section.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }, 100)
-      }
       const files = Array.from(e.dataTransfer.files)
       
       if (files.length === 0) {

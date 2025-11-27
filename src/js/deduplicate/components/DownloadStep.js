@@ -40,9 +40,7 @@ export class DownloadStep {
       </div>
     `
 
-    document.getElementById('newAnalysis')?.addEventListener('click', (e) => {
-      e.preventDefault()
-      e.stopPropagation()
+    document.getElementById('newAnalysis')?.addEventListener('click', () => {
       this.onAction('reset')
     })
   }

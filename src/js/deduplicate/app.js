@@ -28,7 +28,11 @@ export class DeduplicateApp {
       download: null
     }
 
-    this.init()
+    try {
+      this.init()
+    } catch (error) {
+      console.error('Error in DeduplicateApp.init():', error)
+    }
   }
 
   init() {
@@ -53,20 +57,16 @@ export class DeduplicateApp {
     const section = document.getElementById('deduplicate')
     if (!section) return
 
-    // Empêcher tous les scrolls non désirés dans la section
+    // Empêcher les scrolls non désirés uniquement pour les liens avec hash
     section.addEventListener('click', (e) => {
-      const target = e.target.closest('a, button, [role="button"], input, select, textarea')
-      if (target) {
-        // Empêcher le scroll si c'est un lien avec hash
-        if (target.href && target.href.includes('#')) {
-          e.preventDefault()
-        }
-        // Pour les autres éléments, on laisse le comportement normal mais on évite le scroll
-        e.stopPropagation()
+      const target = e.target.closest('a[href^="#"]')
+      if (target && target.href && target.href.includes('#')) {
+        e.preventDefault()
+        // Ne pas scroller, rester dans la section
       }
     }, { capture: true })
 
-    // Empêcher le scroll lors du drag & drop
+    // Empêcher le scroll lors du drag & drop (déjà géré dans UploadStep, mais sécurité supplémentaire)
     section.addEventListener('dragover', (e) => {
       e.preventDefault()
       e.stopPropagation()
@@ -76,35 +76,9 @@ export class DeduplicateApp {
       e.preventDefault()
       e.stopPropagation()
     }, { passive: false })
-
-    // Empêcher le scroll lors des changements d'état (steps, résultats)
-    const observer = new MutationObserver(() => {
-      // Vérifier que la section est toujours visible
-      const rect = section.getBoundingClientRect()
-      const isPartiallyVisible = rect.top < window.innerHeight && rect.bottom > 0
-      if (!isPartiallyVisible && rect.top > 0) {
-        // Si la section est en dessous de la vue, scroller doucement vers elle
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }
-    })
-
-    observer.observe(section, { childList: true, subtree: true })
   }
 
   async handleFileUpload(filesOrZip, type) {
-    // S'assurer qu'on reste dans la section pendant le traitement
-    const section = document.getElementById('deduplicate')
-    if (section) {
-      // Vérifier si la section est visible, sinon scroller vers elle
-      const rect = section.getBoundingClientRect()
-      const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight
-      if (!isVisible) {
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        // Attendre que le scroll soit terminé avant de continuer
-        await new Promise(resolve => setTimeout(resolve, 500))
-      }
-    }
-
     // Track deduplicate tool usage
     if (typeof gtag !== 'undefined') {
       gtag('event', 'deduplicate_start', {
@@ -232,36 +206,60 @@ export class DeduplicateApp {
   }
 
   render(state) {
-    // Mettre à jour les steps
-    this.updateSteps(state.currentStep)
-
-    // Mettre à jour le status
-    this.updateStatus(state.currentStep)
-
-    switch (state.currentStep) {
-      case 'upload':
-        this.components.upload.render()
-        break
-
-      case 'analyzing':
-        this.components.analyzing.render(state.progress)
-        break
-
-      case 'results':
-        this.components.results.render(state)
-        break
-
-      case 'download':
-        this.components.download.render(state.downloadStats || { kept: state.selectedFiles.size, removed: state.stats.totalFiles - state.selectedFiles.size, savedPercentage: '0' })
-        break
-
-      default:
-        this.components.upload.render()
+    if (!this.container) {
+      console.error('DeduplicateApp.render: container not found')
+      return
     }
 
-    // Afficher les erreurs
-    if (state.error) {
-      this.showError(state.error)
+    try {
+      // Mettre à jour les steps
+      this.updateSteps(state.currentStep)
+
+      // Mettre à jour le status
+      this.updateStatus(state.currentStep)
+
+      switch (state.currentStep) {
+        case 'upload':
+          if (this.components.upload) {
+            this.components.upload.render()
+          }
+          break
+
+        case 'analyzing':
+          if (this.components.analyzing) {
+            this.components.analyzing.render(state.progress || 0)
+          }
+          break
+
+        case 'results':
+          if (this.components.results) {
+            this.components.results.render(state)
+          }
+          break
+
+        case 'download':
+          if (this.components.download) {
+            this.components.download.render(state.downloadStats || { 
+              kept: state.selectedFiles?.size || 0, 
+              removed: (state.stats?.totalFiles || 0) - (state.selectedFiles?.size || 0), 
+              savedPercentage: '0' 
+            })
+          }
+          break
+
+        default:
+          if (this.components.upload) {
+            this.components.upload.render()
+          }
+      }
+
+      // Afficher les erreurs
+      if (state.error) {
+        this.showError(state.error)
+      }
+    } catch (error) {
+      console.error('Error in DeduplicateApp.render():', error)
+      this.showError('Une erreur est survenue lors de l\'affichage')
     }
   }
 
