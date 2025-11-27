@@ -10,7 +10,8 @@ export default defineConfig({
     minify: 'esbuild',
     rollupOptions: {
       input: {
-        main: './index.html'
+        main: './index.html',
+        gateway: './gateway.html'
       }
     }
   },
