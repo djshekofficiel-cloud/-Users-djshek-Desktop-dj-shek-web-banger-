@@ -23,13 +23,13 @@ export class UploadStep {
         <div class="deduplicate-app-card">
           <h3>Espace d'import</h3>
           <div class="deduplicate-dropzone" id="uploadZone">
-            <p>Glissez-déposez vos fichiers (ZIP ou fichiers individuels) ici ou sélectionnez-les depuis votre appareil.</p>
+            <p>Glissez-déposez vos fichiers audio (ZIP ou fichiers individuels) ici ou sélectionnez-les depuis votre appareil.</p>
             <label for="fileInput">
-              <button class="deduplicate-primary-btn" type="button">Importer des fichiers</button>
+              <button class="deduplicate-primary-btn" type="button">Importer des fichiers audio</button>
             </label>
-            <input type="file" id="fileInput" multiple class="deduplicate-file-input">
+            <input type="file" id="fileInput" multiple accept="audio/*,.zip" class="deduplicate-file-input">
             <p class="deduplicate-hint">
-              Formats acceptés : <code>.ZIP</code> ou <code>fichiers individuels</code>
+              Formats audio acceptés : <code>MP3</code>, <code>WAV</code>, <code>FLAC</code>, <code>AAC</code>, <code>OGG</code>, <code>M4A</code>, <code>WMA</code>, <code>AIFF</code>, etc. ou <code>ZIP</code> contenant des fichiers audio
             </p>
           </div>
           <div class="deduplicate-stats-row" id="uploadStats" style="display: none;">
@@ -68,16 +68,22 @@ export class UploadStep {
     input?.addEventListener('change', (e) => {
       const files = Array.from(e.target.files)
       if (files.length === 0) {
-        this.showError('Veuillez sélectionner au moins un fichier')
+        this.showError('Veuillez sélectionner au moins un fichier audio')
         return
       }
 
-      // Si un seul fichier ZIP est sélectionné, traiter comme ZIP
-      if (files.length === 1 && zipService.isValidZip(files[0])) {
+      // Vérifier que ce sont des fichiers audio (ou un ZIP)
+      const zipFiles = files.filter(f => zipService.isValidZip(f))
+      const audioFiles = files.filter(f => !zipService.isValidZip(f) && zipService.isAudioFile(f.name))
+      
+      if (zipFiles.length > 0 && files.length === 1) {
+        // Un seul fichier ZIP
         this.onFileSelected(files[0], 'zip')
+      } else if (audioFiles.length > 0) {
+        // Fichiers audio individuels
+        this.onFileSelected(audioFiles, 'files')
       } else {
-        // Sinon, traiter comme fichiers individuels
-        this.onFileSelected(files, 'files')
+        this.showError('Veuillez sélectionner uniquement des fichiers audio (MP3, WAV, FLAC, etc.) ou un fichier ZIP contenant des fichiers audio')
       }
     })
 
@@ -106,16 +112,22 @@ export class UploadStep {
       const files = Array.from(e.dataTransfer.files)
       
       if (files.length === 0) {
-        this.showError('Veuillez déposer au moins un fichier')
+        this.showError('Veuillez déposer au moins un fichier audio')
         return
       }
 
-      // Si un seul fichier ZIP est déposé, traiter comme ZIP
-      if (files.length === 1 && zipService.isValidZip(files[0])) {
+      // Vérifier que ce sont des fichiers audio (ou un ZIP)
+      const zipFiles = files.filter(f => zipService.isValidZip(f))
+      const audioFiles = files.filter(f => !zipService.isValidZip(f) && zipService.isAudioFile(f.name))
+      
+      if (zipFiles.length > 0 && files.length === 1) {
+        // Un seul fichier ZIP
         this.onFileSelected(files[0], 'zip')
+      } else if (audioFiles.length > 0) {
+        // Fichiers audio individuels
+        this.onFileSelected(audioFiles, 'files')
       } else {
-        // Sinon, traiter comme fichiers individuels
-        this.onFileSelected(files, 'files')
+        this.showError('Veuillez déposer uniquement des fichiers audio (MP3, WAV, FLAC, etc.) ou un fichier ZIP contenant des fichiers audio')
       }
     })
   }

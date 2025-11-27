@@ -105,8 +105,11 @@ export class DeduplicateApp {
         files = await zipService.processFiles(filesOrZip)
       }
 
+      // Filtrer uniquement les fichiers audio
+      files = zipService.filterAudioFiles(files)
+      
       if (files.length === 0) {
-        throw new Error('Aucun fichier à analyser')
+        throw new Error('Aucun fichier audio trouvé. Veuillez importer des fichiers audio (MP3, WAV, FLAC, AAC, OGG, M4A, etc.) ou un ZIP contenant des fichiers audio.')
       }
 
       // Étape 2: Calculer les hashs

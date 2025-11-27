@@ -17,7 +17,7 @@ export class ZipService {
       const files = []
 
       for (const [path, zipEntry] of Object.entries(zip.files)) {
-        if (!zipEntry.dir) {
+        if (!zipEntry.dir && this.isAudioFile(path)) {
           const content = await zipEntry.async('arraybuffer')
           const size = zipEntry._data?.uncompressedSize || 0
 
@@ -30,7 +30,8 @@ export class ZipService {
         }
       }
 
-      return files
+      // Filtrer uniquement les fichiers audio
+      return this.filterAudioFiles(files)
     } catch (error) {
       throw new Error(`Erreur lors de l'extraction du ZIP: ${error.message}`)
     }
@@ -95,6 +96,40 @@ export class ZipService {
   }
 
   /**
+   * Extensions audio supportées
+   */
+  getAudioExtensions() {
+    return [
+      '.mp3', '.wav', '.flac', '.aac', '.ogg', '.m4a', '.wma', '.aiff', '.aif',
+      '.opus', '.ape', '.ac3', '.dsd', '.dsf', '.dff', '.mp2', '.mpc', '.mp4',
+      '.3gp', '.amr', '.au', '.ra', '.rm', '.vox', '.wv', '.webm', '.mkv'
+    ]
+  }
+
+  /**
+   * Vérifie si un fichier est un fichier audio
+   * @param {string} filename - Nom du fichier ou chemin
+   * @returns {boolean}
+   */
+  isAudioFile(filename) {
+    if (!filename) return false
+    const lowerFilename = filename.toLowerCase()
+    return this.getAudioExtensions().some(ext => lowerFilename.endsWith(ext))
+  }
+
+  /**
+   * Filtre les fichiers pour ne garder que les fichiers audio
+   * @param {Array} files - Liste de fichiers
+   * @returns {Array} Fichiers audio uniquement
+   */
+  filterAudioFiles(files) {
+    return files.filter(file => {
+      const filename = file.path || file.name || ''
+      return this.isAudioFile(filename)
+    })
+  }
+
+  /**
    * Traite des fichiers individuels (non-ZIP)
    * @param {Array<File>} files - Liste de fichiers à traiter
    * @returns {Promise<Array>} Liste des fichiers avec leur contenu
@@ -106,6 +141,11 @@ export class ZipService {
       for (const file of files) {
         // Ignorer les fichiers ZIP dans le traitement des fichiers individuels
         if (this.isValidZip(file)) {
+          continue
+        }
+
+        // Ne garder que les fichiers audio
+        if (!this.isAudioFile(file.name)) {
           continue
         }
 
