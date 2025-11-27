@@ -726,11 +726,11 @@
         }
         .deduplicate-page {
             width: 100%;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
-            gap: clamp(1.5rem, 3vw, 2.5rem);
+        }
+        .deduplicate-app-panel-full {
+            width: 100%;
         }
         /* Panel Gauche : Outils */
         .deduplicate-tools-panel {
@@ -1644,13 +1644,6 @@
         }
         /* Responsive Design */
         @media (max-width: 960px) {
-            .deduplicate-page {
-                grid-template-columns: minmax(0, 1fr);
-            }
-            .deduplicate-tools-panel {
-                position: relative;
-                top: 0;
-            }
             .deduplicate-app-body {
                 grid-template-columns: minmax(0, 1fr);
             }
