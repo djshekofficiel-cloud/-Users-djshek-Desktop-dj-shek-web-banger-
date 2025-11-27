@@ -19,5 +19,8 @@
   "license": "MIT",
   "devDependencies": {
     "vite": "^7.2.4"
+  },
+  "dependencies": {
+    "jszip": "^3.10.1"
   }
 }

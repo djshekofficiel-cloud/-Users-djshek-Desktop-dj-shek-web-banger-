@@ -15,6 +15,8 @@ import {
     isSpamContent
 } from './js/advanced-security.js';
 
+import { initDeduplicate } from './js/deduplicate.js';
+
 
 
 // --- CONFIGURATION ---
@@ -102,6 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initVideo();
 
     initSectionGlow();
+
+    initDeduplicate();
 
     log('System initialized');
 
