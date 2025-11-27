@@ -101,6 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initVideo();
 
+    initSectionGlow();
+
     log('System initialized');
 
 });
@@ -1042,6 +1044,60 @@ function showFormMessage(message, type = 'success') {
         }, 5000);
 
     }
+
+}
+
+// --- Section Glow Effect ---
+
+function initSectionGlow() {
+
+    const sections = document.querySelectorAll('.section-glow');
+
+    if (sections.length === 0) return;
+
+    // Configuration de l'Intersection Observer
+
+    const observerOptions = {
+
+        root: null, // viewport
+
+        rootMargin: '-10% 0px -10% 0px', // Déclenche quand 10% de la section est visible
+
+        threshold: 0.1 // Déclenche quand 10% de la section est visible
+
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+
+        entries.forEach(entry => {
+
+            if (entry.isIntersecting) {
+
+                // Ajouter la classe active pour activer l'animation
+
+                entry.target.classList.add('section-glow--active');
+
+            } else {
+
+                // Optionnel : retirer la classe pour réactiver l'animation au prochain scroll
+
+                // entry.target.classList.remove('section-glow--active');
+
+            }
+
+        });
+
+    }, observerOptions);
+
+    // Observer chaque section
+
+    sections.forEach(section => {
+
+        observer.observe(section);
+
+    });
+
+    log('Section glow effect initialized');
 
 }
 
