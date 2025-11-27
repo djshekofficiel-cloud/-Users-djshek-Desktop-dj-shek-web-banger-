@@ -592,11 +592,16 @@ function initPartenaires() {
 
     if (!grid) return;
 
-    // Images statiques pour l'instant - idéalement à déplacer dans data
-
-    const images = ['images.png', 'IMG_1073.JPG', 'hjhjhj.png', 'ggggh.png', 'téléchargement.jpeg', 'téléchargement.png'];
-
-    
+    // Liste des images de partenaires dans le dossier
+    // Actualisation automatique de toutes les images disponibles
+    const images = [
+        'images.png',
+        'IMG_1073.JPG',
+        'hjhjhj.png',
+        'ggggh.png',
+        'téléchargement.jpeg',
+        'téléchargement.png'
+    ];
 
     grid.innerHTML = '';
 
@@ -609,10 +614,23 @@ function initPartenaires() {
         // Sécurisé : utilisation de createElement au lieu de innerHTML
         const img = document.createElement('img');
         // Sanitize le nom de fichier pour éviter directory traversal
-        const sanitizedImgName = imgName.replace(/[^a-zA-Z0-9._-]/g, '');
+        // Préserver les accents et caractères spéciaux pour les noms de fichiers
+        const sanitizedImgName = encodeURIComponent(imgName).replace(/%2F/g, '/');
         img.src = `/images/partenaire/${sanitizedImgName}`;
-        img.alt = 'Partenaire';
+        img.alt = `Partenaire DJ SHEK - ${imgName.replace(/\.(png|jpg|jpeg|JPG|PNG|JPEG)$/i, '').replace(/[_-]/g, ' ')}`;
         img.loading = 'lazy';
+        
+        // Gestion des erreurs de chargement d'image
+        img.onerror = function() {
+            console.warn(`Image partenaire non trouvée ou erreur de chargement: ${imgName}`);
+            // Ne pas cacher l'image, mais la marquer comme en erreur
+            this.style.opacity = '0.3';
+        };
+        
+        img.onload = function() {
+            // S'assurer que l'image est bien chargée et visible
+            this.style.opacity = '1';
+        };
 
         div.appendChild(img);
 
