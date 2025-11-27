@@ -767,21 +767,21 @@ function initForms() {
         honeypot.createHoneypotField(elements.contactForm);
 
         // Démarrer le chronomètre de timing SEULEMENT quand l'utilisateur commence à remplir
-        // (au lieu de le démarrer au chargement de la page)
+        // Timing très court (0.5s) pour bloquer uniquement les bots, pas les utilisateurs
         let timingStarted = false;
         const startTimingOnInteraction = () => {
             if (!timingStarted) {
                 timingProtection.startTiming('contactForm');
                 timingStarted = true;
-                console.log('Timing protection démarré - formulaire activé');
             }
         };
         
-        // Démarrer le timing au focus sur n'importe quel champ
+        // Démarrer le timing au focus sur n'importe quel champ OU dès que l'utilisateur tape
         const formFields = elements.contactForm.querySelectorAll('input, textarea, select');
         formFields.forEach(field => {
             field.addEventListener('focus', startTimingOnInteraction, { once: true });
             field.addEventListener('input', startTimingOnInteraction, { once: true });
+            field.addEventListener('click', startTimingOnInteraction, { once: true });
         });
 
         // Compteur de caractères pour les instructions
@@ -823,15 +823,23 @@ function initForms() {
             }
 
             // Vérifier le timing (protection contre soumissions trop rapides)
-            // Délai réduit à 2 secondes pour une meilleure expérience utilisateur
-            const minTimeSeconds = 2; // Réduit de 3 à 2 secondes
-            if (!timingProtection.isValidTiming('contactForm')) {
-                const elapsed = timingProtection.startTimes.has('contactForm') 
-                    ? (Date.now() - timingProtection.startTimes.get('contactForm')) / 1000 
-                    : 0;
-                const remaining = Math.ceil(minTimeSeconds - elapsed);
-                showFormMessage(`⏳ Veuillez patienter encore ${remaining} seconde${remaining > 1 ? 's' : ''} avant de soumettre le formulaire.`, 'error');
-                return;
+            // Utiliser la valeur de la classe TimingProtection au lieu d'un hardcode
+            const minTimeSeconds = timingProtection.minTimeSeconds || 1;
+            
+            // Si le timing n'a pas été démarré, le démarrer maintenant (cas où l'utilisateur n'a pas focus sur un champ)
+            if (!timingProtection.startTimes.has('contactForm')) {
+                timingProtection.startTiming('contactForm');
+                // Permettre la soumission même si le timing vient de démarrer
+                // L'utilisateur a probablement pris le temps de remplir le formulaire
+            } else if (!timingProtection.isValidTiming('contactForm')) {
+                const elapsed = (Date.now() - timingProtection.startTimes.get('contactForm')) / 1000;
+                const remaining = Math.max(0, Math.ceil(minTimeSeconds - elapsed));
+                
+                if (remaining > 0) {
+                    showFormMessage(`⏳ Veuillez patienter encore ${remaining} seconde${remaining > 1 ? 's' : ''} avant de soumettre le formulaire.`, 'error');
+                    return;
+                }
+                // Si remaining <= 0, on continue (timing suffisant)
             }
 
             // Vérifier le nombre de soumissions

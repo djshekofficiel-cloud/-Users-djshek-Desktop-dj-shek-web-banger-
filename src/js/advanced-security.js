@@ -59,8 +59,10 @@ export class Honeypot {
  * Protection contre les soumissions trop rapides (human verification)
  */
 export class TimingProtection {
-    constructor(minTimeSeconds = 1) {
-        this.minTimeSeconds = minTimeSeconds; // Minimum 1 seconde pour remplir le formulaire (réduit pour meilleure UX)
+    constructor(minTimeSeconds = 0.5) {
+        // Délai réduit à 0.5 seconde pour éviter les blocages inutiles
+        // L'objectif est de bloquer les bots, pas les utilisateurs légitimes
+        this.minTimeSeconds = minTimeSeconds;
         this.startTimes = new Map();
     }
 
