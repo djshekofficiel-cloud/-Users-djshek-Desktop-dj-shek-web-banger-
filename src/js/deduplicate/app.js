@@ -41,8 +41,42 @@ export class DeduplicateApp {
     // S'abonner aux changements d'état
     this.store.subscribe((state) => this.render(state))
 
+    // Empêcher le scroll lors des interactions dans l'application
+    this.preventScrollOnInteraction()
+
     // Rendu initial
     this.render(this.store.state)
+  }
+
+  preventScrollOnInteraction() {
+    // Empêcher le scroll automatique lors des clics dans l'application
+    const section = document.getElementById('deduplicate')
+    if (!section) return
+
+    // Empêcher les comportements par défaut qui causent du scroll
+    section.addEventListener('click', (e) => {
+      // Si c'est un lien ou un bouton, empêcher le comportement par défaut seulement si nécessaire
+      const target = e.target.closest('a, button, [role="button"]')
+      if (target && target.href && target.href.includes('#')) {
+        e.preventDefault()
+        // Ne pas scroller, rester dans la section
+      }
+    }, { capture: true })
+
+    // Empêcher le scroll lors du drag & drop
+    section.addEventListener('dragover', (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+    })
+
+    section.addEventListener('drop', (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      // S'assurer qu'on reste dans la section
+      setTimeout(() => {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    })
   }
 
   async handleFileUpload(filesOrZip, type) {
