@@ -10,7 +10,6 @@ export class UploadStep {
   constructor(container, onFileSelected) {
     this.container = container
     this.onFileSelected = onFileSelected
-    this.setupDragAndDrop()
   }
 
   render() {
@@ -19,13 +18,13 @@ export class UploadStep {
         <div class="deduplicate-app-card">
           <h3>Espace d'import</h3>
           <div class="deduplicate-dropzone" id="uploadZone">
-            <p>Glissez-déposez votre fichier ZIP ici ou sélectionnez-le depuis votre appareil.</p>
-            <label for="zipFileInput">
-              <button class="deduplicate-primary-btn" type="button">Importer un fichier ZIP</button>
+            <p>Glissez-déposez vos fichiers (ZIP ou fichiers individuels) ici ou sélectionnez-les depuis votre appareil.</p>
+            <label for="fileInput">
+              <button class="deduplicate-primary-btn" type="button">Importer des fichiers</button>
             </label>
-            <input type="file" id="zipFileInput" accept=".zip" class="deduplicate-file-input">
+            <input type="file" id="fileInput" multiple class="deduplicate-file-input">
             <p class="deduplicate-hint">
-              Format accepté : <code>.ZIP</code>
+              Formats acceptés : <code>.ZIP</code> ou <code>fichiers individuels</code>
             </p>
           </div>
           <div class="deduplicate-stats-row" id="uploadStats" style="display: none;">
@@ -58,15 +57,22 @@ export class UploadStep {
   }
 
   attachEvents() {
-    const input = document.getElementById('zipFileInput')
-    const label = document.querySelector('label[for="zipFileInput"]')
+    const input = document.getElementById('fileInput')
+    const label = document.querySelector('label[for="fileInput"]')
     
     input?.addEventListener('change', (e) => {
-      const file = e.target.files[0]
-      if (file && zipService.isValidZip(file)) {
-        this.onFileSelected(file)
+      const files = Array.from(e.target.files)
+      if (files.length === 0) {
+        this.showError('Veuillez sélectionner au moins un fichier')
+        return
+      }
+
+      // Si un seul fichier ZIP est sélectionné, traiter comme ZIP
+      if (files.length === 1 && zipService.isValidZip(files[0])) {
+        this.onFileSelected(files[0], 'zip')
       } else {
-        this.showError('Veuillez sélectionner un fichier ZIP valide')
+        // Sinon, traiter comme fichiers individuels
+        this.onFileSelected(files, 'files')
       }
     })
 
@@ -92,11 +98,19 @@ export class UploadStep {
     uploadZone.addEventListener('drop', (e) => {
       e.preventDefault()
       uploadZone.classList.remove('deduplicate-drag-over')
-      const file = e.dataTransfer.files[0]
-      if (file && zipService.isValidZip(file)) {
-        this.onFileSelected(file)
+      const files = Array.from(e.dataTransfer.files)
+      
+      if (files.length === 0) {
+        this.showError('Veuillez déposer au moins un fichier')
+        return
+      }
+
+      // Si un seul fichier ZIP est déposé, traiter comme ZIP
+      if (files.length === 1 && zipService.isValidZip(files[0])) {
+        this.onFileSelected(files[0], 'zip')
       } else {
-        this.showError('Veuillez déposer un fichier ZIP valide')
+        // Sinon, traiter comme fichiers individuels
+        this.onFileSelected(files, 'files')
       }
     })
   }

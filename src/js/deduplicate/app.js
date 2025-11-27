@@ -33,7 +33,7 @@ export class DeduplicateApp {
 
   init() {
     // Initialiser les composants
-    this.components.upload = new UploadStep(this.container, (file) => this.handleFileUpload(file))
+    this.components.upload = new UploadStep(this.container, (files, type) => this.handleFileUpload(files, type))
     this.components.analyzing = new AnalyzingStep(this.container)
     this.components.results = new ResultsStep(this.container, (action, data) => this.handleAction(action, data))
     this.components.download = new DownloadStep(this.container, (action) => this.handleAction(action))
@@ -45,15 +45,28 @@ export class DeduplicateApp {
     this.render(this.store.state)
   }
 
-  async handleFileUpload(file) {
+  async handleFileUpload(filesOrZip, type) {
     try {
       this.store.setStep('analyzing')
       this.store.setProcessing(true)
       this.store.setError(null)
 
-      // Étape 1: Extraire le ZIP
+      let files = []
+
+      // Étape 1: Extraire le ZIP ou traiter les fichiers individuels
       this.components.analyzing.render(10)
-      const files = await zipService.extractZip(file)
+      
+      if (type === 'zip') {
+        // Traiter comme ZIP
+        files = await zipService.extractZip(filesOrZip)
+      } else {
+        // Traiter comme fichiers individuels
+        files = await zipService.processFiles(filesOrZip)
+      }
+
+      if (files.length === 0) {
+        throw new Error('Aucun fichier à analyser')
+      }
 
       // Étape 2: Calculer les hashs
       this.components.analyzing.render(30)
