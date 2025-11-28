@@ -299,16 +299,7 @@
             box-shadow: 0 5px 30px rgba(45, 74, 110, 0.3);
         }
         .nav-welcome {
-            position: absolute;
-            left: 60px;
-            font-size: clamp(0.7rem, 1.2vw, 0.9rem);
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 400;
-            color: var(--white-90);
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            text-shadow: 
-                0 1px 2px rgba(0, 0, 0, 0.8);
+            display: none; /* Caché par défaut */
         }
         .nav-logo {
             font-size: 2rem;
@@ -323,16 +314,16 @@
                 0 4px 8px rgba(0, 0, 0, 0.6);
             -webkit-text-stroke: 0;
             text-align: center;
-            flex: 0 0 auto;
+            margin-right: 60px;
         }
         .nav-menu {
             display: flex;
             gap: 40px;
             list-style: none;
-            position: absolute;
-            right: 60px;
             margin: 0;
             padding: 0;
+            align-items: center;
+            justify-content: center;
         }
         .nav-menu a {
             color: var(--white);
@@ -369,7 +360,7 @@
             gap: 4px;
             transition: all 0.3s;
             position: absolute;
-            right: 60px;
+            right: 20px;
         }
         .nav-menu-toggle span {
             display: block;

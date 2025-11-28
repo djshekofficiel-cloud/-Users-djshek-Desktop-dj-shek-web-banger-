@@ -114,6 +114,7 @@ body {
     padding: var(--spacing-sm) var(--spacing-md);
     justify-content: center;
     align-items: center;
+    flex-wrap: nowrap;
 }
 
 .nav-bar.scrolled {
@@ -123,6 +124,7 @@ body {
 .nav-logo {
     font-size: clamp(1.25rem, 4vw, 2rem);
     text-align: center;
+    margin-right: 0;
     flex: 0 0 auto;
 }
 
@@ -205,6 +207,7 @@ body {
         padding: var(--spacing-md) var(--spacing-xl);
         justify-content: center;
         align-items: center;
+        flex-wrap: nowrap;
     }
     
     .nav-bar.scrolled {
@@ -212,19 +215,17 @@ body {
     }
     
     .nav-welcome {
-        display: block;
-        position: absolute;
-        left: var(--spacing-xl);
+        display: none; /* Gardé caché pour centrage parfait */
     }
     
     .nav-logo {
         text-align: center;
+        margin-right: 60px;
         flex: 0 0 auto;
     }
     
     .nav-menu {
-        position: absolute;
-        right: var(--spacing-xl);
+        position: static;
         width: auto;
         height: auto;
         background: transparent;
@@ -235,6 +236,7 @@ body {
         gap: var(--spacing-xl);
         box-shadow: none;
         overflow: visible;
+        margin: 0;
     }
     
     .nav-menu a {
