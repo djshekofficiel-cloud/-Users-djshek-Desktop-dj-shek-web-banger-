@@ -112,7 +112,7 @@ body {
    ============================================ */
 .nav-bar {
     padding: var(--spacing-sm) var(--spacing-md);
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     flex-wrap: nowrap;
 }
@@ -124,8 +124,9 @@ body {
 .nav-center-container {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 30px;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
     flex-wrap: wrap;
 }
 
@@ -230,9 +231,11 @@ body {
     .nav-center-container {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
         gap: 50px;
-        flex-wrap: wrap;
     }
     
     .nav-logo {
@@ -256,8 +259,9 @@ body {
         overflow: visible;
         margin: 0;
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: flex-end;
         align-items: center;
+        flex: 1;
     }
     
     .nav-menu li {
