@@ -717,10 +717,9 @@ function initPartenaires() {
         };
         
         div.appendChild(img);
-
-        grid.appendChild(div);
-
-    });
+    }
+    
+    grid.appendChild(div);
 
 }
 
