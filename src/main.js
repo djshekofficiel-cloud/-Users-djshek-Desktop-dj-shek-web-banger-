@@ -1120,18 +1120,28 @@ function initForms() {
                         }
                     }, 2000);
                 } else {
-                    throw new Error(data.error || data.message || 'Erreur lors de l\'envoi');
+                    // Utiliser le message d'erreur de l'API s'il est disponible
+                    const apiErrorMessage = data.message || data.error || 'Erreur lors de l\'envoi';
+                    throw new Error(apiErrorMessage);
                 }
             } catch (error) {
                 console.error('❌ Erreur lors de l\'envoi du formulaire:', error);
                 
-                // Message d'erreur plus clair
-                let errorMessage = error.message;
-                if (error.message.includes('JSON')) {
-                    errorMessage = 'Erreur de configuration serveur. Veuillez contacter le support ou réessayer plus tard.';
+                // Message d'erreur plus clair et spécifique
+                let errorMessage = 'Une erreur est survenue lors de l\'envoi.';
+                
+                if (error.message) {
+                    // Si le message d'erreur vient de l'API, l'utiliser directement
+                    if (error.message.includes('Erreur serveur') || error.message.includes('JSON')) {
+                        errorMessage = 'Erreur de configuration serveur. Veuillez réessayer dans quelques instants.';
+                    } else if (error.message.includes('fetch') || error.message.includes('network')) {
+                        errorMessage = 'Problème de connexion. Vérifiez votre internet et réessayez.';
+                    } else {
+                        errorMessage = error.message;
+                    }
                 }
                 
-                showFormMessage(`❌ Erreur lors de l'envoi : ${errorMessage}`, 'error');
+                showFormMessage(`❌ ${errorMessage}`, 'error');
                 
                 // Réactiver le bouton en cas d'erreur
                 if (submitBtn) {

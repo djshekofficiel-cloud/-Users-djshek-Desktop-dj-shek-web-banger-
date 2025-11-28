@@ -159,10 +159,25 @@ module.exports = async function handler(req, res) {
 
   } catch (error) {
     console.error('Erreur dans /api/contact:', error);
+    
+    // Messages d'erreur plus spécifiques
+    let errorMessage = 'Une erreur inattendue s\'est produite';
+    let errorDetails = error.message || '';
+    
+    if (error.message.includes('fetch')) {
+      errorMessage = 'Impossible de contacter le service d\'envoi d\'email. Vérifiez votre connexion internet.';
+    } else if (error.message.includes('JSON')) {
+      errorMessage = 'Erreur de format de données. Veuillez réessayer.';
+    } else if (error.message.includes('timeout')) {
+      errorMessage = 'Le service d\'envoi a pris trop de temps à répondre. Veuillez réessayer.';
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+    
     return res.status(500).json({ 
       success: false,
       error: 'Erreur lors de l\'envoi de l\'email',
-      message: error.message || 'Une erreur inattendue s\'est produite',
+      message: errorMessage,
       details: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }
