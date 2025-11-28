@@ -657,7 +657,7 @@
                     <span class="badge">⚡ Réponse sous 24h</span>
                     <span class="badge">🎯 Devis personnalisé gratuit</span>
                     <span class="badge">✨ +200 projets réalisés</span>
-                </div>
+            </div>
 
             </div>
 
@@ -750,10 +750,10 @@
                 <div class="form-message hidden" id="formMessage"></div>
 
                 <div class="form-submit-section">
-                    <button type="submit" class="form-submit-btn" id="submitBtn">
+                <button type="submit" class="form-submit-btn" id="submitBtn">
                         <span class="btn-text">🚀 Envoyer ma demande (gratuit)</span>
-                        <span class="btn-loader hidden"></span>
-                    </button>
+                    <span class="btn-loader hidden"></span>
+                </button>
                     <p class="form-guarantee">✅ Réponse garantie sous 24h • Devis gratuit • Sans engagement</p>
                 </div>
 
@@ -765,7 +765,1045 @@
 
 
 
-    <section class="partenaires-section section-glow" id="about">
+    <!-- 🔊 WIDGET MASTERING AUDIO -->
+    <section id="mastering-widget" class="section-glow">
+
+        <style>
+            /* ==== STYLES SCOPÉS AU WIDGET UNIQUEMENT ==== */
+            #mastering-widget {
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                padding: 60px 20px;
+            }
+            #mastering-widget .mastering-app {
+                width: 100%;
+                max-width: 960px;
+                background: rgba(15, 23, 42, 0.95);
+                border-radius: 20px;
+                padding: 24px 28px 28px;
+                box-shadow: 0 24px 80px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(148, 163, 184, 0.15);
+                -webkit-backdrop-filter: blur(18px);
+                backdrop-filter: blur(18px);
+                color: #e5e7eb;
+                margin: 24px auto;
+            }
+            #mastering-widget .header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 16px;
+                margin-bottom: 10px;
+                flex-wrap: wrap;
+            }
+            #mastering-widget .title-block h1 {
+                font-size: 1.4rem;
+                margin: 0;
+                color: var(--white);
+            }
+            #mastering-widget .title-block p {
+                margin: 4px 0 0;
+                font-size: 0.85rem;
+                color: #9ca3af;
+            }
+            #mastering-widget .file-input {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 8px 12px;
+                border-radius: 999px;
+                background: rgba(15, 23, 42, 0.9);
+                border: 1px solid rgba(148, 163, 184, 0.5);
+                font-size: 0.85rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            #mastering-widget .file-input:hover {
+                border-color: var(--orange);
+                background: rgba(255, 107, 53, 0.1);
+            }
+            #mastering-widget .file-input input {
+                display: none;
+            }
+            #mastering-widget .file-name {
+                color: #e5e7eb;
+                max-width: 220px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            #mastering-widget .drop-zone {
+                margin-bottom: 16px;
+                margin-top: 4px;
+                padding: 10px 12px;
+                border-radius: 12px;
+                border: 1px dashed rgba(148, 163, 184, 0.6);
+                background: rgba(15, 23, 42, 0.6);
+                font-size: 0.8rem;
+                color: #9ca3af;
+                text-align: center;
+                transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+            }
+            #mastering-widget .drop-zone.dragover {
+                border-color: #60a5fa;
+                background: rgba(37, 99, 235, 0.12);
+                color: #e5e7eb;
+            }
+            #mastering-widget .pill {
+                font-size: 0.7rem;
+                padding: 3px 8px;
+                border-radius: 999px;
+                background: rgba(22, 163, 74, 0.15);
+                color: #4ade80;
+                border: 1px solid rgba(74, 222, 128, 0.5);
+            }
+            #mastering-widget .transport {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 10px;
+                flex-wrap: wrap;
+            }
+            #mastering-widget button {
+                border: none;
+                outline: none;
+                cursor: pointer;
+                font: inherit;
+            }
+            #mastering-widget .btn {
+                padding: 8px 14px;
+                border-radius: 999px;
+                font-size: 0.9rem;
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                background: rgba(30, 64, 175, 0.9);
+                color: #e5e7eb;
+                box-shadow: 0 10px 30px rgba(30, 64, 175, 0.7);
+                transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+            }
+            #mastering-widget .btn.secondary {
+                background: rgba(15, 23, 42, 0.9);
+                box-shadow: none;
+                border: 1px solid rgba(148, 163, 184, 0.4);
+            }
+            #mastering-widget .btn:disabled {
+                opacity: 0.4;
+                cursor: not-allowed;
+                box-shadow: none;
+            }
+            #mastering-widget .btn:not(:disabled):hover {
+                transform: translateY(-1px);
+                box-shadow: 0 14px 40px rgba(30, 64, 175, 0.9);
+            }
+            #mastering-widget .btn.secondary:not(:disabled):hover {
+                box-shadow: 0 8px 28px rgba(15, 23, 42, 0.7);
+            }
+            #mastering-widget .meters {
+                flex: 1;
+                display: flex;
+                gap: 12px;
+                min-width: 180px;
+                justify-content: flex-end;
+            }
+            #mastering-widget .meter {
+                flex: 1;
+                min-width: 80px;
+                background: rgba(15, 23, 42, 0.95);
+                border-radius: 12px;
+                padding: 8px 10px;
+                border: 1px solid rgba(51, 65, 85, 0.9);
+            }
+            #mastering-widget .meter-label {
+                font-size: 0.7rem;
+                color: #9ca3af;
+                margin-bottom: 4px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 6px;
+            }
+            #mastering-widget .meter-bar {
+                position: relative;
+                width: 100%;
+                height: 8px;
+                border-radius: 999px;
+                background: linear-gradient(to right, #22c55e, #eab308, #f97316, #ef4444);
+                overflow: hidden;
+            }
+            #mastering-widget .meter-fill {
+                position: absolute;
+                inset: 0;
+                transform-origin: left center;
+                transform: scaleX(0);
+                background: rgba(15, 23, 42, 0.8);
+                mix-blend-mode: soft-light;
+            }
+            #mastering-widget .presets {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                flex-wrap: wrap;
+                margin-bottom: 14px;
+                font-size: 0.78rem;
+                color: #9ca3af;
+            }
+            #mastering-widget .preset-chip {
+                border-radius: 999px;
+                padding: 4px 10px;
+                font-size: 0.75rem;
+                background: rgba(15, 23, 42, 0.95);
+                border: 1px solid rgba(55, 65, 81, 0.8);
+                color: #e5e7eb;
+                cursor: pointer;
+                transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease, transform 0.1s ease;
+            }
+            #mastering-widget .preset-chip:hover {
+                transform: translateY(-1px);
+                border-color: rgba(59, 130, 246, 0.7);
+            }
+            #mastering-widget .preset-chip.active {
+                background: rgba(37, 99, 235, 0.2);
+                border-color: rgba(59, 130, 246, 0.9);
+                color: #bfdbfe;
+            }
+            #mastering-widget .spectrum-card {
+                margin-bottom: 18px;
+                border-radius: 14px;
+                border: 1px solid rgba(51, 65, 85, 0.95);
+                background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 55%),
+                    radial-gradient(circle at bottom right, rgba(22, 163, 74, 0.18), transparent 60%);
+                padding: 10px 12px 12px;
+            }
+            #mastering-widget .spectrum-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                font-size: 0.75rem;
+                color: #9ca3af;
+                margin-bottom: 4px;
+            }
+            #mastering-widget #spectrumCanvas {
+                width: 100%;
+                height: 80px;
+                display: block;
+            }
+            #mastering-widget .sections {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 16px;
+                margin-bottom: 20px;
+            }
+            #mastering-widget .section-card {
+                border-radius: 16px;
+                border: 1px solid rgba(51, 65, 85, 0.95);
+                background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.13), transparent 50%),
+                    radial-gradient(circle at bottom right, rgba(22, 163, 74, 0.14), transparent 55%);
+                padding: 14px 14px 12px;
+            }
+            #mastering-widget .section-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 8px;
+            }
+            #mastering-widget .section-title {
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: var(--white);
+            }
+            #mastering-widget .section-sub {
+                font-size: 0.75rem;
+                color: #9ca3af;
+            }
+            #mastering-widget .sliders {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 4px;
+            }
+            #mastering-widget .slider-row {
+                display: grid;
+                grid-template-columns: minmax(80px, 1.2fr) 3fr minmax(42px, 0.8fr);
+                gap: 8px;
+                align-items: center;
+                font-size: 0.75rem;
+            }
+            #mastering-widget .slider-row label {
+                color: #e5e7eb;
+            }
+            #mastering-widget .slider-row span {
+                text-align: right;
+                color: #9ca3af;
+                font-variant-numeric: tabular-nums;
+            }
+            #mastering-widget input[type="range"] {
+                width: 100%;
+                appearance: none;
+                height: 4px;
+                border-radius: 999px;
+                background: rgba(55, 65, 81, 0.9);
+                outline: none;
+            }
+            #mastering-widget input[type="range"]::-webkit-slider-thumb {
+                appearance: none;
+                width: 14px;
+                height: 14px;
+                border-radius: 50%;
+                background: #60a5fa;
+                border: 2px solid #0f172a;
+                box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35);
+                cursor: pointer;
+                transition: transform 0.12s ease, box-shadow 0.12s ease;
+            }
+            #mastering-widget input[type="range"]::-moz-range-thumb {
+                width: 14px;
+                height: 14px;
+                border-radius: 50%;
+                background: #60a5fa;
+                border: 2px solid #0f172a;
+                box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35);
+                cursor: pointer;
+            }
+            #mastering-widget input[type="range"]:active::-webkit-slider-thumb {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.7);
+            }
+            #mastering-widget .footer {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                margin-top: 8px;
+                flex-wrap: wrap;
+                font-size: 0.75rem;
+                color: #9ca3af;
+            }
+            #mastering-widget .export-block {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            #mastering-widget .download-link {
+                font-size: 0.8rem;
+                padding: 6px 10px;
+                border-radius: 999px;
+                border: 1px solid rgba(74, 222, 128, 0.6);
+                color: #bbf7d0;
+                text-decoration: none;
+                background: rgba(22, 163, 74, 0.18);
+                transition: all 0.3s ease;
+            }
+            #mastering-widget .download-link:hover {
+                background: rgba(22, 163, 74, 0.3);
+                transform: translateY(-1px);
+            }
+            @media (max-width: 640px) {
+                #mastering-widget {
+                    padding: 40px 10px;
+                }
+                #mastering-widget .mastering-app {
+                    padding: 18px 16px 18px;
+                }
+                #mastering-widget .header {
+                    align-items: flex-start;
+                }
+                #mastering-widget .meters {
+                    justify-content: flex-start;
+                }
+            }
+        </style>
+
+        <div class="mastering-app">
+            <div class="header">
+                <div class="title-block">
+                    <h1>Mastering Web</h1>
+                    <p>Charge une piste, ajuste l'EQ / compression / limiteur et exporte un WAV masterisé.</p>
+                </div>
+                <label class="file-input">
+                    <span>🎵 Importer un audio</span>
+                    <input type="file" id="fileInput" accept="audio/*" />
+                    <span class="file-name" id="fileName">Aucun fichier</span>
+                </label>
+            </div>
+
+            <div class="drop-zone" id="dropZone">
+                ou dépose ton fichier audio ici (WAV, MP3, etc.)
+            </div>
+
+            <div class="transport">
+                <button class="btn" id="playBtn" disabled>▶ Lecture</button>
+                <button class="btn secondary" id="stopBtn" disabled>■ Stop</button>
+                <span class="pill" id="statusPill">En attente d'un fichier</span>
+
+                <div class="meters">
+                    <div class="meter">
+                        <div class="meter-label">
+                            <span>Peak</span>
+                            <span id="peakValue">-∞ dB</span>
+                        </div>
+                        <div class="meter-bar">
+                            <div class="meter-fill" id="peakFill"></div>
+                        </div>
+                    </div>
+                    <div class="meter">
+                        <div class="meter-label">
+                            <span>RMS approx.</span>
+                            <span id="rmsValue">-∞ dB</span>
+                        </div>
+                        <div class="meter-bar">
+                            <div class="meter-fill" id="rmsFill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="presets">
+                <span>Presets :</span>
+                <button class="preset-chip active" data-preset="flat">Flat</button>
+                <button class="preset-chip" data-preset="streaming">Streaming</button>
+                <button class="preset-chip" data-preset="radio">Radio Loud</button>
+                <button class="preset-chip" data-preset="club">Club</button>
+                <button class="preset-chip" data-preset="podcast">Podcast</button>
+            </div>
+
+            <div class="spectrum-card">
+                <div class="spectrum-header">
+                    <span>Spectre temps réel</span>
+                    <span>20 Hz – 20 kHz (approx.)</span>
+                </div>
+                <canvas id="spectrumCanvas"></canvas>
+            </div>
+
+            <div class="sections">
+                <!-- EQ -->
+                <section class="section-card">
+                    <div class="section-header">
+                        <div>
+                            <div class="section-title">EQ 3 bandes</div>
+                            <div class="section-sub">Corrige le spectre global (mono mastering).</div>
+                        </div>
+                    </div>
+                    <div class="sliders">
+                        <div class="slider-row">
+                            <label for="lowGain">Graves</label>
+                            <input id="lowGain" type="range" min="-12" max="12" step="0.5" value="0" data-param="lowGain" />
+                            <span id="lowGainVal">0 dB</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="midGain">Médiums</label>
+                            <input id="midGain" type="range" min="-12" max="12" step="0.5" value="0" data-param="midGain" />
+                            <span id="midGainVal">0 dB</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="highGain">Aigus</label>
+                            <input id="highGain" type="range" min="-12" max="12" step="0.5" value="0" data-param="highGain" />
+                            <span id="highGainVal">0 dB</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Compression -->
+                <section class="section-card">
+                    <div class="section-header">
+                        <div>
+                            <div class="section-title">Compresseur large bande</div>
+                            <div class="section-sub">Contrôle la dynamique avant le limiteur.</div>
+                        </div>
+                    </div>
+                    <div class="sliders">
+                        <div class="slider-row">
+                            <label for="compThreshold">Seuil</label>
+                            <input id="compThreshold" type="range" min="-60" max="0" step="1" value="-18" data-param="compThreshold" />
+                            <span id="compThresholdVal">-18 dB</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="compRatio">Ratio</label>
+                            <input id="compRatio" type="range" min="1" max="12" step="0.5" value="3" data-param="compRatio" />
+                            <span id="compRatioVal">3:1</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="compAttack">Attack</label>
+                            <input id="compAttack" type="range" min="1" max="80" step="1" value="20" data-param="compAttack" />
+                            <span id="compAttackVal">20 ms</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="compRelease">Release</label>
+                            <input id="compRelease" type="range" min="50" max="1000" step="10" value="220" data-param="compRelease" />
+                            <span id="compReleaseVal">220 ms</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Limiteur & sortie -->
+                <section class="section-card">
+                    <div class="section-header">
+                        <div>
+                            <div class="section-title">Limiteur & Sortie</div>
+                            <div class="section-sub">Ceiling + gain final.</div>
+                        </div>
+                    </div>
+                    <div class="sliders">
+                        <div class="slider-row">
+                            <label for="limitThreshold">Ceiling</label>
+                            <input id="limitThreshold" type="range" min="-6" max="-0.1" step="0.1" value="-1" data-param="limitThreshold" />
+                            <span id="limitThresholdVal">-1 dB</span>
+                        </div>
+                        <div class="slider-row">
+                            <label for="outputGain">Gain sortie</label>
+                            <input id="outputGain" type="range" min="-12" max="6" step="0.5" value="0" data-param="outputGain" />
+                            <span id="outputGainVal">0 dB</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="footer">
+                <div class="export-block">
+                    <button class="btn secondary" id="exportBtn" disabled>📤 Exporter en WAV</button>
+                    <a id="downloadLink" class="download-link" href="#" style="display: none;">Télécharger le master</a>
+                </div>
+                <div>
+                    <strong>Conseil :</strong> vise un peak &lt; -0.5 dB et un RMS autour de -12 à -9 dB pour un master "fort" mais encore musical.
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // ==== LOGIQUE WEB AUDIO ====
+            let audioCtx = null;
+            let sourceNode = null;
+            let analyserNode = null;
+            let lowShelfFilter, midPeakingFilter, highShelfFilter;
+            let compressorNode, limiterNode, outputGainNode;
+            let currentBuffer = null;
+            let isPlaying = false;
+            let meterAnimationFrame = null;
+            let spectrumCanvas = null;
+            let spectrumCtx = null;
+            let freqData = null;
+
+            const state = {
+                lowGain: 0,
+                midGain: 0,
+                highGain: 0,
+                compThreshold: -18,
+                compRatio: 3,
+                compAttack: 0.02,
+                compRelease: 0.22,
+                limitThreshold: -1,
+                outputGain: 0
+            };
+
+            const PRESETS = {
+                flat: {
+                    label: "Flat",
+                    lowGain: 0, midGain: 0, highGain: 0,
+                    compThreshold: -18, compRatio: 3, compAttackMs: 20, compReleaseMs: 220,
+                    limitThreshold: -1, outputGain: 0
+                },
+                streaming: {
+                    label: "Streaming",
+                    lowGain: 1.5, midGain: 0, highGain: 1.5,
+                    compThreshold: -16, compRatio: 3.5, compAttackMs: 18, compReleaseMs: 260,
+                    limitThreshold: -1, outputGain: 1.5
+                },
+                radio: {
+                    label: "Radio Loud",
+                    lowGain: 2.0, midGain: 1.0, highGain: 2.5,
+                    compThreshold: -22, compRatio: 5, compAttackMs: 10, compReleaseMs: 220,
+                    limitThreshold: -0.5, outputGain: 2.5
+                },
+                club: {
+                    label: "Club",
+                    lowGain: 3.0, midGain: -1.0, highGain: 2.0,
+                    compThreshold: -20, compRatio: 4, compAttackMs: 15, compReleaseMs: 260,
+                    limitThreshold: -0.8, outputGain: 2
+                },
+                podcast: {
+                    label: "Podcast / Voix",
+                    lowGain: -1.5, midGain: 2.0, highGain: 1.0,
+                    compThreshold: -24, compRatio: 3.5, compAttackMs: 12, compReleaseMs: 300,
+                    limitThreshold: -1, outputGain: 1
+                }
+            };
+
+            function dbToGain(db) {
+                return Math.pow(10, db / 20);
+            }
+
+            function updateStatus(text, color = "#4ade80") {
+                const pill = document.getElementById("statusPill");
+                pill.textContent = text;
+                pill.style.borderColor = color;
+                pill.style.color = color;
+                pill.style.backgroundColor = color === "#4ade80" ? "rgba(22,163,74,0.15)" : "rgba(248,113,113,0.16)";
+            }
+
+            function resetMeters() {
+                document.getElementById("peakValue").textContent = "-∞ dB";
+                document.getElementById("rmsValue").textContent = "-∞ dB";
+                document.getElementById("peakFill").style.transform = "scaleX(0)";
+                document.getElementById("rmsFill").style.transform = "scaleX(0)";
+                if (spectrumCtx && spectrumCanvas) {
+                    spectrumCtx.clearRect(0, 0, spectrumCanvas.clientWidth, spectrumCanvas.clientHeight);
+                }
+            }
+
+            function formatDb(value) {
+                if (!isFinite(value) || value <= -100) return "-∞ dB";
+                return value.toFixed(1) + " dB";
+            }
+
+            function applyPreset(name) {
+                const preset = PRESETS[name];
+                if (!preset) return;
+                state.lowGain = preset.lowGain;
+                state.midGain = preset.midGain;
+                state.highGain = preset.highGain;
+                state.compThreshold = preset.compThreshold;
+                state.compRatio = preset.compRatio;
+                state.compAttack = preset.compAttackMs / 1000;
+                state.compRelease = preset.compReleaseMs / 1000;
+                state.limitThreshold = preset.limitThreshold;
+                state.outputGain = preset.outputGain;
+                document.getElementById("lowGain").value = preset.lowGain;
+                document.getElementById("lowGainVal").textContent = preset.lowGain + " dB";
+                document.getElementById("midGain").value = preset.midGain;
+                document.getElementById("midGainVal").textContent = preset.midGain + " dB";
+                document.getElementById("highGain").value = preset.highGain;
+                document.getElementById("highGainVal").textContent = preset.highGain + " dB";
+                document.getElementById("compThreshold").value = preset.compThreshold;
+                document.getElementById("compThresholdVal").textContent = preset.compThreshold + " dB";
+                document.getElementById("compRatio").value = preset.compRatio;
+                document.getElementById("compRatioVal").textContent = preset.compRatio.toFixed(1) + ":1";
+                document.getElementById("compAttack").value = preset.compAttackMs;
+                document.getElementById("compAttackVal").textContent = preset.compAttackMs + " ms";
+                document.getElementById("compRelease").value = preset.compReleaseMs;
+                document.getElementById("compReleaseVal").textContent = preset.compReleaseMs + " ms";
+                document.getElementById("limitThreshold").value = preset.limitThreshold;
+                document.getElementById("limitThresholdVal").textContent = preset.limitThreshold.toFixed(1) + " dB";
+                document.getElementById("outputGain").value = preset.outputGain;
+                document.getElementById("outputGainVal").textContent = preset.outputGain + " dB";
+                applyParametersToNodes();
+                document.querySelectorAll("#mastering-widget .preset-chip").forEach((btn) => {
+                    btn.classList.toggle("active", btn.dataset.preset === name);
+                });
+                updateStatus('Preset "' + preset.label + '" appliqué ✅');
+            }
+
+            function createAudioGraph(ctx, destination) {
+                lowShelfFilter = ctx.createBiquadFilter();
+                lowShelfFilter.type = "lowshelf";
+                lowShelfFilter.frequency.value = 120;
+                midPeakingFilter = ctx.createBiquadFilter();
+                midPeakingFilter.type = "peaking";
+                midPeakingFilter.frequency.value = 1500;
+                midPeakingFilter.Q.value = 1.1;
+                highShelfFilter = ctx.createBiquadFilter();
+                highShelfFilter.type = "highshelf";
+                highShelfFilter.frequency.value = 8000;
+                compressorNode = ctx.createDynamicsCompressor();
+                limiterNode = ctx.createDynamicsCompressor();
+                outputGainNode = ctx.createGain();
+                limiterNode.ratio.value = 20;
+                limiterNode.knee.value = 0;
+                limiterNode.attack.value = 0.002;
+                limiterNode.release.value = 0.15;
+                analyserNode = ctx.createAnalyser();
+                analyserNode.fftSize = 2048;
+                freqData = new Uint8Array(analyserNode.frequencyBinCount);
+                lowShelfFilter.connect(midPeakingFilter);
+                midPeakingFilter.connect(highShelfFilter);
+                highShelfFilter.connect(compressorNode);
+                compressorNode.connect(limiterNode);
+                limiterNode.connect(outputGainNode);
+                outputGainNode.connect(analyserNode);
+                analyserNode.connect(destination);
+                applyParametersToNodes();
+            }
+
+            function applyParametersToNodes() {
+                if (!lowShelfFilter) return;
+                lowShelfFilter.gain.value = state.lowGain;
+                midPeakingFilter.gain.value = state.midGain;
+                highShelfFilter.gain.value = state.highGain;
+                compressorNode.threshold.value = state.compThreshold;
+                compressorNode.ratio.value = state.compRatio;
+                compressorNode.attack.value = state.compAttack;
+                compressorNode.release.value = state.compRelease;
+                limiterNode.threshold.value = state.limitThreshold;
+                outputGainNode.gain.value = dbToGain(state.outputGain);
+            }
+
+            function stopPlayback() {
+                if (sourceNode) {
+                    try { sourceNode.stop(); } catch (e) {}
+                    sourceNode.disconnect();
+                    sourceNode = null;
+                }
+                isPlaying = false;
+                if (meterAnimationFrame) {
+                    cancelAnimationFrame(meterAnimationFrame);
+                    meterAnimationFrame = null;
+                }
+                resetMeters();
+                updateStatus("Lecture stoppée");
+                document.getElementById("playBtn").textContent = "▶ Lecture";
+            }
+
+            function startPlayback() {
+                if (!audioCtx || !currentBuffer) return;
+                if (audioCtx.state === "suspended") {
+                    audioCtx.resume();
+                }
+                stopPlayback();
+                sourceNode = audioCtx.createBufferSource();
+                sourceNode.buffer = currentBuffer;
+                sourceNode.connect(lowShelfFilter);
+                sourceNode.onended = () => {
+                    isPlaying = false;
+                    document.getElementById("playBtn").textContent = "▶ Lecture";
+                };
+                sourceNode.start();
+                isPlaying = true;
+                document.getElementById("playBtn").textContent = "⏸ Pause";
+                updateStatus("Lecture en cours");
+                startMeterLoop();
+            }
+
+            function togglePlay() {
+                if (!audioCtx || !currentBuffer) return;
+                if (!isPlaying) {
+                    startPlayback();
+                } else {
+                    stopPlayback();
+                }
+            }
+
+            function resizeSpectrumCanvas() {
+                if (!spectrumCanvas || !spectrumCtx) return;
+                const rect = spectrumCanvas.getBoundingClientRect();
+                const dpr = window.devicePixelRatio || 1;
+                spectrumCanvas.width = rect.width * dpr;
+                spectrumCanvas.height = 80 * dpr;
+                spectrumCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            }
+
+            function drawSpectrum() {
+                if (!spectrumCtx || !spectrumCanvas || !analyserNode || !freqData) return;
+                analyserNode.getByteFrequencyData(freqData);
+                const width = spectrumCanvas.clientWidth;
+                const height = spectrumCanvas.clientHeight;
+                spectrumCtx.clearRect(0, 0, width, height);
+                const barCount = Math.min(100, freqData.length);
+                const step = Math.max(1, Math.floor(freqData.length / barCount));
+                const gradient = spectrumCtx.createLinearGradient(0, 0, 0, height);
+                gradient.addColorStop(0, "#bfdbfe");
+                gradient.addColorStop(0.5, "#60a5fa");
+                gradient.addColorStop(1, "#22c55e");
+                spectrumCtx.fillStyle = gradient;
+                for (let i = 0; i < barCount; i++) {
+                    const value = freqData[i * step] / 255;
+                    const barWidth = width / barCount;
+                    const barHeight = value * height;
+                    const x = i * barWidth;
+                    const y = height - barHeight;
+                    spectrumCtx.fillRect(x, y, barWidth * 0.9, barHeight);
+                }
+            }
+
+            function startMeterLoop() {
+                const bufferLength = analyserNode.fftSize;
+                const data = new Float32Array(bufferLength);
+                function updateMeters() {
+                    if (!analyserNode) return;
+                    analyserNode.getFloatTimeDomainData(data);
+                    let peak = 0;
+                    let sumSquares = 0;
+                    for (let i = 0; i < bufferLength; i++) {
+                        const sample = data[i];
+                        const abs = Math.abs(sample);
+                        if (abs > peak) peak = abs;
+                        sumSquares += sample * sample;
+                    }
+                    const rms = Math.sqrt(sumSquares / bufferLength);
+                    const peakDb = 20 * Math.log10(peak || 0.0000001);
+                    const rmsDb = 20 * Math.log10(rms || 0.0000001);
+                    const peakNorm = Math.min(Math.max((peakDb + 60) / 60, 0), 1);
+                    const rmsNorm = Math.min(Math.max((rmsDb + 60) / 60, 0), 1);
+                    document.getElementById("peakValue").textContent = formatDb(peakDb);
+                    document.getElementById("rmsValue").textContent = formatDb(rmsDb);
+                    document.getElementById("peakFill").style.transform = "scaleX(" + peakNorm.toFixed(3) + ")";
+                    document.getElementById("rmsFill").style.transform = "scaleX(" + rmsNorm.toFixed(3) + ")";
+                    drawSpectrum();
+                    meterAnimationFrame = requestAnimationFrame(updateMeters);
+                }
+                if (meterAnimationFrame) {
+                    cancelAnimationFrame(meterAnimationFrame);
+                }
+                meterAnimationFrame = requestAnimationFrame(updateMeters);
+            }
+
+            function exportMaster() {
+                if (!currentBuffer) return;
+                updateStatus("Rendu offline en cours…", "#facc15");
+                const exportBtn = document.getElementById("exportBtn");
+                exportBtn.disabled = true;
+                const numChannels = currentBuffer.numberOfChannels;
+                const length = currentBuffer.length;
+                const sampleRate = currentBuffer.sampleRate;
+                const offlineCtx = new OfflineAudioContext(numChannels, length, sampleRate);
+                const offlineSource = offlineCtx.createBufferSource();
+                offlineSource.buffer = currentBuffer;
+                let offLow = offlineCtx.createBiquadFilter();
+                offLow.type = "lowshelf";
+                offLow.frequency.value = 120;
+                let offMid = offlineCtx.createBiquadFilter();
+                offMid.type = "peaking";
+                offMid.frequency.value = 1500;
+                offMid.Q.value = 1.1;
+                let offHigh = offlineCtx.createBiquadFilter();
+                offHigh.type = "highshelf";
+                offHigh.frequency.value = 8000;
+                let offComp = offlineCtx.createDynamicsCompressor();
+                let offLimit = offlineCtx.createDynamicsCompressor();
+                let offGain = offlineCtx.createGain();
+                offLow.gain.value = state.lowGain;
+                offMid.gain.value = state.midGain;
+                offHigh.gain.value = state.highGain;
+                offComp.threshold.value = state.compThreshold;
+                offComp.ratio.value = state.compRatio;
+                offComp.attack.value = state.compAttack;
+                offComp.release.value = state.compRelease;
+                offLimit.threshold.value = state.limitThreshold;
+                offLimit.ratio.value = 20;
+                offLimit.knee.value = 0;
+                offLimit.attack.value = 0.002;
+                offLimit.release.value = 0.15;
+                offGain.gain.value = dbToGain(state.outputGain);
+                offlineSource.connect(offLow);
+                offLow.connect(offMid);
+                offMid.connect(offHigh);
+                offHigh.connect(offComp);
+                offComp.connect(offLimit);
+                offLimit.connect(offGain);
+                offGain.connect(offlineCtx.destination);
+                offlineSource.start();
+                offlineCtx.startRendering()
+                    .then((renderedBuffer) => {
+                        const wavData = audioBufferToWav(renderedBuffer);
+                        const blob = new Blob([wavData], { type: "audio/wav" });
+                        const url = URL.createObjectURL(blob);
+                        const link = document.getElementById("downloadLink");
+                        link.href = url;
+                        link.download = "master.wav";
+                        link.style.display = "inline-block";
+                        updateStatus("Rendu terminé, master prêt ✅");
+                        exportBtn.disabled = false;
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                        updateStatus("Erreur lors du rendu offline", "#f97373");
+                        exportBtn.disabled = false;
+                    });
+            }
+
+            function audioBufferToWav(buffer) {
+                const numChannels = buffer.numberOfChannels;
+                const sampleRate = buffer.sampleRate;
+                const format = 1;
+                const bitDepth = 16;
+                const samples = buffer.length * numChannels;
+                const blockAlign = (numChannels * bitDepth) / 8;
+                const byteRate = sampleRate * blockAlign;
+                const dataSize = samples * (bitDepth / 8);
+                const bufferSize = 44 + dataSize;
+                const arrayBuffer = new ArrayBuffer(bufferSize);
+                const view = new DataView(arrayBuffer);
+                let offset = 0;
+                function writeString(str) {
+                    for (let i = 0; i < str.length; i++) {
+                        view.setUint8(offset++, str.charCodeAt(i));
+                    }
+                }
+                function writeUint32(value) {
+                    view.setUint32(offset, value, true);
+                    offset += 4;
+                }
+                function writeUint16(value) {
+                    view.setUint16(offset, value, true);
+                    offset += 2;
+                }
+                writeString("RIFF");
+                writeUint32(36 + dataSize);
+                writeString("WAVE");
+                writeString("fmt ");
+                writeUint32(16);
+                writeUint16(format);
+                writeUint16(numChannels);
+                writeUint32(sampleRate);
+                writeUint32(byteRate);
+                writeUint16(blockAlign);
+                writeUint16(bitDepth);
+                writeString("data");
+                writeUint32(dataSize);
+                const channelData = [];
+                for (let ch = 0; ch < numChannels; ch++) {
+                    channelData.push(buffer.getChannelData(ch));
+                }
+                let sampleIndex = 0;
+                while (sampleIndex < buffer.length) {
+                    for (let ch = 0; ch < numChannels; ch++) {
+                        let sample = channelData[ch][sampleIndex];
+                        sample = Math.max(-1, Math.min(1, sample));
+                        const intSample = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
+                        view.setInt16(offset, intSample, true);
+                        offset += 2;
+                    }
+                    sampleIndex++;
+                }
+                return arrayBuffer;
+            }
+
+            async function handleFile(file, fileNameEl) {
+                if (!file) return;
+                if (!file.type.startsWith("audio/")) {
+                    updateStatus("Le fichier doit être un audio", "#f97373");
+                    return;
+                }
+                fileNameEl.textContent = file.name;
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                const arrayBuffer = await file.arrayBuffer();
+                updateStatus("Décodage audio…", "#facc15");
+                audioCtx.decodeAudioData(
+                    arrayBuffer,
+                    (decoded) => {
+                        if (isPlaying) {
+                            stopPlayback();
+                        }
+                        currentBuffer = decoded;
+                        if (!lowShelfFilter) {
+                            createAudioGraph(audioCtx, audioCtx.destination);
+                        }
+                        document.getElementById("playBtn").disabled = false;
+                        document.getElementById("stopBtn").disabled = false;
+                        document.getElementById("exportBtn").disabled = false;
+                        updateStatus("Fichier chargé, prêt à jouer ✅");
+                    },
+                    (error) => {
+                        console.error(error);
+                        updateStatus("Erreur lors du décodage du fichier", "#f97373");
+                    }
+                );
+            }
+
+            function initUI() {
+                const fileInput = document.getElementById("fileInput");
+                const fileName = document.getElementById("fileName");
+                const playBtn = document.getElementById("playBtn");
+                const stopBtn = document.getElementById("stopBtn");
+                const exportBtn = document.getElementById("exportBtn");
+                const dropZone = document.getElementById("dropZone");
+                spectrumCanvas = document.getElementById("spectrumCanvas");
+                if (spectrumCanvas) {
+                    spectrumCtx = spectrumCanvas.getContext("2d");
+                    resizeSpectrumCanvas();
+                    window.addEventListener("resize", resizeSpectrumCanvas);
+                }
+                fileInput.addEventListener("change", async (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    await handleFile(file, fileName);
+                });
+                ["dragover", "drop"].forEach((evt) => {
+                    document.addEventListener(evt, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    });
+                });
+                if (dropZone) {
+                    dropZone.addEventListener("dragover", (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dropZone.classList.add("dragover");
+                    });
+                    ["dragleave", "dragend"].forEach((evt) => {
+                        dropZone.addEventListener(evt, (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            dropZone.classList.remove("dragover");
+                        });
+                    });
+                    dropZone.addEventListener("drop", async (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dropZone.classList.remove("dragover");
+                        const file = e.dataTransfer.files[0];
+                        if (file) {
+                            await handleFile(file, fileName);
+                        }
+                    });
+                }
+                playBtn.addEventListener("click", () => togglePlay());
+                stopBtn.addEventListener("click", () => stopPlayback());
+                exportBtn.addEventListener("click", () => exportMaster());
+                const sliders = document.querySelectorAll('#mastering-widget input[type="range"][data-param]');
+                sliders.forEach((slider) => {
+                    slider.addEventListener("input", (e) => {
+                        const param = e.target.dataset.param;
+                        const value = parseFloat(e.target.value);
+                        const span = document.getElementById(param + "Val");
+                        switch (param) {
+                            case "lowGain":
+                            case "midGain":
+                            case "highGain":
+                            case "outputGain":
+                                state[param] = value;
+                                span.textContent = value + " dB";
+                                break;
+                            case "compThreshold":
+                                state.compThreshold = value;
+                                span.textContent = value + " dB";
+                                break;
+                            case "compRatio":
+                                state.compRatio = value;
+                                span.textContent = value.toFixed(1) + ":1";
+                                break;
+                            case "compAttack":
+                                state.compAttack = value / 1000;
+                                span.textContent = value + " ms";
+                                break;
+                            case "compRelease":
+                                state.compRelease = value / 1000;
+                                span.textContent = value + " ms";
+                                break;
+                            case "limitThreshold":
+                                state.limitThreshold = value;
+                                span.textContent = value.toFixed(1) + " dB";
+                                break;
+                        }
+                        applyParametersToNodes();
+                    });
+                });
+                document.querySelectorAll("#mastering-widget .preset-chip").forEach((btn) => {
+                    btn.addEventListener("click", () => {
+                        applyPreset(btn.dataset.preset);
+                    });
+                });
+                applyPreset("flat");
+            }
+
+            // Lance l'init directement
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initUI);
+            } else {
+                initUI();
+            }
+        </script>
+    </section>
+    <!-- 🔚 FIN WIDGET MASTERING AUDIO -->
 
         <div class="partenaires-container">
 
