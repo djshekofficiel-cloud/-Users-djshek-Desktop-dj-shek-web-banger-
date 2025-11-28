@@ -124,8 +124,9 @@ body {
 .nav-logo {
     font-size: clamp(1.25rem, 4vw, 2rem);
     text-align: center;
-    margin-right: 0;
+    margin-right: 30px;
     flex: 0 0 auto;
+    white-space: nowrap;
 }
 
 .nav-welcome {
@@ -220,8 +221,9 @@ body {
     
     .nav-logo {
         text-align: center;
-        margin-right: 60px;
+        margin-right: 50px;
         flex: 0 0 auto;
+        white-space: nowrap;
     }
     
     .nav-menu {
@@ -237,6 +239,14 @@ body {
         box-shadow: none;
         overflow: visible;
         margin: 0;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .nav-menu li {
+        margin: 0;
+        padding: 0;
     }
     
     .nav-menu a {
