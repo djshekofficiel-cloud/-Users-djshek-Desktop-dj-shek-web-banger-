@@ -576,44 +576,71 @@ function initParticles() {
 
 
 function initNavigation() {
-
-    // Scroll effect
-
-    window.addEventListener('scroll', () => {
-
-        if (window.scrollY > 100) elements.navBar.classList.add('scrolled');
-
-        else elements.navBar.classList.remove('scrolled');
-
+    // Créer l'overlay pour le menu mobile s'il n'existe pas
+    let menuOverlay = document.getElementById('navMenuOverlay');
+    if (!menuOverlay) {
+        menuOverlay = document.createElement('div');
+        menuOverlay.id = 'navMenuOverlay';
+        menuOverlay.className = 'nav-menu-overlay';
+        document.body.appendChild(menuOverlay);
+    }
+    
+    // Toggle menu mobile
+    if (elements.navToggle && elements.navMenu) {
+        elements.navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isActive = elements.navMenu.classList.toggle('active');
+            elements.navToggle.classList.toggle('active', isActive);
+            menuOverlay.classList.toggle('active', isActive);
+            document.body.style.overflow = isActive ? 'hidden' : '';
+        });
         
+        // Fermer le menu en cliquant sur l'overlay
+        menuOverlay.addEventListener('click', () => {
+            elements.navMenu.classList.remove('active');
+            elements.navToggle.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        // Fermer le menu en cliquant sur un lien
+        elements.navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                elements.navMenu.classList.remove('active');
+                elements.navToggle.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // Fermer le menu avec Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && elements.navMenu.classList.contains('active')) {
+                elements.navMenu.classList.remove('active');
+                elements.navToggle.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+    
+    // Scroll effect
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            elements.navBar.classList.add('scrolled');
+        } else {
+            elements.navBar.classList.remove('scrolled');
+        }
 
         // Scroll progress
-
         const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-
         const scrolled = (winScroll / height) * 100;
-
-        document.getElementById("scrollProgress").style.width = scrolled + "%";
-
+        const scrollProgress = document.getElementById("scrollProgress");
+        if (scrollProgress) {
+            scrollProgress.style.width = scrolled + "%";
+        }
     });
-
-
-
-    // Mobile menu
-
-    if (elements.navToggle) {
-
-        elements.navToggle.addEventListener('click', () => {
-
-            elements.navMenu.classList.toggle('active');
-
-            elements.navToggle.classList.toggle('active');
-
-        });
-
-    }
 
     // Smooth scroll pour les liens de navigation
     if (elements.navMenu) {
