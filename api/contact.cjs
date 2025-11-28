@@ -1,7 +1,7 @@
 // Vercel Serverless Function pour envoyer des emails
 // Utilise Web3Forms (gratuit, simple, pas besoin de clés API complexes)
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // Définir les headers JSON dès le début pour éviter les erreurs de parsing
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   
