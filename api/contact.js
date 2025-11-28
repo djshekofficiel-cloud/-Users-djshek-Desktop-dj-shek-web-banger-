@@ -2,28 +2,54 @@
 // Utilise Web3Forms (gratuit, simple, pas besoin de clés API complexes)
 
 module.exports = async function handler(req, res) {
-  // Définir les headers JSON dès le début
-  res.setHeader('Content-Type', 'application/json');
+  // Définir les headers JSON dès le début pour éviter les erreurs de parsing
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
   
   // Autoriser CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
+  // Gérer les requêtes OPTIONS (preflight)
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
+  // Vérifier que c'est une requête POST
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({ 
+      success: false,
+      error: 'Method not allowed',
+      message: 'Seules les requêtes POST sont autorisées'
+    });
   }
 
   try {
-    const { nom, email, type_prestation, style, instructions, fichiers, bpm, delai, gdpr } = req.body;
+    // Parser le body de la requête
+    let body = req.body;
+    
+    // Si le body est une string, essayer de le parser
+    if (typeof body === 'string') {
+      try {
+        body = JSON.parse(body);
+      } catch (e) {
+        return res.status(400).json({ 
+          success: false,
+          error: 'Invalid JSON',
+          message: 'Le corps de la requête doit être du JSON valide'
+        });
+      }
+    }
+
+    const { nom, email, type_prestation, style, instructions, fichiers, bpm, delai, gdpr } = body;
 
     // Validation des champs obligatoires
     if (!nom || !email || !type_prestation || !instructions || !gdpr) {
-      return res.status(400).json({ error: 'Tous les champs obligatoires doivent être remplis' });
+      return res.status(400).json({ 
+        success: false,
+        error: 'Champs manquants',
+        message: 'Tous les champs obligatoires doivent être remplis'
+      });
     }
 
     // Utiliser Web3Forms (gratuit, simple, pas besoin de configuration complexe)
@@ -32,6 +58,7 @@ module.exports = async function handler(req, res) {
     
     // Vérifier que la clé est configurée
     if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === 'YOUR_ACCESS_KEY') {
+      console.error('WEB3FORMS_ACCESS_KEY non configurée');
       return res.status(500).json({ 
         success: false,
         error: 'Configuration manquante',
@@ -101,7 +128,8 @@ module.exports = async function handler(req, res) {
       message: messageBody
     };
 
-    const response = await fetch('https://api.web3forms.com/submit', {
+    // Appeler l'API Web3Forms
+    const web3Response = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -110,7 +138,15 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify(formData)
     });
 
-    const data = await response.json();
+    // Vérifier que la réponse est du JSON
+    const contentType = web3Response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await web3Response.text();
+      console.error('Web3Forms a retourné une réponse non-JSON:', text.substring(0, 200));
+      throw new Error(`Erreur Web3Forms: Réponse inattendue (${web3Response.status})`);
+    }
+
+    const data = await web3Response.json();
 
     if (data.success) {
       return res.status(200).json({ 
@@ -118,15 +154,16 @@ module.exports = async function handler(req, res) {
         message: 'Email envoyé avec succès' 
       });
     } else {
-      throw new Error(data.message || 'Erreur lors de l\'envoi');
+      throw new Error(data.message || 'Erreur lors de l\'envoi via Web3Forms');
     }
 
   } catch (error) {
-    console.error('Erreur:', error);
+    console.error('Erreur dans /api/contact:', error);
     return res.status(500).json({ 
+      success: false,
       error: 'Erreur lors de l\'envoi de l\'email',
-      details: error.message 
+      message: error.message || 'Une erreur inattendue s\'est produite',
+      details: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }
 }
-
