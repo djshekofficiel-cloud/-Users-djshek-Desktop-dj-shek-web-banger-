@@ -844,6 +844,249 @@ img[loading="lazy"].loaded {
 }
 
 /* ============================================
+   AMÉLIORATIONS TACTILES & INTERACTIONS
+   ============================================ */
+/* Zones tactiles optimales (minimum 44x44px iOS/Android) */
+button,
+.btn,
+a.btn,
+.nav-menu-toggle,
+input[type="submit"],
+input[type="button"] {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(255, 107, 53, 0.3);
+}
+
+/* Amélioration des interactions tactiles */
+a,
+button,
+input,
+select,
+textarea,
+[role="button"] {
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(255, 107, 53, 0.2);
+}
+
+/* Prévenir le zoom sur focus iOS */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+textarea,
+select {
+    font-size: 16px; /* Évite le zoom automatique sur iOS */
+}
+
+@media (min-width: 768px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="search"],
+    textarea,
+    select {
+        font-size: var(--font-size-base);
+    }
+}
+
+/* ============================================
+   OPTIMISATIONS SPÉCIFIQUES SECTIONS
+   ============================================ */
+/* Hero Section - Optimisation mobile */
+.hero-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-image {
+    width: 100%;
+    height: auto;
+    max-height: 60vh;
+    object-fit: cover;
+}
+
+@media (min-width: 768px) {
+    .hero-image {
+        max-height: 80vh;
+    }
+}
+
+/* Audio Player - Optimisation mobile */
+.audio-player-container {
+    position: sticky;
+    bottom: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 107, 53, 0.3);
+}
+
+.audio-controls {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.audio-controls button {
+    flex: 0 0 auto;
+    min-width: 48px;
+    padding: var(--spacing-sm);
+}
+
+/* Progress bar tactile */
+.audio-progress-container {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    cursor: pointer;
+    touch-action: manipulation;
+    position: relative;
+}
+
+.audio-progress-container::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 0;
+    right: 0;
+    height: 24px; /* Zone tactile élargie */
+}
+
+/* ============================================
+   FORMULAIRES MOBILE - ULTRA OPTIMISÉS
+   ============================================ */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--white-90);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--white);
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--orange);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+}
+
+/* Checkbox et Radio optimisés */
+input[type="checkbox"],
+input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    min-height: 20px;
+    margin-right: var(--spacing-sm);
+    cursor: pointer;
+}
+
+/* ============================================
+   CARDS & GRIDS RESPONSIVE
+   ============================================ */
+.card {
+    padding: var(--spacing-md);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 767px) {
+    .card {
+        padding: var(--spacing-sm);
+    }
+}
+
+/* ============================================
+   SCROLL SMOOTH & PERFORMANCE
+   ============================================ */
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ============================================
+   LOADING STATES MOBILE
+   ============================================ */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.05) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ============================================
    PRINT STYLES
    ============================================ */
 @media print {
@@ -857,6 +1100,12 @@ img[loading="lazy"].loaded {
     body {
         background: white;
         color: black;
+    }
+    
+    * {
+        background: transparent !important;
+        color: black !important;
+        box-shadow: none !important;
     }
 }
 
