@@ -126,7 +126,7 @@ body {
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    gap: 30px;
+    gap: 0;
     flex-wrap: wrap;
 }
 
@@ -233,7 +233,8 @@ body {
         align-items: center;
         justify-content: flex-start;
         width: 100%;
-        gap: 60px;
+        gap: 0;
+        flex-wrap: wrap;
     }
     
     .nav-logo {
@@ -241,6 +242,7 @@ body {
         flex: 0 0 auto;
         white-space: nowrap;
         margin: 0;
+        margin-right: 50px;
     }
     
     .nav-menu {
