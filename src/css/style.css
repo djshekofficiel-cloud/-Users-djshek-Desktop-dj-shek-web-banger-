@@ -1,4 +1,59 @@
         /* ============================================
+           DJSHEK STUDIO SECTION
+           ============================================ */
+        .djshek-studio-section {
+            padding: 100px 20px;
+            min-height: 100vh;
+            background: linear-gradient(180deg, var(--black-darkest) 0%, var(--black-darker) 100%);
+        }
+
+        .djshek-studio-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .djshek-studio-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .djshek-studio-header .section-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--blue-night-lighter) 0%, var(--orange) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: var(--glow-blue-lg);
+        }
+
+        .djshek-studio-header .section-subtitle {
+            font-size: 1.3rem;
+            color: var(--white-70);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .djshek-studio-section {
+                padding: 60px 15px;
+            }
+
+            .djshek-studio-header {
+                margin-bottom: 50px;
+            }
+
+            .djshek-studio-header .section-title {
+                font-size: 2.5rem;
+            }
+
+            .djshek-studio-header .section-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* ============================================
            SYSTÈME DE COULEURS - BLEU NUIT / ORANGE / NOIR
            ============================================ */
         :root {
