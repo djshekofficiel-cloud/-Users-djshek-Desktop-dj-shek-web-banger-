@@ -655,71 +655,84 @@ function initPartenaires() {
 
     if (!grid) return;
 
-    // Garder seulement un partenaire avec sa photo
-    const partenaire = {
-        image: 'images.png',
-        link: 'https://www.instagram.com/pef_mma/?hl=fr'
-    };
+    // Liste de tous les partenaires avec leurs images et liens
+    const partenairesImages = [
+        { image: 'hjhjhj.png', link: 'https://www.instagram.com/redcords_studio/' },
+        { image: 'images.png', link: 'https://www.instagram.com/pef_mma/?hl=fr' },
+        { image: 'IMG_1073.JPG', link: 'https://www.instagram.com/mezzalille/?hl=fr' },
+        { image: 'téléchargement.jpeg', link: 'https://www.le-maya-restaurant.fr/' },
+        { image: 'téléchargement.png', link: 'https://www.instagram.com/zooclubofficiel/?hl=fr' },
+        { image: 'ggggh.png', link: 'https://www.instagram.com/nab.store.official/' }
+    ];
 
     grid.innerHTML = '';
 
-    const div = document.createElement('div');
-    div.className = 'partenaire-item';
-
-    // Créer un lien si un lien est fourni
-    if (partenaire.link) {
-        const linkElement = document.createElement('a');
-        linkElement.href = partenaire.link;
-        linkElement.target = '_blank';
-        linkElement.rel = 'noopener noreferrer';
-        linkElement.style.textDecoration = 'none';
-        linkElement.style.display = 'block';
-        linkElement.style.width = '100%';
-        linkElement.style.height = '100%';
+    // Charger toutes les images
+    partenairesImages.forEach((partenaire) => {
+        const imageName = partenaire.image;
+        const link = partenaire.link;
         
-        const img = document.createElement('img');
-        const sanitizedImgName = encodeURIComponent(partenaire.image).replace(/%2F/g, '/');
-        img.src = `/images/partenaire/${sanitizedImgName}`;
-        img.alt = `Partenaire DJ SHEK - ${partenaire.image.replace(/\.(png|jpg|jpeg|JPG|PNG|JPEG)$/i, '').replace(/[_-]/g, ' ')}`;
-        img.loading = 'lazy';
-        img.style.width = '100%';
-        img.style.height = '100%';
-        img.style.objectFit = 'contain';
+        const partenaireItem = document.createElement('div');
+        partenaireItem.className = 'partenaire-item';
         
-        img.onerror = function() {
-            console.warn(`Image partenaire non trouvée ou erreur de chargement: ${partenaire.image}`);
-            this.style.opacity = '0.3';
-        };
+        // Créer un lien si un lien est fourni
+        if (link) {
+            const linkElement = document.createElement('a');
+            linkElement.href = link;
+            linkElement.target = '_blank';
+            linkElement.rel = 'noopener noreferrer';
+            linkElement.style.textDecoration = 'none';
+            linkElement.style.display = 'block';
+            linkElement.style.width = '100%';
+            linkElement.style.height = '100%';
+            
+            const img = document.createElement('img');
+            const sanitizedImgName = encodeURIComponent(imageName).replace(/%2F/g, '/');
+            img.src = `/images/partenaire/${sanitizedImgName}`;
+            // Alt text optimisé SEO avec nom du partenaire
+            const partnerName = imageName.replace(/\.(png|jpg|jpeg|JPG|PNG|JPEG)$/i, '').replace(/[_-]/g, ' ').replace(/\./g, ' ');
+            img.alt = `Partenaire DJ SHEK - ${partnerName} - Collaboration DJ professionnel`;
+            img.loading = 'lazy';
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'contain';
+            
+            img.onerror = function() {
+                console.warn(`Image partenaire non trouvée ou erreur de chargement: ${imageName}`);
+                this.style.opacity = '0.3';
+            };
+            
+            img.onload = function() {
+                this.style.opacity = '1';
+            };
+            
+            linkElement.appendChild(img);
+            partenaireItem.appendChild(linkElement);
+        } else {
+            const img = document.createElement('img');
+            const sanitizedImgName = encodeURIComponent(imageName).replace(/%2F/g, '/');
+            img.src = `/images/partenaire/${sanitizedImgName}`;
+            const partnerName = imageName.replace(/\.(png|jpg|jpeg|JPG|PNG|JPEG)$/i, '').replace(/[_-]/g, ' ').replace(/\./g, ' ');
+            img.alt = `Partenaire DJ SHEK - ${partnerName} - Collaboration DJ professionnel`;
+            img.loading = 'lazy';
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'contain';
+            
+            img.onerror = function() {
+                console.warn(`Image partenaire non trouvée ou erreur de chargement: ${imageName}`);
+                this.style.opacity = '0.3';
+            };
+            
+            img.onload = function() {
+                this.style.opacity = '1';
+            };
+            
+            partenaireItem.appendChild(img);
+        }
         
-        img.onload = function() {
-            this.style.opacity = '1';
-        };
-        
-        linkElement.appendChild(img);
-        div.appendChild(linkElement);
-    } else {
-        const img = document.createElement('img');
-        const sanitizedImgName = encodeURIComponent(partenaire.image).replace(/%2F/g, '/');
-        img.src = `/images/partenaire/${sanitizedImgName}`;
-        img.alt = `Partenaire DJ SHEK - ${partenaire.image.replace(/\.(png|jpg|jpeg|JPG|PNG|JPEG)$/i, '').replace(/[_-]/g, ' ')}`;
-        img.loading = 'lazy';
-        img.style.width = '100%';
-        img.style.height = '100%';
-        img.style.objectFit = 'contain';
-        
-        img.onerror = function() {
-            console.warn(`Image partenaire non trouvée ou erreur de chargement: ${partenaire.image}`);
-            this.style.opacity = '0.3';
-        };
-        
-        img.onload = function() {
-            this.style.opacity = '1';
-        };
-        
-        div.appendChild(img);
-    }
-    
-    grid.appendChild(div);
+        grid.appendChild(partenaireItem);
+    });
 
 }
 
