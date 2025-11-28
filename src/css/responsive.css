@@ -121,12 +121,20 @@ body {
     padding: var(--spacing-xs) var(--spacing-md);
 }
 
+.nav-center-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
 .nav-logo {
     font-size: clamp(1.25rem, 4vw, 2rem);
     text-align: center;
-    margin-right: 30px;
     flex: 0 0 auto;
     white-space: nowrap;
+    margin: 0;
 }
 
 .nav-welcome {
@@ -219,11 +227,19 @@ body {
         display: none; /* Gardé caché pour centrage parfait */
     }
     
+    .nav-center-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 50px;
+        flex-wrap: wrap;
+    }
+    
     .nav-logo {
         text-align: center;
-        margin-right: 50px;
         flex: 0 0 auto;
         white-space: nowrap;
+        margin: 0;
     }
     
     .nav-menu {

@@ -301,6 +301,13 @@
         .nav-welcome {
             display: none; /* Caché par défaut */
         }
+        .nav-center-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
         .nav-logo {
             font-size: 2rem;
             font-family: 'Montserrat', sans-serif;
@@ -314,9 +321,9 @@
                 0 4px 8px rgba(0, 0, 0, 0.6);
             -webkit-text-stroke: 0;
             text-align: center;
-            margin-right: 50px;
             white-space: nowrap;
             flex-shrink: 0;
+            margin: 0;
         }
         .nav-menu {
             display: flex;
