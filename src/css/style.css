@@ -341,6 +341,7 @@
         .nav-menu li {
             flex: 1;
             text-align: center;
+            min-width: -webkit-fill-available;
             min-width: fit-content;
         }
         .nav-menu a {
