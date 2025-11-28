@@ -800,7 +800,7 @@ function initForms() {
             });
         }
 
-        elements.contactForm.addEventListener('submit', (e) => {
+        elements.contactForm.addEventListener('submit', async (e) => {
 
             e.preventDefault();
 
@@ -896,61 +896,6 @@ function initForms() {
 
             }
 
-            // Préparer l'email mailto sécurisé
-            const subject = encodeURIComponent(`[${sanitizedData.type_prestation || 'Prestation'}] Nouvelle demande depuis djshekofficiel.com`);
-
-            let body = `═══════════════════════════════════════\n`;
-            body += `NOUVELLE DEMANDE DE PRESTATION - DJ SHEK\n`;
-            body += `═══════════════════════════════════════\n\n`;
-
-            body += `📋 INFORMATIONS\n`;
-            body += `───────────────────────────────────────\n`;
-            body += `Nom / Pseudo: ${sanitizedData.nom}\n`;
-            body += `Email: ${sanitizedData.email}\n`;
-            body += `\n`;
-
-            body += `🎯 TYPE DE PRESTATION\n`;
-            body += `───────────────────────────────────────\n`;
-            body += `${sanitizedData.type_prestation || 'Non spécifié'}\n`;
-            body += `\n`;
-
-            if (sanitizedData.style) {
-                body += `🎵 STYLE / RÉFÉRENCE\n`;
-                body += `───────────────────────────────────────\n`;
-                body += `${sanitizedData.style}\n`;
-                body += `\n`;
-            }
-
-            body += `💬 INSTRUCTIONS DÉTAILLÉES\n`;
-            body += `───────────────────────────────────────\n`;
-            body += `${sanitizedData.instructions}\n`;
-            body += `\n`;
-
-            if (sanitizedData.fichiers) {
-                body += `📎 LIENS VERS FICHIERS\n`;
-                body += `───────────────────────────────────────\n`;
-                body += `${sanitizedData.fichiers}\n`;
-                body += `\n`;
-            }
-
-            if (sanitizedData.bpm) {
-                body += `🎚️ BPM SOUHAITÉ\n`;
-                body += `───────────────────────────────────────\n`;
-                body += `${sanitizedData.bpm} BPM\n`;
-                body += `\n`;
-            }
-
-            if (sanitizedData.delai) {
-                body += `⏰ DÉLAI DÉSIRÉ\n`;
-                body += `───────────────────────────────────────\n`;
-                body += `${sanitizedData.delai}\n`;
-                body += `\n`;
-            }
-
-            body += `═══════════════════════════════════════\n`;
-            if (rawData.gdpr) body += `✓ Consentement RGPD donné\n`;
-            body += `═══════════════════════════════════════\n`;
-
             // Vérifications de sécurité supplémentaires avant l'envoi
             // Vérifier les patterns suspects dans les instructions
             if (detectSuspiciousPatterns(sanitizedData.instructions)) {
@@ -1005,59 +950,70 @@ function initForms() {
             // Enregistrer la soumission (rate limiting avancé)
             submissionTracker.recordSubmission();
 
-            // S'assurer que l'email de destination est correct (vérification finale)
-            const recipientEmail = 'djshekofficiel@gmail.com';
-            
-            // Vérifier que l'email de destination est bien configuré dans le formulaire
-            const formEmailAttr = elements.contactForm.getAttribute('data-recipient-email') || 
-                                  elements.contactForm.action?.replace('mailto:', '') || 
-                                  recipientEmail;
-            
-            // S'assurer que l'email est bien djshekofficiel@gmail.com
-            const finalRecipientEmail = formEmailAttr.includes('djshekofficiel@gmail.com') 
-                ? recipientEmail 
-                : recipientEmail;
-            
-            // Créer le lien mailto sécurisé
-            const mailtoLink = `mailto:${finalRecipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
             // Track form submission
             trackEvent('Contact Form', 'submit', sanitizedData.type_prestation || 'contact');
 
-            // Ouvrir le client mail avec confirmation et vérification
+            // Envoyer les données à l'API
             try {
-                // Vérification finale avant l'envoi
-                if (finalRecipientEmail !== recipientEmail) {
-                    console.warn('⚠️ Email de destination différent de celui attendu:', finalRecipientEmail);
-                    showFormMessage('⚠️ Vérifiez que l\'adresse de destination est bien djshekofficiel@gmail.com avant d\'envoyer.', 'error');
-                    return;
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nom: sanitizedData.nom,
+                        email: sanitizedData.email,
+                        type_prestation: sanitizedData.type_prestation,
+                        style: sanitizedData.style || '',
+                        instructions: sanitizedData.instructions,
+                        fichiers: sanitizedData.fichiers || '',
+                        bpm: sanitizedData.bpm || '',
+                        delai: sanitizedData.delai || '',
+                        gdpr: sanitizedData.gdpr
+                    })
+                });
+
+                // Vérifier le type de contenu de la réponse
+                const contentType = response.headers.get('content-type');
+                let data;
+
+                if (contentType && contentType.includes('application/json')) {
+                    data = await response.json();
+                } else {
+                    // Si ce n'est pas du JSON, lire le texte pour le debug
+                    const text = await response.text();
+                    console.error('❌ Réponse non-JSON reçue:', text.substring(0, 200));
+                    throw new Error(`Erreur serveur (${response.status}): La réponse n'est pas au format JSON. Vérifiez la configuration de l'API.`);
+                }
+
+                if (response.ok && data.success) {
+                    showFormMessage('✅ Votre demande a été envoyée avec succès ! Je vous répondrai dans les plus brefs délais.', 'success');
+                    
+                    // Réinitialiser le formulaire après un court délai
+                    setTimeout(() => {
+                        elements.contactForm.reset();
+                        if (charCount) charCount.textContent = '0';
+                        // Régénérer le token CSRF
+                        csrfProtection.addTokenToForm(elements.contactForm);
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            if (btnText) btnText.style.opacity = '1';
+                            if (btnLoader) btnLoader.classList.add('hidden');
+                        }
+                    }, 2000);
+                } else {
+                    throw new Error(data.error || data.message || 'Erreur lors de l\'envoi');
+                }
+            } catch (error) {
+                console.error('❌ Erreur lors de l\'envoi du formulaire:', error);
+                
+                // Message d'erreur plus clair
+                let errorMessage = error.message;
+                if (error.message.includes('JSON')) {
+                    errorMessage = 'Erreur de configuration serveur. Veuillez contacter le support ou réessayer plus tard.';
                 }
                 
-                window.location.href = mailtoLink;
-                
-                // Afficher un message de confirmation avec l'email de destination
-                showFormMessage('✅ Votre client mail va s\'ouvrir. Vérifiez que l\'adresse de destination est bien djshekofficiel@gmail.com avant d\'envoyer.', 'success');
-                
-                // Log pour debugging et traçabilité
-                console.log('📧 ========================================');
-                console.log('📧 Email généré pour:', finalRecipientEmail);
-                console.log('📋 Sujet:', decodeURIComponent(subject));
-                console.log('👤 De:', sanitizedData.email);
-                console.log('📧 ========================================');
-                
-            } catch (error) {
-                console.error('❌ Erreur lors de l\'ouverture du client mail:', error);
-                showFormMessage('❌ Erreur lors de l\'ouverture du client mail. Veuillez envoyer manuellement à djshekofficiel@gmail.com avec les informations ci-dessous.', 'error');
-                
-                // Afficher les informations complètes dans la console en cas d'erreur
-                console.log('📧 ========================================');
-                console.log('📧 EMAIL À ENVOYER MANUELLEMENT');
-                console.log('📧 ========================================');
-                console.log('📧 À:', finalRecipientEmail);
-                console.log('📋 Sujet:', decodeURIComponent(subject));
-                console.log('📄 Corps du message:');
-                console.log(body);
-                console.log('📧 ========================================');
+                showFormMessage(`❌ Erreur lors de l'envoi : ${errorMessage}`, 'error');
                 
                 // Réactiver le bouton en cas d'erreur
                 if (submitBtn) {
@@ -1068,28 +1024,6 @@ function initForms() {
                 return;
             }
 
-            // Réinitialiser le formulaire après un court délai
-
-            setTimeout(() => {
-
-                elements.contactForm.reset();
-
-                if (charCount) charCount.textContent = '0';
-
-                // Régénérer le token CSRF
-                csrfProtection.addTokenToForm(elements.contactForm);
-
-                if (submitBtn) {
-
-                    submitBtn.disabled = false;
-
-                    if (btnText) btnText.style.opacity = '1';
-
-                    if (btnLoader) btnLoader.classList.add('hidden');
-
-                }
-
-            }, 2000);
 
         });
 

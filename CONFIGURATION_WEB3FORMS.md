@@ -32,12 +32,14 @@ L'erreur **"412 Gmail_API: Request had insufficient authentication scopes"** est
 
 2. **Ajoutez une variable d'environnement** :
    - **Key** : `WEB3FORMS_ACCESS_KEY`
-   - **Value** : Votre clé Web3Forms (celle que vous avez copiée)
+   - **Value** : `4650301f-d665-4ddc-b4d3-9bbefff2e801`
    - **Environment** : Production, Preview, Development (cochez les 3)
 
 3. **Cliquez sur "Save"**
 
 4. **Redéployez** (ou attendez le prochain déploiement automatique)
+
+> ✅ **Votre clé Web3Forms** : `4650301f-d665-4ddc-b4d3-9bbefff2e801`
 
 ---
 

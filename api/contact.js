@@ -2,6 +2,9 @@
 // Utilise Web3Forms (gratuit, simple, pas besoin de clés API complexes)
 
 module.exports = async function handler(req, res) {
+  // Définir les headers JSON dès le début
+  res.setHeader('Content-Type', 'application/json');
+  
   // Autoriser CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -16,11 +19,11 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { firstName, lastName, email, serviceType, message } = req.body;
+    const { nom, email, type_prestation, style, instructions, fichiers, bpm, delai, gdpr } = req.body;
 
-    // Validation
-    if (!firstName || !lastName || !email || !serviceType || !message) {
-      return res.status(400).json({ error: 'Tous les champs sont requis' });
+    // Validation des champs obligatoires
+    if (!nom || !email || !type_prestation || !instructions || !gdpr) {
+      return res.status(400).json({ error: 'Tous les champs obligatoires doivent être remplis' });
     }
 
     // Utiliser Web3Forms (gratuit, simple, pas besoin de configuration complexe)
@@ -37,32 +40,65 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    // Construire le message formaté
+    let messageBody = `═══════════════════════════════════════\n`;
+    messageBody += `NOUVELLE DEMANDE DE PRESTATION - DJ SHEK\n`;
+    messageBody += `═══════════════════════════════════════\n\n`;
+
+    messageBody += `📋 INFORMATIONS\n`;
+    messageBody += `───────────────────────────────────────\n`;
+    messageBody += `Nom / Pseudo: ${nom}\n`;
+    messageBody += `Email: ${email}\n`;
+    messageBody += `\n`;
+
+    messageBody += `🎯 TYPE DE PRESTATION\n`;
+    messageBody += `───────────────────────────────────────\n`;
+    messageBody += `${type_prestation}\n`;
+    messageBody += `\n`;
+
+    if (style) {
+      messageBody += `🎵 STYLE / RÉFÉRENCE\n`;
+      messageBody += `───────────────────────────────────────\n`;
+      messageBody += `${style}\n`;
+      messageBody += `\n`;
+    }
+
+    messageBody += `💬 INSTRUCTIONS DÉTAILLÉES\n`;
+    messageBody += `───────────────────────────────────────\n`;
+    messageBody += `${instructions}\n`;
+    messageBody += `\n`;
+
+    if (fichiers) {
+      messageBody += `📎 LIENS VERS FICHIERS\n`;
+      messageBody += `───────────────────────────────────────\n`;
+      messageBody += `${fichiers}\n`;
+      messageBody += `\n`;
+    }
+
+    if (bpm) {
+      messageBody += `🎚️ BPM SOUHAITÉ\n`;
+      messageBody += `───────────────────────────────────────\n`;
+      messageBody += `${bpm} BPM\n`;
+      messageBody += `\n`;
+    }
+
+    if (delai) {
+      messageBody += `⏰ DÉLAI DÉSIRÉ\n`;
+      messageBody += `───────────────────────────────────────\n`;
+      messageBody += `${delai}\n`;
+      messageBody += `\n`;
+    }
+
+    messageBody += `═══════════════════════════════════════\n`;
+    if (gdpr) messageBody += `✓ Consentement RGPD donné\n`;
+    messageBody += `═══════════════════════════════════════\n`;
+
     const formData = {
       access_key: WEB3FORMS_ACCESS_KEY,
-      subject: `Nouveau message depuis djshekofficiel.com - ${serviceType}`,
-      from_name: `${firstName} ${lastName}`,
+      subject: `[${type_prestation}] Nouvelle demande depuis djshekofficiel.com`,
+      from_name: nom,
       email: email,
-      to_email: 'djshekofficiel@gmail.com',
-      message: `
-Bonjour DJ SHEK,
-
-Vous avez reçu un nouveau message depuis votre site web djshekofficiel.com.
-
----
-INFORMATIONS DU CLIENT
----
-Nom : ${firstName} ${lastName}
-Email : ${email}
-Type de service : ${serviceType}
-
----
-MESSAGE
----
-${message}
-
----
-Ce message a été envoyé depuis le formulaire de contact de djshekofficiel.com
-      `.trim()
+      message: messageBody
     };
 
     const response = await fetch('https://api.web3forms.com/submit', {
