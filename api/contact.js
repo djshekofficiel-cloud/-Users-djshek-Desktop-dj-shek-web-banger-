@@ -128,25 +128,55 @@ module.exports = async function handler(req, res) {
       message: messageBody
     };
 
-    // Appeler l'API Web3Forms
-    const web3Response = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    });
+    // Appeler l'API Web3Forms avec timeout
+    let web3Response;
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 secondes timeout
+      
+      web3Response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formData),
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
+    } catch (fetchError) {
+      if (fetchError.name === 'AbortError') {
+        throw new Error('Le service d\'envoi a pris trop de temps à répondre. Veuillez réessayer.');
+      } else if (fetchError.message.includes('fetch')) {
+        throw new Error('Impossible de contacter le service d\'envoi. Vérifiez votre connexion internet.');
+      } else {
+        throw new Error(`Erreur réseau: ${fetchError.message}`);
+      }
+    }
+
+    // Vérifier le statut HTTP
+    if (!web3Response.ok) {
+      const errorText = await web3Response.text().catch(() => 'Erreur inconnue');
+      console.error('Web3Forms erreur HTTP:', web3Response.status, errorText);
+      throw new Error(`Erreur serveur (${web3Response.status}). Veuillez réessayer.`);
+    }
 
     // Vérifier que la réponse est du JSON
     const contentType = web3Response.headers.get('content-type');
     if (!contentType || !contentType.includes('application/json')) {
       const text = await web3Response.text();
       console.error('Web3Forms a retourné une réponse non-JSON:', text.substring(0, 200));
-      throw new Error(`Erreur Web3Forms: Réponse inattendue (${web3Response.status})`);
+      throw new Error(`Erreur de format de réponse. Veuillez réessayer.`);
     }
 
-    const data = await web3Response.json();
+    let data;
+    try {
+      data = await web3Response.json();
+    } catch (jsonError) {
+      console.error('Erreur parsing JSON Web3Forms:', jsonError);
+      throw new Error('Erreur de traitement de la réponse. Veuillez réessayer.');
+    }
 
     if (data.success) {
       return res.status(200).json({ 
@@ -154,7 +184,18 @@ module.exports = async function handler(req, res) {
         message: 'Email envoyé avec succès' 
       });
     } else {
-      throw new Error(data.message || 'Erreur lors de l\'envoi via Web3Forms');
+      // Gérer les erreurs spécifiques de Web3Forms
+      const errorMsg = data.message || 'Erreur lors de l\'envoi via Web3Forms';
+      console.error('Web3Forms erreur:', errorMsg, data);
+      
+      // Messages d'erreur plus clairs selon le type d'erreur
+      if (errorMsg.includes('access_key') || errorMsg.includes('invalid')) {
+        throw new Error('Erreur de configuration. Veuillez contacter le support.');
+      } else if (errorMsg.includes('rate limit') || errorMsg.includes('quota')) {
+        throw new Error('Trop de tentatives. Veuillez patienter quelques minutes avant de réessayer.');
+      } else {
+        throw new Error(errorMsg);
+      }
     }
 
   } catch (error) {
