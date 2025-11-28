@@ -233,9 +233,9 @@ body {
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        max-width: 1400px;
+        max-width: 1600px;
         margin: 0 auto;
-        gap: 50px;
+        gap: 60px;
     }
     
     .nav-logo {
@@ -254,12 +254,12 @@ body {
         -webkit-backdrop-filter: none;
         flex-direction: row;
         padding: 0;
-        gap: var(--spacing-xl);
+        gap: 0;
         box-shadow: none;
         overflow: visible;
         margin: 0;
         flex-wrap: wrap;
-        justify-content: flex-end;
+        justify-content: space-around;
         align-items: center;
         flex: 1;
     }
@@ -267,6 +267,9 @@ body {
     .nav-menu li {
         margin: 0;
         padding: 0;
+        flex: 1;
+        text-align: center;
+        min-width: fit-content;
     }
     
     .nav-menu a {

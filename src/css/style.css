@@ -306,9 +306,9 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
-            gap: 50px;
+            gap: 60px;
         }
         .nav-logo {
             font-size: 2rem;
@@ -329,19 +329,19 @@
         }
         .nav-menu {
             display: flex;
-            gap: 40px;
+            gap: 0;
             list-style: none;
             margin: 0;
             padding: 0;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: space-around;
             flex: 1;
             flex-wrap: wrap;
         }
         .nav-menu li {
-            margin: 0;
-            padding: 0;
-            list-style: none;
+            flex: 1;
+            text-align: center;
+            min-width: fit-content;
         }
         .nav-menu a {
             color: var(--white);
