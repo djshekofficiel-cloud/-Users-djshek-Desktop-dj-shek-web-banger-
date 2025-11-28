@@ -655,46 +655,67 @@ function initPartenaires() {
 
     if (!grid) return;
 
-    // Liste des images de partenaires dans le dossier
-    // Actualisation automatique de toutes les images disponibles
-    const images = [
-        'images.png',
-        'IMG_1073.JPG',
-        'hjhjhj.png',
-        'ggggh.png',
-        'téléchargement.jpeg',
-        'téléchargement.png'
-    ];
+    // Garder seulement un partenaire avec sa photo
+    const partenaire = {
+        image: 'images.png',
+        link: 'https://www.instagram.com/pef_mma/?hl=fr'
+    };
 
     grid.innerHTML = '';
 
-    images.forEach(imgName => {
+    const div = document.createElement('div');
+    div.className = 'partenaire-item';
 
-        const div = document.createElement('div');
-
-        div.className = 'partenaire-item';
-
-        // Sécurisé : utilisation de createElement au lieu de innerHTML
-        const img = document.createElement('img');
-        // Sanitize le nom de fichier pour éviter directory traversal
-        // Préserver les accents et caractères spéciaux pour les noms de fichiers
-        const sanitizedImgName = encodeURIComponent(imgName).replace(/%2F/g, '/');
-        img.src = `/images/partenaire/${sanitizedImgName}`;
-        img.alt = `Partenaire DJ SHEK - ${imgName.replace(/\.(png|jpg|jpeg|JPG|PNG|JPEG)$/i, '').replace(/[_-]/g, ' ')}`;
-        img.loading = 'lazy';
+    // Créer un lien si un lien est fourni
+    if (partenaire.link) {
+        const linkElement = document.createElement('a');
+        linkElement.href = partenaire.link;
+        linkElement.target = '_blank';
+        linkElement.rel = 'noopener noreferrer';
+        linkElement.style.textDecoration = 'none';
+        linkElement.style.display = 'block';
+        linkElement.style.width = '100%';
+        linkElement.style.height = '100%';
         
-        // Gestion des erreurs de chargement d'image
+        const img = document.createElement('img');
+        const sanitizedImgName = encodeURIComponent(partenaire.image).replace(/%2F/g, '/');
+        img.src = `/images/partenaire/${sanitizedImgName}`;
+        img.alt = `Partenaire DJ SHEK - ${partenaire.image.replace(/\.(png|jpg|jpeg|JPG|PNG|JPEG)$/i, '').replace(/[_-]/g, ' ')}`;
+        img.loading = 'lazy';
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'contain';
+        
         img.onerror = function() {
-            console.warn(`Image partenaire non trouvée ou erreur de chargement: ${imgName}`);
-            // Ne pas cacher l'image, mais la marquer comme en erreur
+            console.warn(`Image partenaire non trouvée ou erreur de chargement: ${partenaire.image}`);
             this.style.opacity = '0.3';
         };
         
         img.onload = function() {
-            // S'assurer que l'image est bien chargée et visible
             this.style.opacity = '1';
         };
-
+        
+        linkElement.appendChild(img);
+        div.appendChild(linkElement);
+    } else {
+        const img = document.createElement('img');
+        const sanitizedImgName = encodeURIComponent(partenaire.image).replace(/%2F/g, '/');
+        img.src = `/images/partenaire/${sanitizedImgName}`;
+        img.alt = `Partenaire DJ SHEK - ${partenaire.image.replace(/\.(png|jpg|jpeg|JPG|PNG|JPEG)$/i, '').replace(/[_-]/g, ' ')}`;
+        img.loading = 'lazy';
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'contain';
+        
+        img.onerror = function() {
+            console.warn(`Image partenaire non trouvée ou erreur de chargement: ${partenaire.image}`);
+            this.style.opacity = '0.3';
+        };
+        
+        img.onload = function() {
+            this.style.opacity = '1';
+        };
+        
         div.appendChild(img);
 
         grid.appendChild(div);
@@ -1287,4 +1308,6 @@ function initSectionGlow() {
     log('Section glow effect initialized');
 
 }
+
+
 
