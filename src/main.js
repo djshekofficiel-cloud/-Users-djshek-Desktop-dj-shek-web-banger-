@@ -105,6 +105,37 @@ const elements = {
 
 
 
+// Gérer le bouton CTA flottant
+function initFloatingCTA() {
+    const floatingCTA = document.getElementById('floatingCTA');
+    const contactSection = document.getElementById('contact');
+    
+    if (!floatingCTA || !contactSection) return;
+    
+    // Cacher le bouton quand on est sur la section contact
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                floatingCTA.style.opacity = '0';
+                floatingCTA.style.pointerEvents = 'none';
+            } else {
+                floatingCTA.style.opacity = '1';
+                floatingCTA.style.pointerEvents = 'auto';
+            }
+        });
+    }, {
+        threshold: 0.3
+    });
+    
+    observer.observe(contactSection);
+    
+    // Smooth scroll vers le formulaire
+    floatingCTA.addEventListener('click', (e) => {
+        e.preventDefault();
+        contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+}
+
 // --- INITIALIZATION ---
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -126,6 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initSectionGlow();
 
     initDeduplicate();
+
+    initFloatingCTA();
 
     log('System initialized');
 
@@ -777,12 +810,37 @@ function initForms() {
         };
         
         // Démarrer le timing au focus sur n'importe quel champ OU dès que l'utilisateur tape
-        const formFields = elements.contactForm.querySelectorAll('input, textarea, select');
-        formFields.forEach(field => {
+        const allFormFields = elements.contactForm.querySelectorAll('input, textarea, select');
+        allFormFields.forEach(field => {
             field.addEventListener('focus', startTimingOnInteraction, { once: true });
             field.addEventListener('input', startTimingOnInteraction, { once: true });
             field.addEventListener('click', startTimingOnInteraction, { once: true });
         });
+
+        // Progress bar du formulaire
+        const progressBar = document.getElementById('formProgressBar');
+        const progressText = document.getElementById('formProgressText');
+        const updateProgress = () => {
+            if (!progressBar || !progressText) return;
+            const requiredFields = elements.contactForm.querySelectorAll('input[required], textarea[required], select[required]');
+            const filledFields = Array.from(requiredFields).filter(field => {
+                if (field.type === 'checkbox') return field.checked;
+                return field.value.trim() !== '';
+            });
+            const progress = requiredFields.length > 0 ? (filledFields.length / requiredFields.length) * 100 : 0;
+            // Mettre à jour la barre de progression via CSS variable
+            progressBar.style.setProperty('--progress-width', `${progress}%`);
+            // Mettre à jour le texte
+            const step = requiredFields.length > 0 ? Math.ceil((filledFields.length / requiredFields.length) * 5) : 0;
+            progressText.textContent = `Étape ${Math.min(step, 5)} sur 5`;
+        };
+        
+        // Mettre à jour la progress bar lors des changements
+        allFormFields.forEach(field => {
+            field.addEventListener('input', updateProgress);
+            field.addEventListener('change', updateProgress);
+        });
+        updateProgress(); // Initialiser
 
         // Compteur de caractères pour les instructions
         const instructionsTextarea = document.getElementById('instructions');
@@ -987,7 +1045,7 @@ function initForms() {
                 }
 
                 if (response.ok && data.success) {
-                    showFormMessage('✅ Votre demande a été envoyée avec succès ! Je vous répondrai dans les plus brefs délais.', 'success');
+                    showFormMessage('🎉 Parfait ! Votre demande a été envoyée avec succès. Je vous répondrai sous 24h maximum. Merci pour votre confiance !', 'success');
                     
                     // Réinitialiser le formulaire après un court délai
                     setTimeout(() => {

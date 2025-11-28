@@ -2447,6 +2447,149 @@
             display: none;
             animation: errorFadeIn 0.3s ease;
         }
+        /* Contact Badges */
+        .contact-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: rgba(255, 107, 53, 0.15);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+        @keyframes badgePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        /* Form Progress Bar */
+        .form-progress {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .form-progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(45, 74, 110, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .form-progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            height: 100%;
+            width: var(--progress-width, 20%);
+            background: linear-gradient(90deg, var(--orange), var(--orange-light));
+            border-radius: 10px;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 10px rgba(255, 107, 53, 0.5);
+        }
+        .form-progress-text {
+            display: block;
+            text-align: center;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+        }
+        /* Optional Badge */
+        .optional-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 400;
+            text-transform: lowercase;
+            margin-left: 8px;
+        }
+        /* Form Subtitle */
+        .form-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        /* Form Submit Section */
+        .form-submit-section {
+            margin-top: 30px;
+        }
+        .form-guarantee {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+        }
+        /* Floating CTA Button */
+        .floating-cta {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, var(--orange), var(--orange-light));
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 8px 30px rgba(255, 107, 53, 0.4);
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: floatingBounce 3s ease-in-out infinite;
+        }
+        .floating-cta:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(255, 107, 53, 0.6);
+        }
+        .floating-cta-icon {
+            font-size: 1.2rem;
+        }
+        .floating-cta-text {
+            white-space: nowrap;
+        }
+        @keyframes floatingBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @media (max-width: 768px) {
+            .floating-cta {
+                bottom: 20px;
+                right: 20px;
+                padding: 14px 20px;
+                font-size: 0.85rem;
+            }
+            .floating-cta-text {
+                display: none;
+            }
+            .contact-badges {
+                flex-direction: column;
+                align-items: center;
+            }
+            .badge {
+                width: fit-content;
+            }
+        }
         @keyframes errorFadeIn {
             from {
                 opacity: 0;

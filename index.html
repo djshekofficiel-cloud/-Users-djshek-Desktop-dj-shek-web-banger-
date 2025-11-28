@@ -653,11 +653,23 @@
 
                 <p class="contact-subtitle">Une question, une demande de booking ou une collaboration ? N'hésitez pas à me contacter.</p>
 
+                <div class="contact-badges">
+                    <span class="badge">⚡ Réponse sous 24h</span>
+                    <span class="badge">🎯 Devis personnalisé gratuit</span>
+                    <span class="badge">✨ +200 projets réalisés</span>
+                </div>
+
             </div>
 
             <form class="contact-form" id="contactForm" novalidate>
 
-                <h2 class="form-main-title">DJ Service & Prestation</h2>
+                <div class="form-progress">
+                    <div class="form-progress-bar" id="formProgressBar"></div>
+                    <span class="form-progress-text" id="formProgressText">Étape 1 sur 5</span>
+                </div>
+
+                <h2 class="form-main-title">Demandez votre devis gratuit</h2>
+                <p class="form-subtitle">Remplissez le formulaire ci-dessous et recevez une réponse personnalisée sous 24h</p>
 
                 <div class="form-group">
                     <label for="nom">Nom / Pseudo</label>
@@ -702,25 +714,26 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="fichiers">Liens vers vos fichiers (acapella / instrumental / référence)</label>
+                    <label for="fichiers">Liens vers vos fichiers (acapella / instrumental / référence) <span class="optional-badge">Optionnel</span></label>
                     <input type="url" id="fichiers" name="fichiers" maxlength="500" placeholder="https://drive.google.com/... ou https://wetransfer.com/...">
-                    <span class="form-hint">Partagez un lien WeTransfer, Google Drive, Dropbox, SoundCloud, etc.</span>
+                    <span class="form-hint">Partagez un lien WeTransfer, Google Drive, Dropbox, SoundCloud, etc. (vous pourrez les envoyer plus tard)</span>
                     <span class="error-message" id="fichiersError"></span>
                 </div>
 
                 <div class="form-group">
-                    <label for="bpm">BPM souhaité</label>
+                    <label for="bpm">BPM souhaité <span class="optional-badge">Optionnel</span></label>
                     <input type="number" id="bpm" name="bpm" min="50" max="200" placeholder="Ex : 128">
+                    <span class="form-hint">Laissez vide si vous n'avez pas de préférence</span>
                     <span class="error-message" id="bpmError"></span>
                 </div>
 
                 <div class="form-group">
-                    <label for="delai">Délai désiré</label>
+                    <label for="delai">Délai désiré <span class="optional-badge">Optionnel</span></label>
                     <select id="delai" name="delai">
-                        <option value="flexible">Flexible</option>
-                        <option value="48h">48h</option>
-                        <option value="72h">72h</option>
-                        <option value="1-semaine">1 semaine</option>
+                        <option value="flexible">Flexible (recommandé)</option>
+                        <option value="48h">Urgent : 48h</option>
+                        <option value="72h">Rapide : 72h</option>
+                        <option value="1-semaine">Standard : 1 semaine</option>
                     </select>
                     <span class="error-message" id="delaiError"></span>
                 </div>
@@ -736,10 +749,13 @@
 
                 <div class="form-message hidden" id="formMessage"></div>
 
-                <button type="submit" class="form-submit-btn" id="submitBtn">
-                    <span class="btn-text">Envoyer la demande</span>
-                    <span class="btn-loader hidden"></span>
-                </button>
+                <div class="form-submit-section">
+                    <button type="submit" class="form-submit-btn" id="submitBtn">
+                        <span class="btn-text">🚀 Envoyer ma demande (gratuit)</span>
+                        <span class="btn-loader hidden"></span>
+                    </button>
+                    <p class="form-guarantee">✅ Réponse garantie sous 24h • Devis gratuit • Sans engagement</p>
+                </div>
 
             </form>
 
@@ -768,6 +784,12 @@
         <p class="footer-text">© 2025 DJ SHEK - Tous droits réservés</p>
 
     </footer>
+
+    <!-- Bouton CTA Flottant -->
+    <a href="#contact" class="floating-cta" id="floatingCTA" aria-label="Demander un devis">
+        <span class="floating-cta-icon">📧</span>
+        <span class="floating-cta-text">Demander un devis</span>
+    </a>
 
 
 
