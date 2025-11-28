@@ -112,6 +112,8 @@ body {
    ============================================ */
 .nav-bar {
     padding: var(--spacing-sm) var(--spacing-md);
+    justify-content: center;
+    align-items: center;
 }
 
 .nav-bar.scrolled {
@@ -120,10 +122,17 @@ body {
 
 .nav-logo {
     font-size: clamp(1.25rem, 4vw, 2rem);
+    text-align: center;
+    flex: 0 0 auto;
 }
 
 .nav-welcome {
     display: none; /* Caché sur mobile */
+}
+
+.nav-menu-toggle {
+    position: absolute;
+    right: var(--spacing-md);
 }
 
 .nav-menu {
@@ -194,6 +203,8 @@ body {
 @media (min-width: 1024px) {
     .nav-bar {
         padding: var(--spacing-md) var(--spacing-xl);
+        justify-content: center;
+        align-items: center;
     }
     
     .nav-bar.scrolled {
@@ -202,10 +213,18 @@ body {
     
     .nav-welcome {
         display: block;
+        position: absolute;
+        left: var(--spacing-xl);
+    }
+    
+    .nav-logo {
+        text-align: center;
+        flex: 0 0 auto;
     }
     
     .nav-menu {
-        position: static;
+        position: absolute;
+        right: var(--spacing-xl);
         width: auto;
         height: auto;
         background: transparent;
