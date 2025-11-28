@@ -307,7 +307,7 @@
             justify-content: flex-start;
             width: 100%;
             gap: 0;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
         }
         .nav-logo {
             font-size: 2rem;
@@ -335,7 +335,7 @@
             padding: 0;
             align-items: center;
             justify-content: flex-start;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
         }
         .nav-menu li {
             margin: 0;

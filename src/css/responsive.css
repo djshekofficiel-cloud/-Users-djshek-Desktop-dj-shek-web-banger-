@@ -127,7 +127,9 @@ body {
     justify-content: flex-start;
     width: 100%;
     gap: 0;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .nav-logo {
@@ -234,7 +236,7 @@ body {
         justify-content: flex-start;
         width: 100%;
         gap: 0;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
     }
     
     .nav-logo {
@@ -258,7 +260,7 @@ body {
         box-shadow: none;
         overflow: visible;
         margin: 0;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         justify-content: flex-start;
         align-items: center;
     }
