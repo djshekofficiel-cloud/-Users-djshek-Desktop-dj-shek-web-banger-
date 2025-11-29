@@ -18,6 +18,7 @@
   "author": "DJ SHEK",
   "license": "MIT",
   "devDependencies": {
+    "dotenv": "^17.2.3",
     "vite": "^7.2.4"
   },
   "dependencies": {
